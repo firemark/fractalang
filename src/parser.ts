@@ -13,51 +13,92 @@ export function parseRawTokens(rawTokens: string[]): Token[] {
     });
 }
 
+class ActionTmp {
+    public actions: ActionNode[];
+    private values: ValueNode[];
+    private token: Token | null;
+
+    constructor() {
+        this.actions = [];
+        this.values = [];
+        this.token = null;
+    }
+
+    setActionToken(token: Token) {
+        this.token = token;
+    }
+
+    getActionToken(): Token | null {
+        return this.token;
+    }
+
+    getValuesLength(): number {
+        return this.values.length;
+    }
+
+    isActionSet(): boolean {
+        return this.token !== null;
+    }
+
+    pushAction() {
+        if (!this.isActionSet()) {
+            return;
+        }
+        const factory = this.token.factory as ActionCb;
+        const action = factory(this.values);
+        this.actions.push(action);
+        this.values = [];
+        this.token = null;
+    }
+
+    insertValue(value: ValueNode) {
+        this.values.push(value);
+    }
+
+    getActions() {
+        return this.actions;
+    }
+}
+
 export function parseLine(name: string, tokens: Token[]): Function {
-    const actions: ActionNode[] = [];
-    let values: ValueNode[] = [];
-    let actionToken: Token | null = null;
-    const pushAction = () => {
-        const factory = actionToken.factory as ActionCb;
-        actions.push(factory(values));
-        values = [];
-    };
+    const actions = [];
+    const tmp = new ActionTmp();
     tokens.forEach(token => {
-        if (actionToken === null) {
-            actionToken = parseAction(token, pushAction);
+        if (tmp.isActionSet()) {
+            parseValue(token, tmp);
         } else {
-            actionToken = parseValue(token, actionToken, values, pushAction);
+            parseAction(token, tmp);
         }
     });
 
-    if (values.length > 0) {
-        pushAction();
+    if (tmp.getValuesLength() > 0) {
+        tmp.pushAction();
     }
 
-    return new Function(name, actions);
+    return new Function(name, tmp.getActions());
 }
 
-function parseAction(token: Token, pushAction: () => void) {
+function parseAction(token: Token, tmp: ActionTmp) {
     if (!token.isAction) {
         throw "Parsing error: token is not an action";
     }
+    tmp.setActionToken(token);
     if (token.valueSize === 0) {
-        pushAction();
-        return null;
+        tmp.pushAction();
     }
-    return token;
 }
 
-function parseValue(token: Token, actionToken: Token, values: ValueNode[], pushAction: () => void) {
-    const { valueSize } = actionToken;
+function parseValue(token: Token, tmp: ActionTmp) {
+    const { valueSize } = tmp.getActionToken();
     if (token.isAction) {
-        if (valueSize !== "+" && values.length < valueSize) {
+        if (valueSize !== "+" && tmp.getValuesLength() < valueSize) {
             throw "Parsing error: token has not enough values";
         }
-        pushAction();
-        return token;
+        tmp.pushAction();
+        tmp.setActionToken(token);
+        return;
+    } else {
+        const factory = token.factory as ValueCb;
+        tmp.insertValue(factory());
     }
-    const factory = token.factory as ValueCb;
-    values.push(factory());
-    return actionToken;
 }
