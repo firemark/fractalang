@@ -1,0 +1,14 @@
+{
+  "name": "logo-lang",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc src/main.ts --outDir dist/",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "typescript": "^4.5.4",
+    "xmldom": "^0.6.0"
+  }
+}
