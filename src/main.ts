@@ -5,7 +5,7 @@ import { DOMImplementation, XMLSerializer } from "xmldom";
 function main() {
     const argument = 100.0;
     const maxIteration = 5;
-    const figures = exec(argument, maxIteration, [
+    const cursor = exec(argument, maxIteration, [
         {
             name: "F",
             tokens: [
@@ -16,22 +16,18 @@ function main() {
         {
             name: "G",
             tokens: [
-                //"FORWARD", "ARGUMENT",
+                "FORWARD", "FRACT_1_3", "ARGUMENT",
                 "DRAW_LINE", "ARGUMENT",
                 "ROTATE_LEFT", "ANGLE_30",
             ],
         },
     ]);
-    /*
-    figures.forEach(f => {
-        console.log("    -", f);
-    });
-    */
+    cursor.addMargin(20);
     const document =
         new DOMImplementation()
         .createDocument('http://www.w3.org/1999/xhtml', 'html', null);
     const serializer = new XMLSerializer();
-    console.log(createSvg(document, serializer, figures));
+    console.log(createSvg(document, serializer, cursor));
 }
 
 

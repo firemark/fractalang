@@ -1,10 +1,15 @@
+import { Cursor } from "./cursor";
 import { Figure, Line } from "./figures";
 
-export function createSvg(document, serializer, figures: Figure[]) {
+export function createSvg(document, serializer, cursor: Cursor) {
     const ns = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(ns, "svg");
-    svg.setAttribute("viewBox", "-200 -200 200 200");
-    figures.forEach(figure => {
+    const [min_x, min_y] = cursor.box.min;
+    const [max_x, max_y] = cursor.box.max;
+    const width = max_x - min_x;
+    const height = max_y - min_y;
+    svg.setAttribute("viewBox", `${min_x} ${min_y} ${width} ${height}`);
+    cursor.figures.forEach(figure => {
         if (figure instanceof Line) {
             const lineNode = document.createElement("line");
             const [x1, y1] = figure.firstPoint;

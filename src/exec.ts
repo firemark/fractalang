@@ -7,7 +7,7 @@ export interface Func {
     tokens: string[];
 }
 
-export function exec(argument: number, maxIteration: number, functions: Func[]) {
+export function exec(argument: number, maxIteration: number, functions: Func[]): Cursor {
     const cursor = new Cursor();
     const bag = {};
     functions.forEach(({name, tokens: rawTokens}) => {
@@ -23,7 +23,7 @@ export function exec(argument: number, maxIteration: number, functions: Func[]) 
 
     startExec(context, bag);
 
-    return cursor.figures;
+    return cursor;
 }
 
 function startExec(context: Context, bag) {
