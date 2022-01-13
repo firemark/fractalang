@@ -28,8 +28,9 @@ function main() {
     const document =
         new DOMImplementation()
         .createDocument('http://www.w3.org/1999/xhtml', 'html', null);
-    const serializer = new XMLSerializer();
-    console.log(createSvg(document, serializer, cursor));
+    const svg = createSvg(document, cursor);
+    const content = new XMLSerializer().serializeToString(svg);
+    console.log(content);
 }
 
 

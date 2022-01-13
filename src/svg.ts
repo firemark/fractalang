@@ -1,9 +1,10 @@
 import { Cursor } from "./cursor";
 import { Figure, Circle, Line } from "./figures";
 
-export function createSvg(document, serializer, cursor: Cursor) {
-    const ns = "http://www.w3.org/2000/svg";
-    const svg = document.createElementNS(ns, "svg");
+const NAMESPACE = "http://www.w3.org/2000/svg";
+
+export function createSvg(document, cursor: Cursor) {
+    const svg = document.createElementNS(NAMESPACE, "svg");
     const [min_x, min_y] = cursor.box.min;
     const [max_x, max_y] = cursor.box.max;
     const width = max_x - min_x;
@@ -15,13 +16,12 @@ export function createSvg(document, serializer, cursor: Cursor) {
             svg.appendChild(node);
         }
     });
-
-    return serializer.serializeToString(svg);
+    return svg;
 }
 
 function toSvg(document, figure: Figure) {
     if (figure instanceof Line) {
-        const node = document.createElement("line");
+        const node = document.createElementNS(NAMESPACE, "line");
         const [x1, y1] = figure.firstPoint;
         const [x2, y2] = figure.secondPoint;
         node.setAttribute("x1", x1);
@@ -31,7 +31,7 @@ function toSvg(document, figure: Figure) {
         node.setAttribute("stroke", "black");
         return node;
     } else if (figure instanceof Circle) {
-        const node = document.createElement("circle");
+        const node = document.createElementNS(NAMESPACE, "circle");
         const [x, y] = figure.point;
         node.setAttribute("cx", x);
         node.setAttribute("cy", y);

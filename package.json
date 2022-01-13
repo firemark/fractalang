@@ -4,11 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc src/main.ts --outDir dist/",
+    "build-node": "tsc src/main.ts --outDir dist/",
+    "build-web": "webpack",
+    "serve": "webpack serve --live-reload",
     "start": "node dist/main.js"
   },
   "dependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.2.6",
     "typescript": "^4.5.4",
+    "webpack": "^5.66.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.3",
     "xmldom": "^0.6.0"
   }
 }
