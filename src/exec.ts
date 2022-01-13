@@ -14,11 +14,7 @@ export function exec(argument: number, maxIteration: number, functions: Func[]):
         const tokens = parseRawTokens(rawTokens);
         bag[name] = parseLine(name, tokens);
     });
-    const cfg = new ContextCfg({
-        maxIteration: 5,
-        bag: bag,
-        cursor: cursor,
-    });
+    const cfg = new ContextCfg({ maxIteration, bag, cursor: cursor });
     const context = new Context({ cfg, argument });
 
     startExec(context, bag);

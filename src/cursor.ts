@@ -1,4 +1,4 @@
-import { Figure, Line } from "./figures";
+import { Figure, Line, Circle } from "./figures";
 
 export interface Box {
     min: [number, number];
@@ -36,8 +36,15 @@ export class Cursor {
         const [old_x, old_y] = this.position;
         this.forward(distance);
         const [new_x, new_y] = this.position;
-        const line = new Line([old_x, old_y], [new_x, new_y]);
-        this.figures.push(line);
+        this.figures.push(new Line(
+            [old_x, old_y],
+            [new_x, new_y],
+        ));
+    }
+
+    drawCircle(radius: number) {
+        const [x, y] = this.position;
+        this.figures.push(new Circle([x, y], radius));
     }
 
     forward(distance: number) {

@@ -9,3 +9,13 @@ export class Line {
         this.secondPoint = secondPoint;
     }
 }
+
+export class Circle {
+    point: [number, number];
+    radius: number;
+
+    constructor(point, radius) {
+        this.point = point;
+        this.radius = radius;
+    }
+}

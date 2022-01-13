@@ -54,6 +54,13 @@ export class DrawLine extends NodeWithValue {
     }
 }
 
+export class DrawCircle extends NodeWithValue {
+    exec(context: Context) {
+        const distance = this.eval(context);
+        context.getCursor().drawCircle(distance);
+    }
+}
+
 export class Forward extends NodeWithValue {
     exec(context: Context) {
         const distance = this.eval(context);

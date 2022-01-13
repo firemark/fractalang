@@ -32,6 +32,7 @@ export const tokens = {
     COUNT_1: createValue(() => new Multipler(1)),
     COUNT_2: createValue(() => new Multipler(2)),
     COUNT_3: createValue(() => new Multipler(3)),
+    COUNT_5: createValue(() => new Multipler(5)),
     // Fractions
     FRACT_1_2: createValue(() => new Multipler(1 / 2)),
     FRACT_1_3: createValue(() => new Multipler(1 / 3)),
@@ -57,6 +58,7 @@ export const tokens = {
     CALL_H: createAction("+", v => new actions.Call("H", v)),
     // Painters
     DRAW_LINE: createAction("+", v => new actions.DrawLine(v)),
+    DRAW_CIRCLE: createAction("+", v => new actions.DrawCircle(v)),
     // Cursor Operators
     FORWARD: createAction("+", v => new actions.Forward(v)),
     ROTATE_LEFT: createAction("+", v => new actions.RotateLeft(v)),
