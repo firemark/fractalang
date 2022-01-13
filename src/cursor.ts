@@ -29,7 +29,7 @@ export class Cursor {
         const cos = Math.cos(radians);
         const [x, y] = this.orientation;
         this.orientation[0] = x * cos - y * sin;
-        this.orientation[1] = x * cos + y * sin;
+        this.orientation[1] = x * sin + y * cos;
     }
 
     drawLine(distance: number) {
