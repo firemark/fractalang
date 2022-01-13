@@ -18,6 +18,7 @@ function run(code) {
 
 function renderTokens() {
     const container = document.getElementById("tokens");
+    container.innerHTML = "";
     Object.keys(tokens).forEach(token => {
         const node = document.createElement("li");
         node.innerText = token;
@@ -25,8 +26,29 @@ function renderTokens() {
     });
 }
 
+function renderCode(code) {
+    const container = document.getElementById("code");
+    container.innerHTML = "";
+    code.forEach(({name, tokens}) => {
+        const node = document.createElement("li");
+
+        const nameNode = document.createElement("span");
+        nameNode.innerText = name;
+        node.appendChild(nameNode);
+
+        const tokensNode = document.createElement("ul");
+        tokens.forEach(token => {
+            const tokenNode = document.createElement("li");
+            tokenNode.innerText = token;
+            tokensNode.appendChild(tokenNode);
+        });
+        node.appendChild(tokensNode);
+
+        container.appendChild(node);
+    });
+}
+
 window.addEventListener('load', event => {
-    renderTokens();
     const code = [
         {
             name: "F",
@@ -46,5 +68,7 @@ window.addEventListener('load', event => {
             ],
         },
     ];
+    renderTokens();
+    renderCode(code);
     run(code);
 });
