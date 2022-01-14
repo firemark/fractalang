@@ -1,6 +1,6 @@
-import { Node, ValueNode, ActionNode } from "./ast_base";
-import { Multipler, Angle, Argument } from "./ast_value";
-import * as actions from "./ast";
+import { Node, ValueNode, ActionNode } from "./ast/base";
+import { Multipler, Angle, Argument } from "./ast/values";
+import * as actions from "./ast/actions";
 
 export type ActionCb = (values: ValueNode[]) => ActionNode;
 export type ValueCb = () => ValueNode;

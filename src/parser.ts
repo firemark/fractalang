@@ -1,6 +1,6 @@
 import { Token, tokens, ActionCb, ValueCb } from "./tokens";
-import { Node, ActionNode, ValueNode } from "./ast_base";
-import { Function } from "./ast";
+import { Node, ActionNode, ValueNode } from "./ast/base";
+import { Function } from "./ast/actions";
 
 
 export function parseRawTokens(rawTokens: string[]): Token[] {

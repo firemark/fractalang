@@ -1,5 +1,5 @@
-import { Context } from "./context";
-import { Node, ValueNode } from "./ast_base";
+import { Context } from "../context";
+import { Node, ValueNode } from "./base";
 
 export class Angle extends ValueNode {
     private normalizedAngle: number;

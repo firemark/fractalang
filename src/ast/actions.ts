@@ -1,5 +1,5 @@
-import { Context } from "./context";
-import { Node, ValueNode, ActionNode } from "./ast_base";
+import { Context } from "../context";
+import { Node, ValueNode, ActionNode } from "./base";
 
 export class Function implements Node {
     name: string;
