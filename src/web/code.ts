@@ -1,4 +1,5 @@
 import { renderToken } from "./tokens";
+import { run, scrapeCode } from './run';
 
 export function renderCode(code) {
     const container = document.getElementById("code");
@@ -10,6 +11,7 @@ export function renderCode(code) {
 
 function renderFunction({name, tokens}): Element {
     const node = document.createElement("li");
+    node.classList.add("function");
     node.appendChild(renderName(name));
     node.appendChild(renderTokens(tokens));
     return node;
@@ -25,8 +27,7 @@ function renderName(name: string): Element {
 function renderTokens(tokens): Element {
     const node = document.createElement("ul");
     node.classList.add("tokens");
-
-    node.appendChild(renderTokenSpan());
+node.appendChild(renderTokenSpan());
     tokens.forEach(token => {
         const tokenNode = renderToken(token);
         //setTokenSpanEvents(tokenNode);
@@ -77,6 +78,8 @@ function setTokenSpanEvents(node: Element) {
             oldTokenNode.nextSibling.remove();
             oldTokenNode.remove();
         }
+
+        run(scrapeCode());
 
         return false;
     }

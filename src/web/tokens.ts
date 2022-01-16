@@ -1,5 +1,5 @@
 import { v4 as uuid4 } from 'uuid';
-import { tokens } from "../tokens";
+import { tokens } from '../tokens';
 
 export function renderTokens(isTemplate: boolean = true) {
     const container = document.getElementById("tokens");
