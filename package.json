@@ -4,10 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build-node": "tsc src/main.ts --outDir dist/",
+    "build-node": "tsc --build tsconfig-node.json",
     "build-web": "webpack",
     "serve": "webpack serve --live-reload",
-    "start": "node dist/main.js"
+    "demo": "node dist-node/apps/demo.js",
+    "generate-icon-tokens": "node dist-node/apps/generate-icon-tokens.js"
   },
   "dependencies": {
     "css-loader": "^6.5.1",

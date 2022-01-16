@@ -9,14 +9,15 @@ export function renderTokens(isTemplate: boolean = true) {
     });
 }
 
-export function renderToken(token, isTemplate: boolean = false): Element {
+export function renderToken(token: string, isTemplate: boolean = false): Element {
     const node = document.createElement("li");
     node.classList.add("token");
     node.setAttribute("draggable", "true");
     node.id = `token-${uuid4()}`;
     node.dataset.token = token;
     node.dataset.isTemplate = isTemplate ? "yes" : "no";
-    node.innerText = token;
+    //node.innerText = token;
+    node.style.backgroundImage = `url(/icons/${token}.svg)`;
     setTokenEvents(node);
     return node;
 }

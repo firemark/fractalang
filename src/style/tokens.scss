@@ -14,6 +14,10 @@
     color: #333;
     border-radius: 5px;
     background-color: #CCC;
+    min-width: 50px;
+    min-height: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .token-span {
     display: inline;
@@ -24,9 +28,10 @@
     border: 2px #999 dotted;
     border-radius: 5px;
     font-weight: bold;
-    margin: 0 5px;
-    padding: 5px 10px;
+    width: 50px;
+    height: 50px;
 }
 .token-span.over::before {
+    font-size: 24pt;
     content: "+";
 }

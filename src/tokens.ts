@@ -41,13 +41,14 @@ export const tokens = {
     FRACT_3_4: createValue(() => new Multipler(3 / 4)),
     FRACT_1_5: createValue(() => new Multipler(1 / 5)),
     // Angles
-    ANGLE_360: createValue(() => new Angle(360)),
+    //ANGLE_360: createValue(() => new Angle(360)),
     ANGLE_270: createValue(() => new Angle(270)),
     ANGLE_180: createValue(() => new Angle(180)),
     ANGLE_90: createValue(() => new Angle(90)),
     ANGLE_60: createValue(() => new Angle(60)),
     ANGLE_45: createValue(() => new Angle(45)),
     ANGLE_30: createValue(() => new Angle(30)),
+    ANGLE_15: createValue(() => new Angle(15)),
     // Arguments
     ARGUMENT: createValue(() => new Argument()),
 

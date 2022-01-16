@@ -6,7 +6,7 @@ body {
 }
 
 #image {
-    width: 50vw;
+    width: 40vw;
     margin: auto;
 }
 
@@ -15,15 +15,12 @@ body {
     align-items: stretch;
     margin: auto;
     width: 95vw;
-    height: 300px;
+    height: 500px;
 }
 
 #tokens {
-    flex: 1 100px;
+    flex: 1;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     overflow-y: scroll;
-    > .token {
-        margin-left: 20px;
-    }
 }
