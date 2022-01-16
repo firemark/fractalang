@@ -17,6 +17,7 @@ function renderFunction({name, tokens}): Element {
 
 function renderName(name: string): Element {
     const node = document.createElement("span");
+    node.classList.add("name");
     node.innerText = name;
     return node;
 }
@@ -25,31 +26,25 @@ function renderTokens(tokens): Element {
     const node = document.createElement("ul");
     node.classList.add("tokens");
 
-    {
-        const tokenSpanNode = renderTokenSpan();
-        setTokenEvents2(tokenSpanNode);
-        node.appendChild(tokenSpanNode);
-    }
-
+    node.appendChild(renderTokenSpan());
     tokens.forEach(token => {
         const tokenNode = renderToken(token);
-        const tokenSpanNode = renderTokenSpan();
-
-        setTokenEvents(tokenNode);
-        setTokenEvents2(tokenSpanNode);
+        //setTokenSpanEvents(tokenNode);
         node.appendChild(tokenNode);
-        node.appendChild(tokenSpanNode);
+        node.appendChild(renderTokenSpan());
     });
+
     return node;
 }
 
 function renderTokenSpan() {
     const node = document.createElement("li");
     node.classList.add("token-span");
+    setTokenSpanEvents(node);
     return node;
 }
 
-function setTokenEvents2(node: Element) {
+function setTokenSpanEvents(node: Element) {
     node.addEventListener('dragover', evDragOver, false);
     node.addEventListener('drop', evDrop, false);
     node.addEventListener('dragenter', evDragEnter, false);
@@ -69,37 +64,34 @@ function setTokenEvents2(node: Element) {
         if (e.stopPropagation) {
           e.stopPropagation(); // stops the browser from redirecting.
         }
-        this.classList.remove('over');
         const token = e.dataTransfer.getData('token');
-        const tokenNode = renderToken(token);
-        this.insertAdjacentElement("afterend", tokenNode);
+        const oldId = e.dataTransfer.getData('id');
+
+        this.classList.remove('over');
+        this.insertAdjacentElement("afterend", renderTokenSpan());
+        this.insertAdjacentElement("afterend", renderToken(token));
+
+        // todo
+        const oldTokenNode = document.getElementById(oldId);
+        if (oldTokenNode.dataset.isTemplate === "no") {
+            oldTokenNode.nextSibling.remove();
+            oldTokenNode.remove();
+        }
+
         return false;
     }
 
+    function findSpan(node): HTMLElement {
+        return node.classList.contains('token-span') ? node : node.nextSibling;
+    }
+
     function evDragEnter(e) {
-        this.classList.add('over');
+        findSpan(this).classList.add('over');
     }
 
     function evDragLeave(e) {
-        this.classList.remove('over');
+        findSpan(this).classList.remove('over');
     }
 }
 
-function setTokenEvents(node: Element) {
-    node.addEventListener('dragstart', evDragStart, false);
-    node.addEventListener('dragend', evDragEnd, false);
-
-    function evDragStart(e) {
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('token', this.dataset.token);
-    }
-
-    function evDragEnd(e) {
-        /*
-        items.forEach(function (item) {
-          item.classList.remove('over');
-        });
-        */
-    }
-}
 

@@ -1,0 +1,29 @@
+@import './tokens';
+@import './code';
+
+body {
+    font-family: Monospace;
+}
+
+#image {
+    width: 50vw;
+    margin: auto;
+}
+
+#editor {
+    display: flex;
+    align-items: stretch;
+    margin: auto;
+    width: 95vw;
+    height: 300px;
+}
+
+#tokens {
+    flex: 1 100px;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: scroll;
+    > .token {
+        margin-left: 20px;
+    }
+}

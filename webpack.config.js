@@ -12,6 +12,17 @@ module.exports = {
         use: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
+      },
     ],
   },
   resolve: {
@@ -24,7 +35,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Fractalang',
-      template: path.resolve(__dirname, 'template', 'index.html'),
+      template: path.resolve(__dirname, 'src', 'web', 'index.html'),
     }),
   ],
   devServer: {

@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Fractalang</title>
-        <style>
-body {
-    font-family: Monospace;
-}
 .tokens {
-    display: block;
+    display: flex;
     font-size: 12pt;
     border: 2px #AAA solid;
     border-radius: 5px;
     background-color: #EEE;
     padding: 20px;
+    gap: 5px;
 }
 .token {
     display: inline;
-    margin: 5px 0;
     padding: 5px;
     border: 2px #888 solid;
     color: #333;
@@ -32,19 +24,9 @@ body {
     border: 2px #999 dotted;
     border-radius: 5px;
     font-weight: bold;
-    margin: 20px 5px;
+    margin: 0 5px;
     padding: 5px 10px;
 }
 .token-span.over::before {
     content: "+";
 }
-        </style>
-    </head>
-    <body>
-        <ul id="tokens"></ul>
-        <div>
-            <div id="image"></div>
-            <ul id="code"></ul>
-        </div>
-    </body>
-</html>

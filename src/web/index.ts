@@ -3,6 +3,8 @@ import { createSvg } from "../svg";
 import { renderTokens } from "./tokens";
 import { renderCode } from "./code";
 
+import "../style/main.scss";
+
 function run(code) {
     const container = document.getElementById("image");
     container.innerHTML = "";
