@@ -4,10 +4,9 @@
     border: 2px #AAA solid;
     border-radius: 5px;
     background-color: #EEE;
-    padding: 20px;
     gap: 5px;
 
-    &.hide > .token {
+    &.hide .token {
         display: none;
     }
 
@@ -17,31 +16,61 @@
         cursor: pointer;
     }
 }
+
+.outer-tokens {
+    display: flex;
+    font-variant: small-caps;
+    border: 2px #AAA solid;
+    border-radius: 5px;
+    background-color: #EEE;
+    padding: 20px;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+.inner-tokens {
+    display: flex;
+    font-variant: small-caps;
+    gap: 5px;
+}
+
 .token {
-    display: inline;
     padding: 5px;
     border: 2px #888 solid;
     color: #333;
     border-radius: 5px;
     background-color: #CCC;
-    min-width: 50px;
-    min-height: 50px;
+    width: 50px;
+    height: 50px;
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .token-span {
-    display: inline;
     padding: 5px;
-}
-.token-span.over {
-    background-color: #DDD;
-    border: 2px #999 dotted;
-    border-radius: 5px;
-    font-weight: bold;
-    width: 50px;
     height: 50px;
-}
-.token-span.over::before {
-    font-size: 24pt;
-    content: "+";
+
+    &.over {
+        background-color: #DDD;
+        border: 2px #999 dotted;
+        border-radius: 5px;
+        font-weight: bold;
+        width: 50px;
+
+        &::before {
+            font-size: 24pt;
+            content: "+";
+        }
+    }
+
+    &.remove {
+        background-color: #D88;
+        border: 2px #922 dotted;
+        width: 50px;
+
+        &::before {
+            font-size: 24pt;
+            content: "X";
+        }
+    }
 }

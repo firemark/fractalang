@@ -25,27 +25,38 @@ function renderName(name: string): Element {
 }
 
 function renderTokens(tokens): Element {
-    const node = document.createElement("ul");
-    node.classList.add("tokens");
-node.appendChild(renderTokenSpan());
+    const tokensNode = document.createElement("div");
+    tokensNode.classList.add("outer-tokens");
+
+    const node = document.createElement("div");
+    node.classList.add("inner-tokens");
+    node.appendChild(renderTokenSpan());
     tokens.forEach(token => {
-        const tokenNode = renderToken(token);
-        //setTokenSpanEvents(tokenNode);
-        node.appendChild(tokenNode);
+        node.appendChild(renderToken(token));
         node.appendChild(renderTokenSpan());
     });
 
-    return node;
+    tokensNode.appendChild(node);
+    tokensNode.appendChild(renderTokenRemoveSpan());
+
+    return tokensNode;
 }
 
 function renderTokenSpan() {
-    const node = document.createElement("li");
+    const node = document.createElement("span");
     node.classList.add("token-span");
     setTokenSpanEvents(node);
     return node;
 }
 
-function setTokenSpanEvents(node: Element) {
+function renderTokenRemoveSpan() {
+    const node = document.createElement("span");
+    node.classList.add("token-span", "remove");
+    setTokenSpanEvents(node, true);
+    return node;
+}
+
+function setTokenSpanEvents(node: Element, remove: boolean = false) {
     node.addEventListener('dragover', evDragOver, false);
     node.addEventListener('drop', evDrop, false);
     node.addEventListener('dragenter', evDragEnter, false);
@@ -69,8 +80,10 @@ function setTokenSpanEvents(node: Element) {
         const oldId = e.dataTransfer.getData('id');
 
         this.classList.remove('over');
-        this.insertAdjacentElement("afterend", renderTokenSpan());
-        this.insertAdjacentElement("afterend", renderToken(token));
+        if (!remove) {
+            this.insertAdjacentElement("afterend", renderTokenSpan());
+            this.insertAdjacentElement("afterend", renderToken(token));
+        }
 
         // todo
         const oldTokenNode = document.getElementById(oldId);

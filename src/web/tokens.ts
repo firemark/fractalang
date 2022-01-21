@@ -1,7 +1,7 @@
 import { v4 as uuid4 } from 'uuid';
 
 export function renderToken(token: string, isTemplate: boolean = false): Element {
-    const node = document.createElement('li');
+    const node = document.createElement('span');
     node.classList.add('token');
     node.setAttribute('draggable', 'true');
     node.id = `token-${uuid4()}`;
@@ -24,9 +24,11 @@ function setTokenEvents(node: Element) {
     }
 
     function evDragEnd(e) {
+        /*
         this.parentElement.querySelectorAll('.token').forEach(function (item) {
           item.classList.remove('over');
         });
+        */
     }
 }
 
@@ -105,10 +107,10 @@ export function renderTokens(isTemplate: boolean = true) {
     const container = document.getElementById('tokens');
     container.innerHTML = '';
     TOKENS.forEach(category => {
-        const categoryNode = document.createElement('ul');
+        const categoryNode = document.createElement('div');
         categoryNode.classList.add('tokens', 'hide');
 
-        const categoryNodeName = document.createElement('li');
+        const categoryNodeName = document.createElement('span');
         categoryNodeName.classList.add('label');
         categoryNodeName.innerText = category.label;
         categoryNodeName.addEventListener('click', () => {
@@ -124,4 +126,3 @@ export function renderTokens(isTemplate: boolean = true) {
         container.appendChild(categoryNode);
     });
 }
-

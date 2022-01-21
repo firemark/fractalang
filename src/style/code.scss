@@ -12,9 +12,12 @@
             font-size: 15pt;
             align-self: center;
         }
-        > .tokens  {
+        > .outer-tokens  {
             flex: 50;
-            overflow-x: scroll;
+            > .inner-tokens {
+                flex: 1;
+                overflow-x: scroll;
+            }
         }
     }
 }
