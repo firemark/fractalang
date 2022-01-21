@@ -20,6 +20,8 @@ function run(code) {
 }
 
 window.addEventListener('load', event => {
+    const code = [{name: "F", tokens: []}];
+    /*
     const code = [
         {
             name: "F",
@@ -39,6 +41,7 @@ window.addEventListener('load', event => {
             ],
         },
     ];
+    */
     renderTokens();
     renderCode(code);
     run(code);

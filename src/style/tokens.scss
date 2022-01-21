@@ -1,11 +1,21 @@
 .tokens {
     display: flex;
-    font-size: 12pt;
+    font-variant: small-caps;
     border: 2px #AAA solid;
     border-radius: 5px;
     background-color: #EEE;
     padding: 20px;
     gap: 5px;
+
+    &.hide > .token {
+        display: none;
+    }
+
+    > .label {
+        display: inline;
+        font-size: 1.4rem;
+        cursor: pointer;
+    }
 }
 .token {
     display: inline;
