@@ -7,8 +7,11 @@ body {
 }
 
 #image {
-    width: 40vw;
     margin: auto;
+    & > svg {
+        width: 90vw;
+        max-height: 50vh;
+    }
 }
 
 #editor {
@@ -16,7 +19,7 @@ body {
     align-items: stretch;
     margin: auto;
     width: 95vw;
-    height: 500px;
+    height: 45vh;
 }
 
 #tokens {

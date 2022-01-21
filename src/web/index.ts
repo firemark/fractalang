@@ -10,7 +10,7 @@ function run(code) {
     container.innerHTML = "";
 
     const argument = 100.0;
-    const maxIteration = 16;
+    const maxIteration = 3;
     const cursor = exec(argument, maxIteration, code);
     cursor.addMargin(20);
     const serializer = new XMLSerializer();
@@ -20,7 +20,11 @@ function run(code) {
 }
 
 window.addEventListener('load', event => {
-    const code = [{name: "F", tokens: []}];
+    const code = [
+        {name: "F", tokens: []},
+        {name: "G", tokens: []},
+        {name: "H", tokens: []},
+    ];
     /*
     const code = [
         {
