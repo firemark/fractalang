@@ -12,7 +12,6 @@ export interface ActionResult {
 }
 
 export abstract class ActionNode implements Node {
-    abstract exec(context: Context): ActionResult;
+    abstract exec(context: Context, local: any): ActionResult;
     execReverse(context: Context) {};
 }
-

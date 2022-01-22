@@ -65,4 +65,5 @@ export const tokens = {
     ROTATE_LEFT: createAction("+", v => new actions.RotateLeft(v)),
     ROTATE_RIGHT: createAction("+", v => new actions.RotateRight(v)),
     REVERSE: createAction("+", v => new actions.Reverse(v)),
+    REPLAY: createAction("+", v => new actions.Replay(v)),
 };

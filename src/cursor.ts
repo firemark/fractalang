@@ -13,7 +13,7 @@ export class Cursor {
 
     constructor() {
         this.position = [0.0, 0.0];
-        this.orientation = [0.0, 1.0];
+        this.orientation = [1.0, 0.0];
         this.figures = [];
         this.box = {
             min: [0.0, 0.0],

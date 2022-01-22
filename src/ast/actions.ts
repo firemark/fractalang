@@ -12,16 +12,15 @@ export class Function implements Node {
 
     exec(context: Context) {
         const actions = this.actions;
+        const locals = actions.map(() => ({}));
         const size = actions.length;
-        for(;;) {
-            const index = context.getIndex();
-            if (index >= size) {
-                break;
-            }
-            const { shift, reverse } = actions.at(index).exec(context);
+        let index = 0;
+        for(let index = 0; index < size;) {
+            const local = locals.at(index);
+            const action = actions.at(index);
+            const { shift, reverse } = action.exec(context, local);
             this.doReverse(index, reverse ? Math.round(reverse) : 0, context);
-            context.shift(1);
-            //context.shift(shift ? Math.round(shift) : 1);  // TODO add replay
+            index += shift ? Math.round(shift) : 1;
         }
     }
 
@@ -98,7 +97,7 @@ export class Forward extends NodeWithValue {
         return {};
     }
 
-    execReverse(context: Context){
+    execReverse(context: Context) {
         const distance = -this.eval(context);
         context.getCursor().forward(distance);
     }
@@ -131,15 +130,21 @@ export class RotateRight extends NodeWithValue {
 }
 
 export class Reverse extends NodeWithValue {
-    exec(context: Context) {
+    exec(context: Context): ActionResult {
         const iterations = this.eval(context);
         return {reverse: iterations};
     }
 }
 
 export class Replay extends NodeWithValue {
-    exec(context: Context) {
-        const iterations = this.eval(context);
-        return {shift: -iterations - 1};
+    exec(context: Context, local: any): ActionResult {
+        const counter = local.counter || 1;
+        const size = Math.round(this.eval(context));
+        console.log(counter, size);
+        if (counter < size) {
+            local.counter = counter + 1;
+            return {shift: -1};
+        }
+        return {};
     }
 }

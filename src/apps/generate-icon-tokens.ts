@@ -48,14 +48,6 @@ function main() {
             new Line([60, 80], [60, 20], 5),
             new Line([30, 50], [60, 50], 5),
         ]],
-        ["REVERSE", [
-            new Line([20, 50], [50, 80], 3),
-            new Line([20, 50], [50, 20], 3),
-            new Line([50, 80], [50, 20], 3),
-            new Line([50, 50], [80, 80], 3),
-            new Line([50, 50], [80, 20], 3),
-            new Line([80, 80], [80, 20], 3),
-        ]],
         ["DRAW_LINE", withPencil([new Line([20, 70], [80, 70], 5) ])],
         ["DRAW_CIRCLE", withPencil([new Circle([50, 70], 20)])],
         ["FORWARD", [
@@ -72,6 +64,20 @@ function main() {
             new Arc([50, 50], 30, -0.5, { shift: 0.75, fill: "none", stroke: 5 }),
             new Line([50, 80], [40, 65], 5),
             new Line([50, 80], [40, 93], 5),
+        ]],
+        ["REVERSE", [
+            new Line([20, 50], [50, 80], 3),
+            new Line([20, 50], [50, 20], 3),
+            new Line([50, 80], [50, 20], 3),
+            new Line([50, 50], [80, 80], 3),
+            new Line([50, 50], [80, 20], 3),
+            new Line([80, 80], [80, 20], 3),
+        ]],
+        ["REPLAY", [
+            new Arc([50, 50], 30, 0.85, { shift: 0.75, fill: "none", stroke: 5 }),
+            new Circle([50, 20], 10),
+            new Line([26, 32], [10, 35], 5),
+            new Line([26, 32], [35, 45], 5),
         ]],
     ];
 
