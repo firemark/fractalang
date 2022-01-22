@@ -1,5 +1,5 @@
 import { Context } from "../context";
-import { Node, ValueNode, ActionNode } from "./base";
+import { Node, ValueNode, ActionNode, ActionResult } from "./base";
 
 export class Function implements Node {
     name: string;
@@ -11,7 +11,29 @@ export class Function implements Node {
     }
 
     exec(context: Context) {
-        this.actions.forEach(o => o.exec(context));
+        const actions = this.actions;
+        const size = actions.length;
+        for(;;) {
+            const index = context.getIndex();
+            if (index >= size) {
+                break;
+            }
+            const { shift, reverse } = actions.at(index).exec(context);
+            this.doReverse(index, reverse ? Math.round(reverse) : 0, context);
+            context.shift(1);
+            //context.shift(shift ? Math.round(shift) : 1);  // TODO add replay
+        }
+    }
+
+    private doReverse(stopIndex: number, reverse: number, context: Context) {
+        if (reverse === 0) {
+            return;
+        }
+        const actions = this.actions;
+        const startReserve = Math.max(0, stopIndex - reverse);
+        for(let index = startReserve; index < stopIndex; index++) {
+            actions.at(index).execReverse(context);
+        }
     }
 }
 
@@ -36,48 +58,88 @@ export class Call extends NodeWithValue {
         this.name = name;
     }
 
-    exec(context: Context) {
+    exec(context: Context): ActionResult {
         const func = context.findFunction(this.name);
         if (!func) {
-            return;
+            return {};
         }
         const newArgument = this.eval(context);
         const newContext = context.createNewContext(newArgument);
         func.exec(newContext);
+        return {};
     }
 }
 
 export class DrawLine extends NodeWithValue {
-    exec(context: Context) {
+    exec(context: Context): ActionResult {
         const distance = this.eval(context);
         context.getCursor().drawLine(distance);
+        return {};
+    }
+
+    execReverse(context: Context) {
+        const distance = -this.eval(context);
+        context.getCursor().forward(distance);
     }
 }
 
 export class DrawCircle extends NodeWithValue {
-    exec(context: Context) {
+    exec(context: Context): ActionResult {
         const distance = this.eval(context);
         context.getCursor().drawCircle(distance);
+        return {};
     }
 }
 
 export class Forward extends NodeWithValue {
-    exec(context: Context) {
+    exec(context: Context): ActionResult {
         const distance = this.eval(context);
+        context.getCursor().forward(distance);
+        return {};
+    }
+
+    execReverse(context: Context){
+        const distance = -this.eval(context);
         context.getCursor().forward(distance);
     }
 }
 
 export class RotateLeft extends NodeWithValue {
-    exec(context: Context) {
+    exec(context: Context): ActionResult {
+        const angle = -this.eval(context);
+        context.getCursor().rotate(angle);
+        return {};
+    }
+
+    execReverse(context: Context) {
         const angle = -this.eval(context);
         context.getCursor().rotate(angle);
     }
 }
 
 export class RotateRight extends NodeWithValue {
-    exec(context: Context) {
+    exec(context: Context): ActionResult {
         const angle = this.eval(context);
         context.getCursor().rotate(angle);
+        return {};
+    }
+
+    execReverse(context: Context) {
+        const angle = -this.eval(context);
+        context.getCursor().rotate(angle);
+    }
+}
+
+export class Reverse extends NodeWithValue {
+    exec(context: Context) {
+        const iterations = this.eval(context);
+        return {reverse: iterations};
+    }
+}
+
+export class Replay extends NodeWithValue {
+    exec(context: Context) {
+        const iterations = this.eval(context);
+        return {shift: -iterations - 1};
     }
 }

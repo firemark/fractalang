@@ -99,6 +99,7 @@ const TOKENS: TokenCategory[] = [
             {name: 'FORWARD', label: 'Move forward', type: 'action'},
             {name: 'ROTATE_LEFT', label: 'Rotate left', type: 'action'},
             {name: 'ROTATE_RIGHT', label: 'Rotate right', type: 'action'},
+            {name: 'REVERSE', label: 'Reverse', type: 'action'},
         ],
     },
 ];

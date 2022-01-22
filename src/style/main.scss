@@ -8,6 +8,8 @@ body {
 
 #image {
     margin: auto;
+    height: 50vh;
+
     & > svg {
         width: 90vw;
         max-height: 50vh;

@@ -48,6 +48,14 @@ function main() {
             new Line([60, 80], [60, 20], 5),
             new Line([30, 50], [60, 50], 5),
         ]],
+        ["REVERSE", [
+            new Line([20, 50], [50, 80], 3),
+            new Line([20, 50], [50, 20], 3),
+            new Line([50, 80], [50, 20], 3),
+            new Line([50, 50], [80, 80], 3),
+            new Line([50, 50], [80, 20], 3),
+            new Line([80, 80], [80, 20], 3),
+        ]],
         ["DRAW_LINE", withPencil([new Line([20, 70], [80, 70], 5) ])],
         ["DRAW_CIRCLE", withPencil([new Circle([50, 70], 20)])],
         ["FORWARD", [
