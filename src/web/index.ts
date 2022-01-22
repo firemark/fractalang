@@ -22,6 +22,7 @@ function run(code) {
 window.addEventListener('load', event => {
     const code = [
         {name: "F", tokens: []},
+        {name: "DIAMOND", tokens: []},
         {name: "G", tokens: []},
         {name: "H", tokens: []},
     ];

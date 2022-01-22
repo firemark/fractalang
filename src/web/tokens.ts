@@ -81,6 +81,7 @@ const TOKENS: TokenCategory[] = [
         label: 'Functions',
         tokens: [
             {name: 'ARGUMENT', label: 'Argument', type: 'value'},
+            {name: 'CALL_DIAMOND', label: 'Diamond', type: 'value'},
             {name: 'CALL_F', label: 'Call F function', type: 'action'},
             {name: 'CALL_G', label: 'Call G function', type: 'action'},
             {name: 'CALL_H', label: 'Call H function', type: 'action'},

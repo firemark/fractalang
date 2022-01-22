@@ -1,5 +1,5 @@
 import { Node, ValueNode, ActionNode } from "./ast/base";
-import { Multipler, Angle, Argument } from "./ast/values";
+import { Multipler, Angle, Argument, DynamicArgument } from "./ast/values";
 import * as actions from "./ast/actions";
 
 export type ActionCb = (values: ValueNode[]) => ActionNode;
@@ -8,22 +8,24 @@ export type ValueSize = "+" | number;
 
 export class Token {
     isAction: boolean;
+    isDynamic: boolean;
     factory: ActionCb | ValueCb;
     valueSize: ValueSize;
 
-    constructor({ isAction, factory, valueSize }) {
+    constructor({ isAction, isDynamic, factory, valueSize }) {
         this.isAction = isAction;
+        this.isDynamic = isDynamic;
         this.factory = factory;
         this.valueSize = valueSize;
     }
 }
 
-function createValue(factory: ValueCb) {
-    return new Token({ isAction: false, valueSize: 0, factory });
+function createValue(factory: ValueCb, isDynamic = false) {
+    return new Token({ isAction: false, valueSize: 0, isDynamic, factory });
 }
 
 function createAction(valueSize: ValueSize, factory: ActionCb) {
-    return new Token({ isAction: true, valueSize, factory });
+    return new Token({ isAction: true, valueSize, isDynamic: true, factory });
 }
 
 export const tokens = {
@@ -57,6 +59,8 @@ export const tokens = {
     CALL_F: createAction("+", v => new actions.Call("F", v)),
     CALL_G: createAction("+", v => new actions.Call("G", v)),
     CALL_H: createAction("+", v => new actions.Call("H", v)),
+    CALL_DIAMOND: createValue(() => new DynamicArgument("DIAMOND"), true),
+    CALL_INV_TRIANGLE: createValue(() => new DynamicArgument("INV_TRIANGLE"), true),
     // Painters
     DRAW_LINE: createAction("+", v => new actions.DrawLine(v)),
     DRAW_CIRCLE: createAction("+", v => new actions.DrawCircle(v)),

@@ -15,3 +15,7 @@ export abstract class ActionNode implements Node {
     abstract exec(context: Context, local: any): ActionResult;
     execReverse(context: Context) {};
 }
+
+export function evalValue(valueNodes: ValueNode[], context: Context): number {
+    return valueNodes.reduce((acc, v) => acc * v.eval(context), 1.0);
+}

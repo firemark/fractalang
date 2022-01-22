@@ -19,7 +19,7 @@ export function scrapeCode(): Func[] {
     const codeNode = document.getElementById("code");
     const code: Func[] = [];
     codeNode.querySelectorAll(".function").forEach(funcNode => {
-        const name = (funcNode.querySelector(".name") as HTMLElement).innerText;
+        const name = (funcNode.querySelector(".name") as HTMLElement).dataset.name;
         const tokens: string[] = [];
         funcNode.querySelectorAll(".token").forEach(tokenNode => {
             tokens.push((tokenNode as HTMLElement).dataset.token);

@@ -20,7 +20,8 @@ function renderFunction({name, tokens}): Element {
 function renderName(name: string): Element {
     const node = document.createElement("span");
     node.classList.add("name");
-    node.innerText = name;
+    node.dataset.name = name;
+    node.style.backgroundImage = `url(/icons/CALL_${name}.svg)`;
     return node;
 }
 

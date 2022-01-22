@@ -48,6 +48,17 @@ function main() {
             new Line([60, 80], [60, 20], 5),
             new Line([30, 50], [60, 50], 5),
         ]],
+        ["CALL_DIAMOND", [
+            new Line([50, 20], [70, 50], 3),
+            new Line([50, 20], [30, 50], 3),
+            new Line([50, 80], [70, 50], 3),
+            new Line([50, 80], [30, 50], 3),
+        ]],
+        ["CALL_INV_TRIANGLE", [
+            new Line([20, 20], [80, 20], 3),
+            new Line([80, 20], [50, 80], 3),
+            new Line([50, 80], [20, 20], 3),
+        ]],
         ["DRAW_LINE", withPencil([new Line([20, 70], [80, 70], 5) ])],
         ["DRAW_CIRCLE", withPencil([new Circle([50, 70], 20)])],
         ["FORWARD", [

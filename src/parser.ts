@@ -2,6 +2,10 @@ import { Token, tokens, ActionCb, ValueCb } from "./tokens";
 import { Node, ActionNode, ValueNode } from "./ast/base";
 import { Function } from "./ast/actions";
 
+export const DYNAMIC_ARGS = [
+    "DIAMOND",
+    "INV_TRIANGLE",
+];
 
 export function parseRawTokens(rawTokens: string[]): Token[] {
     return rawTokens.map(raw => {
@@ -60,7 +64,15 @@ class ActionTmp {
     }
 }
 
-export function parseLine(name: string, tokens: Token[]): Function {
+export function parseLine(name: string, tokens: Token[]) {
+    if (DYNAMIC_ARGS.indexOf(name) > -1) {
+        return parseLineValue(tokens);
+    } else {
+        return parseLineFunc(name, tokens);
+    }
+}
+
+function parseLineFunc(name: string, tokens: Token[]) {
     const actions = [];
     const tmp = new ActionTmp();
     tokens.forEach(token => {
@@ -76,6 +88,19 @@ export function parseLine(name: string, tokens: Token[]): Function {
     }
 
     return new Function(name, tmp.getActions());
+}
+
+function parseLineValue(tokens: Token[]): ValueNode[] {
+    return tokens.map(token => {
+        if (token.isAction) {
+            throw "Parsing error: No actions are allowed";
+        }
+        if (token.isDynamic) {
+            throw "Parsing error: No dynamic elements are allowed";
+        }
+        const factory = token.factory as ValueCb;
+        return factory();
+    });
 }
 
 function parseAction(token: Token, tmp: ActionTmp) {

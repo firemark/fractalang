@@ -1,5 +1,5 @@
 import { Context } from "../context";
-import { Node, ValueNode, ActionNode, ActionResult } from "./base";
+import { Node, ValueNode, ActionNode, ActionResult, evalValue } from "./base";
 
 export class Function implements Node {
     name: string;
@@ -14,7 +14,6 @@ export class Function implements Node {
         const actions = this.actions;
         const locals = actions.map(() => ({}));
         const size = actions.length;
-        let index = 0;
         for(let index = 0; index < size;) {
             const local = locals.at(index);
             const action = actions.at(index);
@@ -45,7 +44,7 @@ abstract class NodeWithValue extends ActionNode {
     }
 
     protected eval(context: Context): number {
-        return this.value.reduce((acc, v) => acc * v.eval(context), 1.0);
+        return evalValue(this.value, context);
     }
 }
 
@@ -59,7 +58,7 @@ export class Call extends NodeWithValue {
 
     exec(context: Context): ActionResult {
         const func = context.findFunction(this.name);
-        if (!func) {
+        if (!(func instanceof Function)) {
             return {};
         }
         const newArgument = this.eval(context);
