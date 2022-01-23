@@ -1,14 +1,14 @@
 import { initTokens } from "./tokens";
 import { initCode } from "./code";
-import { run } from "./run";
+import { scrapeAndRun } from "./run";
 
 import "../style/main.scss";
 
 window.addEventListener('load', event => {
     const code = [
-        {name: "F", tokens: []},
+        {name: "F", tokens: ["DRAW_CIRCLE", "COUNT_3"]},
     ];
     initTokens();
     initCode(code);
-    // run(code);
+    scrapeAndRun();
 });

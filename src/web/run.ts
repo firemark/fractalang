@@ -5,7 +5,7 @@ export function scrapeAndRun() {
     run(scrapeCode(), scrapeIterations());
 }
 
-export function run(code: Func[], maxIteration: number = 3) {
+function run(code: Func[], maxIteration: number = 3) {
     const container = document.getElementById("image");
     container.innerHTML = "";
 
