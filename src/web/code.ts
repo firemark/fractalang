@@ -1,7 +1,33 @@
-import { renderToken } from "./tokens";
-import { run, scrapeCode } from './run';
+import { renderToken } from './tokens';
+import { scrapeAndRun } from './run';
+import { PROCEDURES, DYNAMIC_ARGS } from '../parser';
 
-export function renderCode(code) {
+export function initCode(code) {
+    renderCode(code);
+    document.getElementById("iterations").addEventListener("change", () => {
+        scrapeAndRun();
+        return false;
+    }, false);
+
+    renderListOfFunctions();
+}
+
+function renderListOfFunctions() {
+    const functionsNode = document.getElementById("functions");
+    PROCEDURES.concat(DYNAMIC_ARGS).forEach(name => {
+        const node = document.createElement("li");
+        node.style.backgroundImage = `url(/icons/CALL_${name}.svg)`;
+        node.dataset.name = name;
+        node.addEventListener("click", function() {
+            showOrHideOrAddFunction(this.dataset.name);
+            scrapeAndRun();
+            return false;
+        }, false);
+        functionsNode.appendChild(node);
+    });
+}
+
+function renderCode(code) {
     const container = document.getElementById("code");
     container.innerHTML = "";
     code.forEach(line => {
@@ -12,15 +38,25 @@ export function renderCode(code) {
 function renderFunction({name, tokens}): Element {
     const node = document.createElement("li");
     node.classList.add("function");
+    node.dataset.name = name;
     node.appendChild(renderName(name));
     node.appendChild(renderTokens(tokens));
     return node;
 }
 
+function showOrHideOrAddFunction(name: string): void {
+    const codeNode = document.getElementById("code");
+    const funcNode = codeNode.querySelector(`.function[data-name=${name}]`);
+    if (!funcNode) {
+        codeNode.appendChild(renderFunction({name, tokens: []}));
+    } else {
+        funcNode.classList.toggle("hide");
+    }
+}
+
 function renderName(name: string): Element {
     const node = document.createElement("span");
     node.classList.add("name");
-    node.dataset.name = name;
     node.style.backgroundImage = `url(/icons/CALL_${name}.svg)`;
     return node;
 }
@@ -93,8 +129,7 @@ function setTokenSpanEvents(node: Element, remove: boolean = false) {
             oldTokenNode.remove();
         }
 
-        run(scrapeCode());
-
+        scrapeAndRun();
         return false;
     }
 

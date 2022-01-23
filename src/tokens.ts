@@ -53,14 +53,14 @@ export const tokens = {
     ANGLE_15: createValue(() => new Angle(15)),
     // Arguments
     ARGUMENT: createValue(() => new Argument()),
+    CALL_DIAMOND: createValue(() => new DynamicArgument("DIAMOND"), true),
+    CALL_INV_TRIANGLE: createValue(() => new DynamicArgument("INV_TRIANGLE"), true),
 
     // *** Actions ***
     // Callers
     CALL_F: createAction("+", v => new actions.Call("F", v)),
     CALL_G: createAction("+", v => new actions.Call("G", v)),
     CALL_H: createAction("+", v => new actions.Call("H", v)),
-    CALL_DIAMOND: createValue(() => new DynamicArgument("DIAMOND"), true),
-    CALL_INV_TRIANGLE: createValue(() => new DynamicArgument("INV_TRIANGLE"), true),
     // Painters
     DRAW_LINE: createAction("+", v => new actions.DrawLine(v)),
     DRAW_CIRCLE: createAction("+", v => new actions.DrawCircle(v)),

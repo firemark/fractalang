@@ -2,10 +2,8 @@ import { Token, tokens, ActionCb, ValueCb } from "./tokens";
 import { Node, ActionNode, ValueNode } from "./ast/base";
 import { Function } from "./ast/actions";
 
-export const DYNAMIC_ARGS = [
-    "DIAMOND",
-    "INV_TRIANGLE",
-];
+export const DYNAMIC_ARGS = ["DIAMOND", "INV_TRIANGLE"];
+export const PROCEDURES = ["F", "G", "H"];
 
 export function parseRawTokens(rawTokens: string[]): Token[] {
     return rawTokens.map(raw => {

@@ -2,15 +2,26 @@
 <html>
     <head>
         <title>Fractalang</title>
-        <style>
-
-        </style>
     </head>
     <body>
         <div id="image"></div>
         <div id="editor">
             <nav id="tokens" class="token-categories"></nav>
-            <ul id="code"></ul>
+            <div id="code-panel">
+                <div id="code-bar">
+                    <label name="iterations">Iterations: </label>
+                    <input
+                        id="iterations"
+                        name="iterations"
+                        type="number"
+                        value="3"
+                        min="1"
+                        max="10"
+                    />
+                    <ul id="functions"></ul>
+                </div>
+                <ul id="code"></ul>
+            </div>
         </div>
     </body>
 </html>

@@ -106,7 +106,7 @@ const TOKENS: TokenCategory[] = [
     },
 ];
 
-export function renderTokens(isTemplate: boolean = true) {
+export function initTokens(isTemplate: boolean = true) {
     const container = document.getElementById('tokens');
     container.innerHTML = '';
     TOKENS.forEach(category => {
