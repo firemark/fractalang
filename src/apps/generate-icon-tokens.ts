@@ -1,10 +1,27 @@
 import { createSvg } from "../svg";
 import { Cursor } from "../cursor";
 import { Figure, Line, Square, Circle, Arc } from "../figures";
+import { PROCEDURES, DYNAMIC_ARGS, PREFIXES } from "../parser";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 import { writeFile, mkdir } from "fs";
 
-type Tokens = [string, Figure[]];
+type Tokens = [string, Figure[], number?, number?];
+
+const PREFIX_TO_ICON = {
+    "END": [
+        new Arc([80, 80], 10, -0.5, { shift: 0.75, fill: "none", stroke: 3 }),
+        new Line([70, 80], [80, 80], 3),
+    ],
+    "EVEN": [
+        new Line([70, 70], [70, 90], 3),
+        new Line([75, 70], [75, 90], 3),
+    ],
+    "ODD": [
+        new Line([70, 70], [70, 90], 3),
+        new Line([75, 70], [75, 90], 3),
+        new Line([80, 65], [65, 95], 3),
+    ],
+};
 
 function main() {
     const tokens: Tokens[] = [
@@ -59,6 +76,9 @@ function main() {
             new Line([80, 20], [50, 80], 3),
             new Line([50, 80], [20, 20], 3),
         ]],
+        ["PREFIX_END", PREFIX_TO_ICON["END"], 60, 100],
+        ["PREFIX_EVEN", PREFIX_TO_ICON["EVEN"], 60, 100],
+        ["PREFIX_ODD", PREFIX_TO_ICON["ODD"], 60, 100],
         ["DRAW_LINE", withPencil([new Line([20, 70], [80, 70], 5) ])],
         ["DRAW_CIRCLE", withPencil([new Circle([50, 70], 20)])],
         ["FORWARD", [
@@ -92,17 +112,26 @@ function main() {
         ]],
     ];
 
+    PROCEDURES.concat(DYNAMIC_ARGS).forEach(name => {
+        const [iconName, figures] = tokens.find(([n, f]) => n === `CALL_${name}`);
+        PREFIXES.forEach(prefix => {
+            const realName = `${iconName}_${prefix}`;
+            const icon = PREFIX_TO_ICON[prefix];
+            tokens.push([realName, figures.concat(icon)]);
+        });
+    });
+
     const document =
         new DOMImplementation()
         .createDocument('http://www.w3.org/1999/xhtml', 'html', null);
     const xml = new XMLSerializer();
 
     mkdir("public/icons", () => {
-        tokens.forEach(([name, figures]) => {
+        tokens.forEach(([name, figures, min = 0, max = 100]) => {
             const cursor = new Cursor();
             cursor.figures = figures;
-            cursor.box.min = [0, 0];
-            cursor.box.max = [100, 100];
+            cursor.box.min = [min, min];
+            cursor.box.max = [max, max];
 
             const svg = createSvg(document, cursor);
             writeFile(`public/icons/${name}.svg`, xml.serializeToString(svg), () => {});

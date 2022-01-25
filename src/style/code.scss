@@ -12,16 +12,44 @@
 
 #functions {
     display: flex;
-    gap: 10px;
     float: right;
 
     > li {
         display: inline;
+    }
+
+    .token-btn {
+        display: block;
         width: 30px;
         height: 30px;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #DDD;
+        }
+    }
+
+    .dropdown {
+        position: relative;
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #FFF;
+            border: 2px #AAA solid;
+            border-radius: 5px;
+            z-index: 1;
+            padding: 0;
+        }
+
+        &:hover {
+            .dropdown-content {
+                display: block;
+            }
+        }
     }
 }
 

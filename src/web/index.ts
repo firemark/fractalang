@@ -6,7 +6,8 @@ import "../style/main.scss";
 
 window.addEventListener('load', event => {
     const code = [
-        {name: "F", tokens: ["DRAW_CIRCLE", "COUNT_3"]},
+        {name: "F", tokens: ["DRAW_CIRCLE", "COUNT_3", "DRAW_LINE", "ARGUMENT", "CALL_F", "ARGUMENT"]},
+        {name: "F_END", tokens: ["DRAW_CIRCLE", "COUNT_5", "COUNT_2"]},
     ];
     initTokens();
     initCode(code);

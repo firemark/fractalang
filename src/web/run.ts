@@ -26,12 +26,13 @@ function scrapeCode(): Func[] {
         if (isHide) {
             return;
         }
-        const name = funcNode.dataset.name;
+        const {name, prefix} = funcNode.dataset;
         const tokens: string[] = [];
         funcNode.querySelectorAll(".token").forEach(tokenNode => {
             tokens.push((tokenNode as HTMLElement).dataset.token);
         });
-        code.push({name, tokens});
+        const realname = prefix ? `${name}_${prefix}` : name;
+        code.push({name: realname, tokens});
     });
     return code;
 }

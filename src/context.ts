@@ -24,10 +24,23 @@ export class Context {
     }
 
     findFunction(name: string) {
-        if (this.iteration >= this.cfg.maxIteration) {
+        const iteration = this.iteration;
+        if (iteration >= this.cfg.maxIteration) {
             return null;
         }
-        return this.cfg.bag[name] || null;
+
+        const namesToFind = [name];
+        if (iteration % 2 == 0) {
+            namesToFind.unshift(`${name}_EVEN`);
+        } else {
+            namesToFind.unshift(`${name}_ODD`);
+        }
+        if (iteration == this.cfg.maxIteration - 1) {
+            namesToFind.unshift(`${name}_END`);
+        }
+
+        const existFuncName = namesToFind.find(name => this.cfg.bag[name]);
+        return existFuncName ? this.cfg.bag[existFuncName] : null;
     }
 
     getCursor(): Cursor {
