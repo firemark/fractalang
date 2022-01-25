@@ -49,8 +49,8 @@ export class Cursor {
 
     forward(distance: number) {
         const [x, y] = this.orientation;
-        this.position[0] += x * distance;
-        this.position[1] += y * distance;
+        this.position[0] += x * distance * 100;
+        this.position[1] += y * distance * 100;
         this.computeBox();
     }
 

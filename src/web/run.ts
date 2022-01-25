@@ -9,7 +9,7 @@ function run(code: Func[], maxIteration: number = 3) {
     const container = document.getElementById("image");
     container.innerHTML = "";
 
-    const argument = 100.0;
+    const argument = 1.0;
     const cursor = exec(argument, maxIteration, code);
     cursor.addMargin(20);
     const serializer = new XMLSerializer();
