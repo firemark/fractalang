@@ -18,20 +18,24 @@ export class Function implements Node {
             const local = locals.at(index);
             const action = actions.at(index);
             const { shift, reverse } = action.exec(context, local);
-            this.doReverse(index, reverse ? Math.round(reverse) : 0, context);
+            this.execReverse(index, reverse ? Math.round(reverse) : 0, context);
             index += shift ? Math.round(shift) : 1;
         }
     }
 
-    private doReverse(stopIndex: number, reverse: number, context: Context) {
+    execReverse(stopIndex: number, reverse: number, context: Context) {
         if (reverse === 0) {
             return;
         }
         const actions = this.actions;
         const startReserve = Math.max(0, stopIndex - reverse);
-        for(let index = startReserve; index < stopIndex; index++) {
+        for(let index = stopIndex; index >= startReserve; index--) {
             actions.at(index).execReverse(context);
         }
+    }
+
+    size() : number {
+        return this.actions.length;
     }
 }
 
@@ -65,6 +69,17 @@ export class Call extends NodeWithValue {
         const newContext = context.createNewContext(newArgument);
         func.exec(newContext);
         return {};
+    }
+
+    execReverse(context: Context) {
+        const func = context.findFunction(this.name);
+        if (!(func instanceof Function)) {
+            return;
+        }
+        const newArgument = this.eval(context);
+        const newContext = context.createNewContext(newArgument);
+        const lastIndex = func.size() - 1;
+        func.execReverse(lastIndex, lastIndex, newContext);
     }
 }
 
