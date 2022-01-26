@@ -23,5 +23,8 @@ export function exec(argument: number, maxIteration: number, functions: Func[]):
 }
 
 function startExec(context: Context, bag) {
-    bag.F.exec(context);
+    const func = context.findFunction("START") || context.findFunction("F");
+    if (func) {
+        func.exec(context);
+    }
 }

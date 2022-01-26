@@ -1,6 +1,6 @@
 import { renderToken } from './tokens';
 import { scrapeAndRun } from './run';
-import { PROCEDURES, DYNAMIC_ARGS, PREFIXES } from '../parser';
+import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '../parser';
 
 export function initCode(code) {
     renderCode(code);
@@ -25,24 +25,24 @@ function renderBarOfFunctions(name: string) {
     const baseFuncNode = renderAddFunction("span", name);
     const barNode = document.createElement("ul");
     barNode.classList.add("dropdown-content");
-    PREFIXES.forEach(prefix => {
-        barNode.appendChild(renderAddFunction("li", name, prefix));
+    SUFFIXES.forEach(suffix => {
+        barNode.appendChild(renderAddFunction("li", name, suffix));
     });
     node.appendChild(baseFuncNode);
     node.appendChild(barNode);
     return node;
 }
 
-function renderAddFunction(type: string, name: string, prefix: string = "") {
+function renderAddFunction(type: string, name: string, suffix: string = "") {
     const node = document.createElement(type);
-    const realName = prefix ? `PREFIX_${prefix}` : `CALL_${name}`;
+    const realName = suffix ? `SUFFIX_${suffix}` : `CALL_${name}`;
     node.style.backgroundImage = `url(/icons/${realName}.svg)`;
     node.classList.add("token-btn");
     node.dataset.name = name;
-    node.dataset.prefix = prefix;
+    node.dataset.suffix = suffix;
     node.addEventListener("click", function() {
-        const {name, prefix} = this.dataset;
-        showOrHideOrAddFunction(name, prefix);
+        const {name, suffix} = this.dataset;
+        showOrHideOrAddFunction(name, suffix);
         scrapeAndRun();
         return false;
     }, false);
@@ -57,30 +57,30 @@ function renderCode(code) {
     });
 }
 
-function renderFunction({name, prefix = "", tokens}): Element {
+function renderFunction({name, suffix = "", tokens}): Element {
     const node = document.createElement("li");
     node.classList.add("function");
     node.dataset.name = name;
-    node.dataset.prefix = prefix;
-    node.appendChild(renderName(name, prefix));
+    node.dataset.suffix = suffix;
+    node.appendChild(renderName(name, suffix));
     node.appendChild(renderTokens(tokens));
     return node;
 }
 
-function showOrHideOrAddFunction(name: string, prefix: string = ""): void {
+function showOrHideOrAddFunction(name: string, suffix: string = ""): void {
     const codeNode = document.getElementById("code");
-    const funcNode = codeNode.querySelector(`.function[data-name="${name}"][data-prefix="${prefix}"]`);
+    const funcNode = codeNode.querySelector(`.function[data-name="${name}"][data-suffix="${suffix}"]`);
     if (!funcNode) {
-        codeNode.appendChild(renderFunction({name, prefix, tokens: []}));
+        codeNode.appendChild(renderFunction({name, suffix, tokens: []}));
     } else {
         funcNode.classList.toggle("hide");
     }
 }
 
-function renderName(name: string, prefix: string): Element {
+function renderName(name: string, suffix: string): Element {
     const node = document.createElement("span");
     node.classList.add("name");
-    const realname = prefix ? `${name}_${prefix}` : name;
+    const realname = suffix ? `${name}_${suffix}` : name;
     node.style.backgroundImage = `url(/icons/CALL_${realname}.svg)`;
     return node;
 }

@@ -31,12 +31,12 @@ export class Context {
 
         const namesToFind = [name];
         if (iteration % 2 == 0) {
-            namesToFind.unshift(`${name}_EVEN`);
+            namesToFind.unshift(`${name}::EVEN`);
         } else {
-            namesToFind.unshift(`${name}_ODD`);
+            namesToFind.unshift(`${name}::ODD`);
         }
         if (iteration == this.cfg.maxIteration - 1) {
-            namesToFind.unshift(`${name}_END`);
+            namesToFind.unshift(`${name}::END`);
         }
 
         const existFuncName = namesToFind.find(name => this.cfg.bag[name]);

@@ -1,13 +1,13 @@
 import { createSvg } from "../svg";
 import { Cursor } from "../cursor";
 import { Figure, Line, Square, Circle, Arc } from "../figures";
-import { PROCEDURES, DYNAMIC_ARGS, PREFIXES } from "../parser";
+import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from "../parser";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 import { writeFile, mkdir } from "fs";
 
 type Tokens = [string, Figure[], number?, number?];
 
-const PREFIX_TO_ICON = {
+const SUFFIX_TO_ICON = {
     "END": [
         new Arc([80, 80], 10, -0.5, { shift: 0.75, fill: "none", stroke: 3 }),
         new Line([70, 80], [80, 80], 3),
@@ -76,9 +76,9 @@ function main() {
             new Line([80, 20], [50, 80], 3),
             new Line([50, 80], [20, 20], 3),
         ]],
-        ["PREFIX_END", PREFIX_TO_ICON["END"], 60, 100],
-        ["PREFIX_EVEN", PREFIX_TO_ICON["EVEN"], 60, 100],
-        ["PREFIX_ODD", PREFIX_TO_ICON["ODD"], 60, 100],
+        ["SUFFIX_END", SUFFIX_TO_ICON["END"], 60, 100],
+        ["SUFFIX_EVEN", SUFFIX_TO_ICON["EVEN"], 60, 100],
+        ["SUFFIX_ODD", SUFFIX_TO_ICON["ODD"], 60, 100],
         ["DRAW_LINE", withPencil([new Line([20, 70], [80, 70], 5) ])],
         ["DRAW_CIRCLE", withPencil([new Circle([50, 70], 20)])],
         ["FORWARD", [
@@ -114,9 +114,9 @@ function main() {
 
     PROCEDURES.concat(DYNAMIC_ARGS).forEach(name => {
         const [iconName, figures] = tokens.find(([n, f]) => n === `CALL_${name}`);
-        PREFIXES.forEach(prefix => {
-            const realName = `${iconName}_${prefix}`;
-            const icon = PREFIX_TO_ICON[prefix];
+        SUFFIXES.forEach(suffix => {
+            const realName = `${iconName}_${suffix}`;
+            const icon = SUFFIX_TO_ICON[suffix];
             tokens.push([realName, figures.concat(icon)]);
         });
     });
