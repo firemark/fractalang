@@ -1,5 +1,12 @@
 import { Cursor } from "./cursor";
 
+export interface EvaluedValue {
+    value?: number;
+    color?: number;
+    stroke?: "solid" | "dotted" | "dashed";
+    valueTransformer?: (a: number, b: number) => number;
+}
+
 export class ContextCfg {
     maxIteration: number;
     cursor: Cursor;
@@ -14,7 +21,7 @@ export class ContextCfg {
 
 export class Context {
     public iteration: number;
-    public argument: number;
+    public argument: EvaluedValue;
     private cfg: ContextCfg;
 
     constructor({cfg, argument, iteration = 0}) {
@@ -47,7 +54,7 @@ export class Context {
         return this.cfg.cursor;
     }
 
-    createNewContext(newArgument: number) {
+    createNewContext(newArgument: EvaluedValue) {
         return new Context({
             cfg: this.cfg,
             argument: newArgument,

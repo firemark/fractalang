@@ -1,4 +1,4 @@
-import { Context } from "../context";
+import { Context, EvaluedValue } from "../context";
 import { Node, ValueNode, evalValue } from "./base";
 
 export class Angle extends ValueNode {
@@ -9,8 +9,8 @@ export class Angle extends ValueNode {
         this.normalizedAngle = angle / 360.0;
     }
 
-    eval(context: Context): number {
-        return this.normalizedAngle;
+    eval(context: Context): EvaluedValue {
+        return {value: this.normalizedAngle};
     }
 }
 
@@ -22,14 +22,14 @@ export class Multipler extends ValueNode {
         this.value = value;
     }
 
-    eval(context: Context): number {
-        return this.value;
+    eval(context: Context): EvaluedValue {
+        return {value: this.value};
     }
 }
 
 export class Argument extends ValueNode {
-    eval(context: Context): number {
-        return context.argument;
+    eval(context: Context): EvaluedValue {
+        return {value: context.argument.value};
     }
 }
 
@@ -41,10 +41,10 @@ export class DynamicArgument extends ValueNode {
         this.name = name;
     }
 
-    eval(context: Context): number {
+    eval(context: Context): EvaluedValue {
         const valueNodes = context.findFunction(this.name);
         if (!Array.isArray(valueNodes)) {
-            return 1.0;
+            return {};
         }
         return evalValue(valueNodes, context);
     }

@@ -1,4 +1,4 @@
-import { Context } from "../context";
+import { Context, EvaluedValue } from "../context";
 import { Node, ValueNode, ActionNode, ActionResult, evalValue } from "./base";
 
 export class Function implements Node {
@@ -47,7 +47,7 @@ abstract class NodeWithValue extends ActionNode {
         this.value = value;
     }
 
-    protected eval(context: Context): number {
+    protected eval(context: Context): EvaluedValue {
         return evalValue(this.value, context);
     }
 }
@@ -85,28 +85,28 @@ export class Call extends NodeWithValue {
 
 export class DrawLine extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const distance = this.eval(context);
-        context.getCursor().drawLine(distance);
+        const {value, color} = this.eval(context);
+        context.getCursor().drawLine(value);
         return {};
     }
 
     execReverse(context: Context) {
-        const distance = -this.eval(context);
+        const distance = -this.eval(context).value;
         context.getCursor().forward(distance);
     }
 }
 
 export class DrawCircle extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const distance = this.eval(context);
-        context.getCursor().drawCircle(distance);
+        const {value, color} = this.eval(context);
+        context.getCursor().drawCircle(value);
         return {};
     }
 }
 
 export class Forward extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const distance = this.eval(context);
+        const distance = this.eval(context).value;
         context.getCursor().forward(distance);
         return {};
     }
@@ -119,7 +119,7 @@ export class Forward extends NodeWithValue {
 
 export class RotateLeft extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const angle = -this.eval(context);
+        const angle = -this.eval(context).value;
         context.getCursor().rotate(angle);
         return {};
     }
@@ -132,20 +132,20 @@ export class RotateLeft extends NodeWithValue {
 
 export class RotateRight extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const angle = this.eval(context);
+        const angle = this.eval(context).value;
         context.getCursor().rotate(angle);
         return {};
     }
 
     execReverse(context: Context) {
-        const angle = -this.eval(context);
+        const angle = -this.eval(context).value;
         context.getCursor().rotate(angle);
     }
 }
 
 export class Reverse extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const iterations = this.eval(context);
+        const iterations = this.eval(context).value;
         return {reverse: iterations};
     }
 }
@@ -153,7 +153,7 @@ export class Reverse extends NodeWithValue {
 export class Replay extends NodeWithValue {
     exec(context: Context, local: any): ActionResult {
         const counter = local.counter || 1;
-        const size = Math.round(this.eval(context));
+        const size = Math.round(this.eval(context).value);
         console.log(counter, size);
         if (counter < size) {
             local.counter = counter + 1;
