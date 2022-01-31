@@ -64,6 +64,8 @@ export const tokens = {
     // Painters
     DRAW_LINE: createAction("+", v => new actions.DrawLine(v)),
     DRAW_CIRCLE: createAction("+", v => new actions.DrawCircle(v)),
+    DRAW_SQUARE: createAction("+", v => new actions.DrawSquare(v)),
+    DRAW_TRIANGLE: createAction("+", v => new actions.DrawTriangle(v)),
     // Cursor Operators
     FORWARD: createAction("+", v => new actions.Forward(v)),
     ROTATE_LEFT: createAction("+", v => new actions.RotateLeft(v)),

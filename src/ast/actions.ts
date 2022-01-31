@@ -104,6 +104,22 @@ export class DrawCircle extends NodeWithValue {
     }
 }
 
+export class DrawSquare extends NodeWithValue {
+    exec(context: Context): ActionResult {
+        const {value, color} = this.eval(context);
+        context.getCursor().drawSquare(value);
+        return {};
+    }
+}
+
+export class DrawTriangle extends NodeWithValue {
+    exec(context: Context): ActionResult {
+        const {value, color} = this.eval(context);
+        context.getCursor().drawTriangle(value);
+        return {};
+    }
+}
+
 export class Forward extends NodeWithValue {
     exec(context: Context): ActionResult {
         const distance = this.eval(context).value;

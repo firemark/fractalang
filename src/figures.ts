@@ -48,12 +48,30 @@ export class Arc {
 
 export class Square {
     point: [number, number];
+    orientation: [number, number];
     size: number;
     fill: string;
     stroke: number;
 
-    constructor(point, size, {fill = "black", stroke = 0} = {}) {
+    constructor(point, orientation, size, {fill = "black", stroke = 0} = {}) {
         this.point = point;
+        this.orientation = orientation;
+        this.size = size;
+        this.fill = fill;
+        this.stroke = 1;
+    }
+}
+
+export class Triangle  {
+    point: [number, number];
+    orientation: [number, number];
+    size: number;
+    fill: string;
+    stroke: number;
+
+    constructor(point, orientation, size, {fill = "black", stroke = 0} = {}) {
+        this.point = point;
+        this.orientation = orientation;
         this.size = size;
         this.fill = fill;
         this.stroke = 1;

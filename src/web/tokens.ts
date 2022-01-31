@@ -92,6 +92,8 @@ const TOKENS: TokenCategory[] = [
         tokens: [
             {name: 'DRAW_LINE', label: 'Draw Line', type: 'action'},
             {name: 'DRAW_CIRCLE', label: 'Draw Circle', type: 'action'},
+            {name: 'DRAW_SQUARE', label: 'Draw Square', type: 'action'},
+            {name: 'DRAW_TRIANGLE', label: 'Draw Triangle', type: 'action'},
         ],
     },
     {

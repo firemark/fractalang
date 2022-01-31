@@ -1,4 +1,4 @@
-import { Figure, Line, Circle } from "./figures";
+import { Figure, Line, Square, Triangle, Circle } from "./figures";
 
 export interface Box {
     min: [number, number];
@@ -45,6 +45,18 @@ export class Cursor {
     drawCircle(radius: number) {
         const [x, y] = this.position;
         this.figures.push(new Circle([x, y], radius));
+    }
+
+    drawSquare(size: number) {
+        const [x, y] = this.position;
+        const [dx, dy] = this.orientation;
+        this.figures.push(new Square([x, y], [dx, dy], size));
+    }
+
+    drawTriangle(size: number) {
+        const [x, y] = this.position;
+        const [dx, dy] = this.orientation;
+        this.figures.push(new Triangle([x, y], [dx, dy], size));
     }
 
     forward(distance: number) {

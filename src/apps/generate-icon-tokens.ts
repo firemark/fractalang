@@ -1,6 +1,6 @@
 import { createSvg } from "../svg";
 import { Cursor } from "../cursor";
-import { Figure, Line, Square, Circle, Arc } from "../figures";
+import { Figure, Line, Square, Triangle, Circle, Arc } from "../figures";
 import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from "../parser";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 import { writeFile, mkdir } from "fs";
@@ -79,8 +79,18 @@ function main() {
         ["SUFFIX_END", SUFFIX_TO_ICON["END"], 60, 100],
         ["SUFFIX_EVEN", SUFFIX_TO_ICON["EVEN"], 60, 100],
         ["SUFFIX_ODD", SUFFIX_TO_ICON["ODD"], 60, 100],
-        ["DRAW_LINE", withPencil([new Line([20, 70], [80, 70], 5) ])],
-        ["DRAW_CIRCLE", withPencil([new Circle([50, 70], 20)])],
+        ["DRAW_LINE", withPencil([
+            new Line([20, 70], [80, 70], 5),
+        ])],
+        ["DRAW_CIRCLE", withPencil([
+            new Circle([50, 70], 20),
+        ])],
+        ["DRAW_SQUARE", withPencil([
+            new Square([50, 70], [0, 1], 20),
+        ])],
+        ["DRAW_TRIANGLE", withPencil([
+            new Triangle([50, 70], [0, -1], 20),
+        ])],
         ["FORWARD", [
             new Line([50, 80], [50, 20], 10),
             new Line([30, 40], [50, 20], 5),
@@ -152,12 +162,12 @@ function generateCount(count: number): Figure[] {
 }
 
 function generateFiveCount(): Figure[] {
-    const figures: Figure[] = [];
-    figures.push(new Line([25, 20], [50, 80], 3));
-    figures.push(new Line([50, 80], [75, 20], 3));
-    figures.push(new Line([15, 20], [35, 20], 3));
-    figures.push(new Line([65, 20], [85, 20], 3));
-    return figures;
+    return [
+        new Line([25, 20], [50, 80], 3),
+        new Line([50, 80], [75, 20], 3),
+        new Line([15, 20], [35, 20], 3),
+        new Line([65, 20], [85, 20], 3),
+    ];
 }
 
 function generateFract(filled: number, total: number): Figure[] {
@@ -166,7 +176,7 @@ function generateFract(filled: number, total: number): Figure[] {
     const diff = total - filled;
     const f = (i, opts) => {
         const y = (size + 3) * i;
-        figures.push(new Square([50, y], size, opts));
+        figures.push(new Square([50, y], [0, 1], size, opts));
     }
     for(let i = 1; i <= diff; i++) {
         f(i, {fill: "none", stroke: 3});

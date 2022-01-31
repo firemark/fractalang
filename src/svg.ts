@@ -1,5 +1,5 @@
 import { Cursor } from "./cursor";
-import { Figure, Circle, Arc, Square, Line } from "./figures";
+import { Figure, Circle, Arc, Square, Triangle, Line } from "./figures";
 
 const NAMESPACE = "http://www.w3.org/2000/svg";
 
@@ -18,6 +18,10 @@ export function createSvg(document, cursor: Cursor) {
     });
     return svg;
 }
+
+const SQRT3 = Math.sqrt(3);
+const SQRT3H2 = Math.sqrt(3) / 2;
+const H2 = 1 / 2;
 
 function toSvg(document, figure: Figure) {
     if (figure instanceof Line) {
@@ -60,14 +64,30 @@ function toSvg(document, figure: Figure) {
         setBasicAttrs(figure, node);
         return node;
     } else if (figure instanceof Square) {
-        const node = document.createElementNS(NAMESPACE, "rect");
+        const node = document.createElementNS(NAMESPACE, "path");
         const [x, y] = figure.point;
-        const size = figure.size;
-        const half_size = size * 0.5;
-        node.setAttribute("x", x - half_size);
-        node.setAttribute("y", y - half_size);
-        node.setAttribute("width", size);
-        node.setAttribute("height", size);
+        const [dx, dy] = figure.orientation;
+        const S = figure.size / 2;
+        let path = '';
+        path += ` M ${x - S * dx - S * dy} ${y + S * dx - S * dy}`;
+        path += ` L ${x - S * dx + S * dy} ${y - S * dx - S * dy}`;
+        path += ` L ${x + S * dx + S * dy} ${y - S * dx + S * dy}`;
+        path += ` L ${x + S * dx - S * dy} ${y + S * dx + S * dy}`;
+        path += ' Z';
+        node.setAttribute("d", path);
+        setBasicAttrs(figure, node);
+        return node;
+    } else if (figure instanceof Triangle) {
+        const node = document.createElementNS(NAMESPACE, "path");
+        const [x, y] = figure.point;
+        const [dx, dy] = figure.orientation;
+        const S = figure.size;
+        let path = '';
+        path += ` M ${x + S * dx} ${y + S * dy}`;
+        path += ` L ${x - SQRT3H2 * S * dy - H2 * S * dx} ${y - H2 * S * dy + SQRT3H2 * S * dx}`;
+        path += ` L ${x + SQRT3H2 * S * dy - H2 * S * dx} ${y - H2 * S * dy - SQRT3H2 * S * dx}`;
+        path += ' Z';
+        node.setAttribute("d", path);
         setBasicAttrs(figure, node);
         return node;
     }
