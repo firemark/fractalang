@@ -66,6 +66,12 @@ export const tokens = {
     DRAW_CIRCLE: createAction("+", v => new actions.DrawCircle(v)),
     DRAW_SQUARE: createAction("+", v => new actions.DrawSquare(v)),
     DRAW_TRIANGLE: createAction("+", v => new actions.DrawTriangle(v)),
+    DRAW_ARCLINE_R_3_4: createAction("+", v => new actions.DrawArcLine(+3 / 4, v)),
+    DRAW_ARCLINE_R_1_2: createAction("+", v => new actions.DrawArcLine(+1 / 2, v)),
+    DRAW_ARCLINE_R_1_4: createAction("+", v => new actions.DrawArcLine(+1 / 4, v)),
+    DRAW_ARCLINE_L_3_4: createAction("+", v => new actions.DrawArcLine(-3 / 4, v)),
+    DRAW_ARCLINE_L_1_2: createAction("+", v => new actions.DrawArcLine(-1 / 2, v)),
+    DRAW_ARCLINE_L_1_4: createAction("+", v => new actions.DrawArcLine(-1 / 4, v)),
     // Cursor Operators
     FORWARD: createAction("+", v => new actions.Forward(v)),
     ROTATE_LEFT: createAction("+", v => new actions.RotateLeft(v)),

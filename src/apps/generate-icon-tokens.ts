@@ -10,16 +10,16 @@ type Tokens = [string, Figure[], number?, number?];
 const SUFFIX_TO_ICON = {
     "END": [
         new Arc([80, 80], 10, -0.5, { shift: 0.75, fill: "none", stroke: 3 }),
-        new Line([70, 80], [80, 80], 3),
+        new Line([70, 80], [80, 80], { stroke: 3 }),
     ],
     "EVEN": [
-        new Line([70, 70], [70, 90], 3),
-        new Line([75, 70], [75, 90], 3),
+        new Line([70, 70], [70, 90], { stroke: 3 }),
+        new Line([75, 70], [75, 90], { stroke: 3 }),
     ],
     "ODD": [
-        new Line([70, 70], [70, 90], 3),
-        new Line([75, 70], [75, 90], 3),
-        new Line([80, 65], [65, 95], 3),
+        new Line([70, 70], [70, 90], { stroke: 3 }),
+        new Line([75, 70], [75, 90], { stroke: 3 }),
+        new Line([80, 65], [65, 95], { stroke: 3 }),
     ],
 };
 
@@ -44,44 +44,50 @@ function main() {
         ["ANGLE_30", generateQuarterAngle(30)],
         ["ANGLE_15", generateQuarterAngle(15)],
         ["ARGUMENT", [
-            new Line([20, 80], [80, 80], 3),
-            new Line([80, 80], [50, 20], 3),
-            new Line([50, 20], [20, 80], 3),
+            new Line([20, 80], [80, 80], { stroke: 3 }),
+            new Line([80, 80], [50, 20], { stroke: 3 }),
+            new Line([50, 20], [20, 80], { stroke: 3 }),
         ]],
         ["CALL_F", [
-            new Line([30, 80], [30, 20], 5),
-            new Line([30, 20], [60, 20], 5),
-            new Line([30, 40], [60, 40], 5),
+            new Line([30, 80], [30, 20], { stroke: 5 }),
+            new Line([30, 20], [60, 20], { stroke: 5 }),
+            new Line([30, 40], [60, 40], { stroke: 5 }),
         ]],
         ["CALL_G", [
-            new Line([30, 80], [30, 20], 5),
-            new Line([30, 20], [60, 20], 5),
-            new Line([30, 80], [60, 80], 5),
-            new Line([60, 80], [60, 50], 5),
-            new Line([40, 50], [60, 50], 5),
+            new Line([30, 80], [30, 20], { stroke: 5 }),
+            new Line([30, 20], [60, 20], { stroke: 5 }),
+            new Line([30, 80], [60, 80], { stroke: 5 }),
+            new Line([60, 80], [60, 50], { stroke: 5 }),
+            new Line([40, 50], [60, 50], { stroke: 5 }),
         ]],
         ["CALL_H", [
-            new Line([30, 80], [30, 20], 5),
-            new Line([60, 80], [60, 20], 5),
-            new Line([30, 50], [60, 50], 5),
+            new Line([30, 80], [30, 20], { stroke: 5 }),
+            new Line([60, 80], [60, 20], { stroke: 5 }),
+            new Line([30, 50], [60, 50], { stroke: 5 }),
         ]],
         ["CALL_DIAMOND", [
-            new Line([50, 20], [70, 50], 3),
-            new Line([50, 20], [30, 50], 3),
-            new Line([50, 80], [70, 50], 3),
-            new Line([50, 80], [30, 50], 3),
+            new Line([50, 20], [70, 50], { stroke: 3 }),
+            new Line([50, 20], [30, 50], { stroke: 3 }),
+            new Line([50, 80], [70, 50], { stroke: 3 }),
+            new Line([50, 80], [30, 50], { stroke: 3 }),
         ]],
         ["CALL_INV_TRIANGLE", [
-            new Line([20, 20], [80, 20], 3),
-            new Line([80, 20], [50, 80], 3),
-            new Line([50, 80], [20, 20], 3),
+            new Line([20, 20], [80, 20], { stroke: 3 }),
+            new Line([80, 20], [50, 80], { stroke: 3 }),
+            new Line([50, 80], [20, 20], { stroke: 3 }),
         ]],
         ["SUFFIX_END", SUFFIX_TO_ICON["END"], 60, 100],
         ["SUFFIX_EVEN", SUFFIX_TO_ICON["EVEN"], 60, 100],
         ["SUFFIX_ODD", SUFFIX_TO_ICON["ODD"], 60, 100],
         ["DRAW_LINE", withPencil([
-            new Line([20, 70], [80, 70], 5),
+            new Line([20, 70], [80, 70], { stroke: 5 }),
         ])],
+        ["DRAW_ARCLINE_R_3_4", withPencilArcLine(+3 / 4)],
+        ["DRAW_ARCLINE_R_1_2", withPencilArcLine(+1 / 2)],
+        ["DRAW_ARCLINE_R_1_4", withPencilArcLine(+1 / 4)],
+        ["DRAW_ARCLINE_L_3_4", withPencilArcLine(-3 / 4)],
+        ["DRAW_ARCLINE_L_1_2", withPencilArcLine(-1 / 2)],
+        ["DRAW_ARCLINE_L_1_4", withPencilArcLine(-1 / 4)],
         ["DRAW_CIRCLE", withPencil([
             new Circle([50, 70], 20),
         ])],
@@ -92,33 +98,33 @@ function main() {
             new Triangle([50, 70], [0, -1], 20),
         ])],
         ["FORWARD", [
-            new Line([50, 80], [50, 20], 10),
-            new Line([30, 40], [50, 20], 5),
-            new Line([70, 40], [50, 20], 5),
+            new Line([50, 80], [50, 20], {stroke: 10}),
+            new Line([30, 40], [50, 20], { stroke: 5 }),
+            new Line([70, 40], [50, 20], { stroke: 5 }),
         ]],
         ["ROTATE_LEFT", [
             new Arc([50, 50], 30, 0.5, { shift: 0.75, fill: "none", stroke: 5 }),
-            new Line([50, 80], [60, 65], 5),
-            new Line([50, 80], [60, 93], 5),
+            new Line([50, 80], [60, 65], { stroke: 5 }),
+            new Line([50, 80], [60, 93], { stroke: 5 }),
         ]],
         ["ROTATE_RIGHT", [
             new Arc([50, 50], 30, -0.5, { shift: 0.75, fill: "none", stroke: 5 }),
-            new Line([50, 80], [40, 65], 5),
-            new Line([50, 80], [40, 93], 5),
+            new Line([50, 80], [40, 65], { stroke: 5 }),
+            new Line([50, 80], [40, 93], { stroke: 5 }),
         ]],
         ["REVERSE", [
-            new Line([20, 50], [50, 80], 3),
-            new Line([20, 50], [50, 20], 3),
-            new Line([50, 80], [50, 20], 3),
-            new Line([50, 50], [80, 80], 3),
-            new Line([50, 50], [80, 20], 3),
-            new Line([80, 80], [80, 20], 3),
+            new Line([20, 50], [50, 80], { stroke: 3 }),
+            new Line([20, 50], [50, 20], { stroke: 3 }),
+            new Line([50, 80], [50, 20], { stroke: 3 }),
+            new Line([50, 50], [80, 80], { stroke: 3 }),
+            new Line([50, 50], [80, 20], { stroke: 3 }),
+            new Line([80, 80], [80, 20], { stroke: 3 }),
         ]],
         ["REPLAY", [
             new Arc([50, 50], 30, 0.85, { shift: 0.75, fill: "none", stroke: 5 }),
             new Circle([50, 20], 10),
-            new Line([26, 32], [10, 35], 5),
-            new Line([26, 32], [35, 45], 5),
+            new Line([26, 32], [10, 35], { stroke: 5 }),
+            new Line([26, 32], [35, 45], { stroke: 5 }),
         ]],
     ];
 
@@ -154,19 +160,19 @@ function generateCount(count: number): Figure[] {
     const figures: Figure[] = [];
     for(let i = 1; i <= count; i++) {
         const x = 25 + i / (count + 1) * 50;
-        figures.push(new Line([x, 20], [x, 80], 3));
+        figures.push(new Line([x, 20], [x, 80], { stroke: 3 }));
     }
-    figures.push(new Line([20, 20], [80, 20], 3));
-    figures.push(new Line([20, 80], [80, 80], 3));
+    figures.push(new Line([20, 20], [80, 20], { stroke: 3 }));
+    figures.push(new Line([20, 80], [80, 80], { stroke: 3 }));
     return figures;
 }
 
 function generateFiveCount(): Figure[] {
     return [
-        new Line([25, 20], [50, 80], 3),
-        new Line([50, 80], [75, 20], 3),
-        new Line([15, 20], [35, 20], 3),
-        new Line([65, 20], [85, 20], 3),
+        new Line([25, 20], [50, 80], { stroke: 3 }),
+        new Line([50, 80], [75, 20], { stroke: 3 }),
+        new Line([15, 20], [35, 20], { stroke: 3 }),
+        new Line([65, 20], [85, 20], { stroke: 3 }),
     ];
 }
 
@@ -203,13 +209,17 @@ function generateQuarterAngle(angle): Figure[] {
 
 function withPencil(oldFigures: Figure[]): Figure[] {
     const figures: Figure[] = [
-        new Line([20, 20], [20, 40], 3),
-        new Line([20, 20], [60, 20], 3),
-        new Line([20, 40], [60, 40], 3),
-        new Line([60, 20], [80, 30], 3),
-        new Line([60, 40], [80, 30], 3),
+        new Line([20, 20], [20, 40], { stroke: 3 }),
+        new Line([20, 20], [60, 20], { stroke: 3 }),
+        new Line([20, 40], [60, 40], { stroke: 3 }),
+        new Line([60, 20], [80, 30], { stroke: 3 }),
+        new Line([60, 40], [80, 30], { stroke: 3 }),
     ];
     return figures.concat(oldFigures);
+}
+
+function withPencilArcLine(ratio): Figure[] {
+    return withPencil([new Arc([50, 70], 20, ratio, {fill: "none", stroke: 5, shift: 0.25})]);
 }
 
 main();

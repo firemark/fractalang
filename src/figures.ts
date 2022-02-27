@@ -5,7 +5,7 @@ export class Line {
     secondPoint: [number, number];
     stroke: number;
 
-    constructor(firstPoint, secondPoint, stroke = 1) {
+    constructor(firstPoint, secondPoint, {stroke = 1} = {}) {
         this.firstPoint = firstPoint;
         this.secondPoint = secondPoint;
         this.stroke = stroke;

@@ -94,6 +94,12 @@ const TOKENS: TokenCategory[] = [
             {name: 'DRAW_CIRCLE', label: 'Draw Circle', type: 'action'},
             {name: 'DRAW_SQUARE', label: 'Draw Square', type: 'action'},
             {name: 'DRAW_TRIANGLE', label: 'Draw Triangle', type: 'action'},
+            {name: 'DRAW_ARCLINE_R_3_4', label: 'Draw Arc Line 3/4 (Right)', type: 'action'},
+            {name: 'DRAW_ARCLINE_R_1_2', label: 'Draw Arc Line 1/2 (Right)', type: 'action'},
+            {name: 'DRAW_ARCLINE_R_1_4', label: 'Draw Arc Line 1/4 (Right)', type: 'action'},
+            {name: 'DRAW_ARCLINE_L_3_4', label: 'Draw Arc Line 3/4 (Left)', type: 'action'},
+            {name: 'DRAW_ARCLINE_L_1_2', label: 'Draw Arc Line 1/2 (Left)', type: 'action'},
+            {name: 'DRAW_ARCLINE_L_1_4', label: 'Draw Arc Line 1/4 (Left)', type: 'action'},
         ],
     },
     {

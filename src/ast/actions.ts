@@ -85,8 +85,8 @@ export class Call extends NodeWithValue {
 
 export class DrawLine extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const {value, color} = this.eval(context);
-        context.getCursor().drawLine(value);
+        const {value: length, color} = this.eval(context);
+        context.getCursor().drawLine(length);
         return {};
     }
 
@@ -98,16 +98,16 @@ export class DrawLine extends NodeWithValue {
 
 export class DrawCircle extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const {value, color} = this.eval(context);
-        context.getCursor().drawCircle(value);
+        const {value: size, color} = this.eval(context);
+        context.getCursor().drawCircle(size);
         return {};
     }
 }
 
 export class DrawSquare extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const {value, color} = this.eval(context);
-        context.getCursor().drawSquare(value);
+        const {value: size, color} = this.eval(context);
+        context.getCursor().drawSquare(size);
         return {};
     }
 }
@@ -120,6 +120,29 @@ export class DrawTriangle extends NodeWithValue {
     }
 }
 
+export class DrawArcLine extends NodeWithValue {
+    private ratio: number;
+
+    constructor(ratio, value) {
+        super(value);
+        this.ratio = ratio;
+    }
+
+    exec(context: Context): ActionResult {
+        const {value: size, color} = this.eval(context);
+        context.getCursor().drawArcLine(this.ratio, size);
+        return {};
+    }
+
+    execReverse(context: Context) {
+        const distance = -this.eval(context).value;
+        const cursor = context.getCursor();
+        cursor.rotate(-this.ratio / 2);
+        cursor.forward(distance);
+        cursor.rotate(-this.ratio / 2);
+    }
+}
+
 export class Forward extends NodeWithValue {
     exec(context: Context): ActionResult {
         const distance = this.eval(context).value;
@@ -128,7 +151,7 @@ export class Forward extends NodeWithValue {
     }
 
     execReverse(context: Context) {
-        const distance = -this.eval(context);
+        const distance = -this.eval(context).value;
         context.getCursor().forward(distance);
     }
 }
@@ -141,7 +164,7 @@ export class RotateLeft extends NodeWithValue {
     }
 
     execReverse(context: Context) {
-        const angle = -this.eval(context);
+        const angle = -this.eval(context).value;
         context.getCursor().rotate(angle);
     }
 }
