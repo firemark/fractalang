@@ -52,6 +52,7 @@ const TOKENS: TokenCategory[] = [
             {name: 'COUNT_2', label: 'Two', type: 'value'},
             {name: 'COUNT_3', label: 'Three', type: 'value'},
             {name: 'COUNT_5', label: 'Five', type: 'value'},
+            {name: 'COUNT_MINUS', label: 'Minus One', type: 'value'},
         ],
     },
     {

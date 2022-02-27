@@ -25,6 +25,7 @@ const SUFFIX_TO_ICON = {
 
 function main() {
     const tokens: Tokens[] = [
+        ["COUNT_MINUS", [new Line([20, 50], [80, 50], { stroke: 5 })]],
         ["COUNT_1", generateCount(1)],
         ["COUNT_2", generateCount(2)],
         ["COUNT_3", generateCount(3)],

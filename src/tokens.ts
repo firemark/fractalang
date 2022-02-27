@@ -31,6 +31,7 @@ function createAction(valueSize: ValueSize, factory: ActionCb) {
 export const tokens = {
     // *** Values ***
     // Counts
+    COUNT_MINUS: createValue(() => new Multipler(-1)),
     COUNT_1: createValue(() => new Multipler(1)),
     COUNT_2: createValue(() => new Multipler(2)),
     COUNT_3: createValue(() => new Multipler(3)),
