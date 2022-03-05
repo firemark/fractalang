@@ -19,8 +19,9 @@ export abstract class ActionNode implements Node {
 export function evalValue(valueNodes: ValueNode[], context: Context): EvaluedValue {
     const init: EvaluedValue = {
         value: 1.0,
-        color: 0.0,
-        stroke: "solid",
+        color: context.argument.color,
+        strokeStyle: context.argument.strokeStyle,
+        strokeThickness: context.argument.strokeThickness,
         valueTransformer: (a: number, b:number) => a * b,
     };
     return valueNodes.reduce(partEval.bind(this, context), init);
@@ -30,9 +31,10 @@ function partEval(context: Context, acc: EvaluedValue, node: ValueNode): Evalued
     const newValue = node.eval(context);
     const transform = newValue.valueTransformer || acc.valueTransformer;
     return {
-        value: newValue.value !== undefined ? transform(newValue.value, acc.value) : acc.value,
+        value: newValue.value !== undefined ? transform(acc.value, newValue.value) : acc.value,
         color: newValue.color !== undefined ? newValue.color : acc.color,
-        stroke: newValue.stroke !== undefined ? newValue.stroke : acc.stroke,
+        strokeStyle: newValue.strokeStyle !== undefined ? newValue.strokeStyle : acc.strokeStyle,
+        strokeThickness: newValue.strokeThickness !== undefined ? newValue.strokeThickness : acc.strokeThickness,
         valueTransformer: transform,
     }
 }

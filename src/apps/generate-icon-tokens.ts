@@ -23,6 +23,9 @@ const SUFFIX_TO_ICON = {
     ],
 };
 
+const BLACK = "#000000";
+const RED = "#DC143C";
+
 function main() {
     const tokens: Tokens[] = [
         ["COUNT_MINUS", [new Line([20, 50], [80, 50], { stroke: 5 })]],
@@ -98,8 +101,33 @@ function main() {
         ["DRAW_TRIANGLE", withPencil([
             new Triangle([50, 70], [0, -1], 20),
         ])],
+        ["OP_MULT", withStar(5, [
+            new Line([50 - 20, 60 - 20], [50 + 20, 60 + 20], { stroke: 4 }),
+            new Line([50 - 20, 60 + 20], [50 + 20, 60 - 20], { stroke: 4 }),
+        ])],
+        ["OP_ADD", withStar(5, [
+            new Line([50, 60 - 20], [50, 60 + 20], { stroke: 4 }),
+            new Line([50 - 20, 60], [50 + 20, 60], { stroke: 4 }),
+        ])],
+        ["OP_SUB", withStar(5, [
+            new Line([50 - 20, 60], [50 + 20, 60], { stroke: 4 }),
+        ])],
+        ["COLOR_MAX", withStar(7, [
+            new Circle([50, 60], 20, { fill: RED }),
+        ])],
+        ["COLOR_MIN", withStar(7, [
+            new Circle([50, 60], 20, { fill: BLACK }),
+        ])],
+        ["COLOR_SHIFT_1_2", withStar(7, [
+            new Circle([25, 60], 15, { fill: BLACK }),
+            new Circle([75, 60], 15, { fill: RED }),
+            new Line([40, 55], [55, 55], { stroke: 2, color: BLACK }),
+            new Triangle([55, 55], [+1, 0], 5, { fill: BLACK }),
+            new Line([45, 65], [60, 65], { stroke: 2, color: RED }),
+            new Triangle([45, 65], [-1, 0], 5, { fill: RED }),
+        ])],
         ["FORWARD", [
-            new Line([50, 80], [50, 20], {stroke: 10}),
+            new Line([50, 80], [50, 20], { stroke: 10 }),
             new Line([30, 40], [50, 20], { stroke: 5 }),
             new Line([70, 40], [50, 20], { stroke: 5 }),
         ]],
@@ -216,6 +244,25 @@ function withPencil(oldFigures: Figure[]): Figure[] {
         new Line([60, 20], [80, 30], { stroke: 3 }),
         new Line([60, 40], [80, 30], { stroke: 3 }),
     ];
+    return figures.concat(oldFigures);
+}
+
+function withStar(points: number, oldFigures: Figure[]): Figure[] {
+    const x = 50;
+    const y = 20;
+
+    function f(i) {
+        let ratio = Math.PI * i / points;
+        let r = i % 2 ? 20 : 5;
+        let xx = x + Math.sin(ratio) * r;
+        let yy = y + Math.cos(ratio) * r;
+        return [xx, yy];
+    }
+
+    const figures: Figure[] = [];
+    for(let i = 0; i < points * 2; i++) {
+        figures.unshift(new Line(f(i), f(i + 1), { stroke: 2 }));
+    }
     return figures.concat(oldFigures);
 }
 

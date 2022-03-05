@@ -1,6 +1,8 @@
 import { Node, ValueNode, ActionNode } from "./ast/base";
 import { Multipler, Angle, Argument, DynamicArgument } from "./ast/values";
 import * as actions from "./ast/actions";
+import * as colors from "./ast/colors";
+import * as ops from "./ast/ops";
 
 export type ActionCb = (values: ValueNode[]) => ActionNode;
 export type ValueCb = () => ValueNode;
@@ -52,6 +54,17 @@ export const tokens = {
     ANGLE_45: createValue(() => new Angle(45)),
     ANGLE_30: createValue(() => new Angle(30)),
     ANGLE_15: createValue(() => new Angle(15)),
+    // Colors
+    COLOR_MAX: createValue(() => new colors.MaxColor()),
+    COLOR_MIN: createValue(() => new colors.MinColor()),
+    COLOR_SHIFT_1_2: createValue(() => new colors.ShiftColor(1 / 2)),
+    COLOR_SHIFT_1_4: createValue(() => new colors.ShiftColor(1 / 4)),
+    COLOR_SHIFT_1_5: createValue(() => new colors.ShiftColor(1 / 5)),
+    COLOR_SHIFT_1_10: createValue(() => new colors.ShiftColor(1 / 10)),
+    // Operations
+    OP_MULT: createValue(() => new ops.MultOp()),
+    OP_ADD: createValue(() => new ops.AddOp()),
+    OP_SUB: createValue(() => new ops.SubOp()),
     // Arguments
     ARGUMENT: createValue(() => new Argument()),
     CALL_DIAMOND: createValue(() => new DynamicArgument("DIAMOND"), true),

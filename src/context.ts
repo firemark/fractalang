@@ -1,9 +1,12 @@
 import { Cursor } from "./cursor";
 
+export type StrokeStyle = "solid" | "dotted" | "dashed";
+
 export interface EvaluedValue {
     value?: number;
     color?: number;
-    stroke?: "solid" | "dotted" | "dashed";
+    strokeStyle?: StrokeStyle;
+    strokeThickness?: number;
     valueTransformer?: (a: number, b: number) => number;
 }
 

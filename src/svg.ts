@@ -32,7 +32,7 @@ function toSvg(document, figure: Figure) {
         node.setAttribute("y1", y1);
         node.setAttribute("x2", x2);
         node.setAttribute("y2", y2);
-        node.setAttribute("stroke", "black");
+        node.setAttribute("stroke", figure.color);
         node.setAttribute("stroke-width", figure.stroke);
         return node;
     } else if (figure instanceof Circle) {
@@ -98,7 +98,7 @@ function setBasicAttrs(figure, node) {
     let style = `fill: ${figure.fill};`;
     if (figure.stroke > 0) {
         style += `stroke-width: ${figure.stroke};`
-        style += `stroke: black`;
+        style += `stroke: ${figure.color}`;
     }
     node.setAttribute("style", style);
 }

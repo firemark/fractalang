@@ -85,8 +85,8 @@ export class Call extends NodeWithValue {
 
 export class DrawLine extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const {value: length, color} = this.eval(context);
-        context.getCursor().drawLine(length);
+        const {value: length, strokeThickness, color} = this.eval(context);
+        context.getCursor().drawLine(length, strokeThickness, color);
         return {};
     }
 
@@ -99,7 +99,7 @@ export class DrawLine extends NodeWithValue {
 export class DrawCircle extends NodeWithValue {
     exec(context: Context): ActionResult {
         const {value: size, color} = this.eval(context);
-        context.getCursor().drawCircle(size);
+        context.getCursor().drawCircle(size, color);
         return {};
     }
 }
@@ -107,15 +107,15 @@ export class DrawCircle extends NodeWithValue {
 export class DrawSquare extends NodeWithValue {
     exec(context: Context): ActionResult {
         const {value: size, color} = this.eval(context);
-        context.getCursor().drawSquare(size);
+        context.getCursor().drawSquare(size, color);
         return {};
     }
 }
 
 export class DrawTriangle extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const {value, color} = this.eval(context);
-        context.getCursor().drawTriangle(value);
+        const {value: size, color} = this.eval(context);
+        context.getCursor().drawTriangle(size, color);
         return {};
     }
 }
@@ -129,8 +129,8 @@ export class DrawArcLine extends NodeWithValue {
     }
 
     exec(context: Context): ActionResult {
-        const {value: size, color} = this.eval(context);
-        context.getCursor().drawArcLine(this.ratio, size);
+        const {value: size, strokeThickness, color} = this.eval(context);
+        context.getCursor().drawArcLine(this.ratio, size, strokeThickness, color);
         return {};
     }
 

@@ -22,7 +22,6 @@ function setTokenEvents(node: Element) {
         e.dataTransfer.setData('token', this.dataset.token);
         e.dataTransfer.setData('id', this.id);
     }
-
     function evDragEnd(e) {
         /*
         this.parentElement.querySelectorAll('.token').forEach(function (item) {
@@ -76,6 +75,17 @@ const TOKENS: TokenCategory[] = [
             {name: 'ANGLE_45', label: '45°', type: 'value'},
             {name: 'ANGLE_30', label: '30°', type: 'value'},
             {name: 'ANGLE_15', label: '15°', type: 'value'},
+        ],
+    },
+    {
+        label: 'Modificators',
+        tokens: [
+            {name: 'OP_MULT', label: 'Multiple operator', type: 'value'},
+            {name: 'OP_ADD', label: 'Addition operator', type: 'value'},
+            {name: 'OP_SUB', label: 'Subtraction operator', type: 'value'},
+            {name: 'COLOR_MAX', label: 'Second Color', type: 'value'},
+            {name: 'COLOR_MIN', label: 'First Color', type: 'value'},
+            {name: 'COLOR_SHIFT_1_2', label: 'Change Color', type: 'value'},
         ],
     },
     {

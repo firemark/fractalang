@@ -1,5 +1,5 @@
 import { Context, EvaluedValue } from "../context";
-import { Node, ValueNode, evalValue } from "./base";
+import { ValueNode, evalValue } from "./base";
 
 export class Angle extends ValueNode {
     private normalizedAngle: number;

@@ -4,11 +4,13 @@ export class Line {
     firstPoint: [number, number];
     secondPoint: [number, number];
     stroke: number;
+    color: string;
 
-    constructor(firstPoint, secondPoint, {stroke = 1} = {}) {
+    constructor(firstPoint, secondPoint, {color = "black", stroke = 1} = {}) {
         this.firstPoint = firstPoint;
         this.secondPoint = secondPoint;
         this.stroke = stroke;
+        this.color = color;
     }
 }
 
@@ -31,11 +33,12 @@ export class Arc {
     radius: number;
     ratio: number;
     fill: string;
+    color: string;
     close: boolean;
     shift: number;
     stroke: number;
 
-    constructor(point, radius, ratio, {fill = "black", close = false, shift = 0.0, stroke = 0} = {}) {
+    constructor(point, radius, ratio, {fill = "black", color = "none", close = false, shift = 0.0, stroke = 0} = {}) {
         this.point = point;
         this.radius = radius;
         this.ratio = ratio;
@@ -43,6 +46,7 @@ export class Arc {
         this.close = close;
         this.shift = shift;
         this.stroke = stroke;
+        this.color = color;
     }
 }
 
@@ -74,6 +78,6 @@ export class Triangle  {
         this.orientation = orientation;
         this.size = size;
         this.fill = fill;
-        this.stroke = 1;
+        this.stroke = stroke;
     }
 }
