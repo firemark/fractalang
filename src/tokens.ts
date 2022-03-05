@@ -2,6 +2,7 @@ import { Node, ValueNode, ActionNode } from "./ast/base";
 import { Multipler, Angle, Argument, DynamicArgument } from "./ast/values";
 import * as actions from "./ast/actions";
 import * as colors from "./ast/colors";
+import * as strokes from "./ast/strokes";
 import * as ops from "./ast/ops";
 
 export type ActionCb = (values: ValueNode[]) => ActionNode;
@@ -61,6 +62,12 @@ export const tokens = {
     COLOR_SHIFT_1_4: createValue(() => new colors.ShiftColor(1 / 4)),
     COLOR_SHIFT_1_5: createValue(() => new colors.ShiftColor(1 / 5)),
     COLOR_SHIFT_1_10: createValue(() => new colors.ShiftColor(1 / 10)),
+    // Stroke
+    STROKE_SOLID: createValue(() => new strokes.SetStrokeStyle("solid")),
+    STROKE_DASHED: createValue(() => new strokes.SetStrokeStyle("dashed")),
+    STROKE_DOTTED: createValue(() => new strokes.SetStrokeStyle("dotted")),
+    STROKE_THICK_ADD: createValue(() => new strokes.ShiftStrokeThickness(+1)),
+    STROKE_THICK_SUB: createValue(() => new strokes.ShiftStrokeThickness(-1)),
     // Operations
     OP_MULT: createValue(() => new ops.MultOp()),
     OP_ADD: createValue(() => new ops.AddOp()),

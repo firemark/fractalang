@@ -9,7 +9,7 @@ type Tokens = [string, Figure[], number?, number?];
 
 const SUFFIX_TO_ICON = {
     "END": [
-        new Arc([80, 80], 10, -0.5, { shift: 0.75, fill: "none", stroke: 3 }),
+        new Arc([80, 80], 10, -0.5, { shift: 0.75, fill: "none", color: "black", stroke: 3 }),
         new Line([70, 80], [80, 80], { stroke: 3 }),
     ],
     "EVEN": [
@@ -126,18 +126,75 @@ function main() {
             new Line([45, 65], [60, 65], { stroke: 2, color: RED }),
             new Triangle([45, 65], [-1, 0], 5, { fill: RED }),
         ])],
+        ["COLOR_SHIFT_1_4", withStar(7, [
+            new Circle([25, 40], 12, { fill: BLACK }),
+            new Circle([75, 40], 12, { fill: RED }),
+            new Circle([75, 80], 12, { fill: BLACK }),
+            new Circle([25, 80], 12, { fill: RED }),
+            new Line([40, 55], [55, 55], { stroke: 2, color: BLACK }),
+            new Triangle([55, 55], [+1, 0], 5, { fill: BLACK }),
+            new Line([45, 65], [60, 65], { stroke: 2, color: RED }),
+            new Triangle([45, 65], [-1, 0], 5, { fill: RED }),
+        ])],
+        ["COLOR_SHIFT_1_5", withStar(7, [
+            new Circle([25, 40], 10, { fill: BLACK }),
+            new Circle([75, 40], 10, { fill: RED }),
+            new Circle([75, 80], 10, { fill: BLACK }),
+            new Circle([25, 80], 10, { fill: RED }),
+            new Circle([25, 60], 10, { fill: BLACK }),
+            new Line([40, 55], [55, 55], { stroke: 2, color: BLACK }),
+            new Triangle([55, 55], [+1, 0], 5, { fill: BLACK }),
+            new Line([45, 65], [60, 65], { stroke: 2, color: RED }),
+            new Triangle([45, 65], [-1, 0], 5, { fill: RED }),
+        ])],
+        ["COLOR_SHIFT_1_10", withStar(7, [
+            new Circle([30, 40], 10, { fill: RED }),
+            new Circle([30, 60], 10, { fill: RED }),
+            new Circle([30, 80], 10, { fill: RED }),
+            new Circle([13, 50], 8, { fill: RED }),
+            new Circle([13, 70], 8, { fill: RED }),
+            new Circle([70, 40], 10, { fill: BLACK }),
+            new Circle([70, 60], 10, { fill: BLACK }),
+            new Circle([70, 80], 10, { fill: BLACK }),
+            new Circle([87, 50], 8, { fill: BLACK }),
+            new Circle([87, 70], 8, { fill: BLACK }),
+            new Line([40, 55], [55, 55], { stroke: 2, color: BLACK }),
+            new Triangle([55, 55], [+1, 0], 5, { fill: BLACK }),
+            new Line([45, 65], [60, 65], { stroke: 2, color: RED }),
+            new Triangle([45, 65], [-1, 0], 5, { fill: RED }),
+        ])],
+        ["STROKE_THICK_ADD", withStar(7, [
+            new Line([30, 40], [30, 90], { stroke: 4}),
+            new Line([70, 40], [70, 90], { stroke: 8}),
+            new Line([35, 80], [60, 80], { stroke: 2}),
+            new Line([35, 65], [60, 65], { stroke: 2}),
+            new Line([35, 50], [60, 50], { stroke: 2}),
+            new Triangle([60, 80], [+1, 0], 5),
+            new Triangle([60, 65], [+1, 0], 5),
+            new Triangle([60, 50], [+1, 0], 5),
+        ])],
+        ["STROKE_THICK_SUB", withStar(7, [
+            new Line([30, 40], [30, 90], { stroke: 8}),
+            new Line([70, 40], [70, 90], { stroke: 4}),
+            new Line([35, 80], [60, 80], { stroke: 2}),
+            new Line([35, 65], [60, 65], { stroke: 2}),
+            new Line([35, 50], [60, 50], { stroke: 2}),
+            new Triangle([60, 80], [+1, 0], 5),
+            new Triangle([60, 65], [+1, 0], 5),
+            new Triangle([60, 50], [+1, 0], 5),
+        ])],
         ["FORWARD", [
             new Line([50, 80], [50, 20], { stroke: 10 }),
             new Line([30, 40], [50, 20], { stroke: 5 }),
             new Line([70, 40], [50, 20], { stroke: 5 }),
         ]],
         ["ROTATE_LEFT", [
-            new Arc([50, 50], 30, 0.5, { shift: 0.75, fill: "none", stroke: 5 }),
+            new Arc([50, 50], 30, 0.5, { shift: 0.75, fill: "none", color: "black", stroke: 5 }),
             new Line([50, 80], [60, 65], { stroke: 5 }),
             new Line([50, 80], [60, 93], { stroke: 5 }),
         ]],
         ["ROTATE_RIGHT", [
-            new Arc([50, 50], 30, -0.5, { shift: 0.75, fill: "none", stroke: 5 }),
+            new Arc([50, 50], 30, -0.5, { shift: 0.75, fill: "none", color: "black", stroke: 5 }),
             new Line([50, 80], [40, 65], { stroke: 5 }),
             new Line([50, 80], [40, 93], { stroke: 5 }),
         ]],
@@ -150,7 +207,7 @@ function main() {
             new Line([80, 80], [80, 20], { stroke: 3 }),
         ]],
         ["REPLAY", [
-            new Arc([50, 50], 30, 0.85, { shift: 0.75, fill: "none", stroke: 5 }),
+            new Arc([50, 50], 30, 0.85, { shift: 0.75, fill: "none", color: "black", stroke: 5 }),
             new Circle([50, 20], 10),
             new Line([26, 32], [10, 35], { stroke: 5 }),
             new Line([26, 32], [35, 45], { stroke: 5 }),
@@ -214,7 +271,7 @@ function generateFract(filled: number, total: number): Figure[] {
         figures.push(new Square([50, y], [0, 1], size, opts));
     }
     for(let i = 1; i <= diff; i++) {
-        f(i, {fill: "none", stroke: 3});
+        f(i, {fill: "none", color: "black", stroke: 1});
     }
     for(let i = diff + 1; i <= total; i++) {
         f(i, {});
@@ -224,14 +281,14 @@ function generateFract(filled: number, total: number): Figure[] {
 
 function generateAngle(angle): Figure[] {
     const figures: Figure[] = [];
-    figures.push(new Circle([50, 50], 40, {fill: "none", stroke: 3}));
+    figures.push(new Circle([50, 50], 40, {fill: "none", color: "black", stroke: 3}));
     figures.push(new Arc([50, 50], 40, angle / 360, {close: true}));
     return figures;
 }
 
 function generateQuarterAngle(angle): Figure[] {
     const figures: Figure[] = [];
-    figures.push(new Arc([10, 10], 80, 0.25, {fill: "none", close: true, stroke: 3}));
+    figures.push(new Arc([10, 10], 80, 0.25, {fill: "none", color: "black", close: true, stroke: 3}));
     figures.push(new Arc([10, 10], 80, angle / 360, {close: true}));
     return figures;
 }
@@ -267,7 +324,7 @@ function withStar(points: number, oldFigures: Figure[]): Figure[] {
 }
 
 function withPencilArcLine(ratio): Figure[] {
-    return withPencil([new Arc([50, 70], 20, ratio, {fill: "none", stroke: 5, shift: 0.25})]);
+    return withPencil([new Arc([50, 70], 20, ratio, {fill: "none", color: "black", stroke: 5, shift: 0.25})]);
 }
 
 main();

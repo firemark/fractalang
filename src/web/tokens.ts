@@ -86,6 +86,11 @@ const TOKENS: TokenCategory[] = [
             {name: 'COLOR_MAX', label: 'Second Color', type: 'value'},
             {name: 'COLOR_MIN', label: 'First Color', type: 'value'},
             {name: 'COLOR_SHIFT_1_2', label: 'Change Color', type: 'value'},
+            {name: 'COLOR_SHIFT_1_4', label: 'Change Color', type: 'value'},
+            {name: 'COLOR_SHIFT_1_5', label: 'Change Color', type: 'value'},
+            {name: 'COLOR_SHIFT_1_10', label: 'Change Color', type: 'value'},
+            {name: 'STROKE_THICK_ADD', label: 'Thick stroke', type: 'value'},
+            {name: 'STROKE_THICK_SUB', label: 'Thin stroke', type: 'value'},
         ],
     },
     {

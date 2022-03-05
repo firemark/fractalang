@@ -18,13 +18,15 @@ export class Circle {
     point: [number, number];
     radius: number;
     fill: string;
+    color: string;
     stroke: number;
 
-    constructor(point, radius, {fill = "black", stroke = 0} = {}) {
+    constructor(point, radius, {fill = "black", color = "none", stroke = 0} = {}) {
         this.point = point;
         this.radius = radius;
         this.fill = fill;
         this.stroke = stroke;
+        this.color = color;
     }
 }
 
@@ -56,13 +58,15 @@ export class Square {
     size: number;
     fill: string;
     stroke: number;
+    color: string;
 
-    constructor(point, orientation, size, {fill = "black", stroke = 0} = {}) {
+    constructor(point, orientation, size, {fill = "black", color = "none", stroke = 0} = {}) {
         this.point = point;
         this.orientation = orientation;
         this.size = size;
         this.fill = fill;
-        this.stroke = 1;
+        this.stroke = stroke;
+        this.color = color;
     }
 }
 
@@ -72,12 +76,14 @@ export class Triangle  {
     size: number;
     fill: string;
     stroke: number;
+    color: string;
 
-    constructor(point, orientation, size, {fill = "black", stroke = 0} = {}) {
+    constructor(point, orientation, size, {fill = "black", color = "none", stroke = 0} = {}) {
         this.point = point;
         this.orientation = orientation;
         this.size = size;
         this.fill = fill;
         this.stroke = stroke;
+        this.color = color;
     }
 }
