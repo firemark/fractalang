@@ -4,48 +4,52 @@
         <title>Fractalang</title>
     </head>
     <body>
+        <main>
         <div id="image"></div>
         <div id="editor">
-            <nav id="tokens" class="token-categories"></nav>
+            <div id="code-bar">
+                <label name="iterations">Iterations:&nbsp;</label>
+                <input
+                    id="iterations"
+                    name="iterations"
+                    type="number"
+                    value="3"
+                    min="1"
+                    max="20"
+                />
+                <label name="first-color">First color:&nbsp;</label>
+                <input
+                    id="first-color"
+                    name="first-color"
+                    type="color"
+                    value="#000000"
+                />
+                <label name="second-color">Second color:&nbsp;</label>
+                <input
+                    id="second-color"
+                    name="second-color"
+                    type="color"
+                    value="#DC143C"
+                />
+                <label name="stroke-size">Stroke size:&nbsp;</label>
+                <input
+                    id="stroke-size"
+                    name="stroke-size"
+                    type="range"
+                    value="1"
+                    min="0.5"
+                    max="3"
+                    step="0.25"
+                />
+                <input type="button" id="action-hide" value="HIDE" />
+                <input type="button" id="action-show"  class="hidden" value="SHOW" />
+                <ul id="functions"></ul>
+            </div>
             <div id="code-panel">
-                <div id="code-bar">
-                    <label name="iterations">Iterations:&nbsp;</label>
-                    <input
-                        id="iterations"
-                        name="iterations"
-                        type="number"
-                        value="3"
-                        min="1"
-                        max="20"
-                    />
-                    <label name="first-color">First color:&nbsp;</label>
-                    <input
-                        id="first-color"
-                        name="first-color"
-                        type="color"
-                        value="#000000"
-                    />
-                    <label name="second-color">Second color:&nbsp;</label>
-                    <input
-                        id="second-color"
-                        name="second-color"
-                        type="color"
-                        value="#DC143C"
-                    />
-                    <label name="stroke-size">Stroke size:&nbsp;</label>
-                    <input
-                        id="stroke-size"
-                        name="stroke-size"
-                        type="number"
-                        value="1"
-                        min="0.5"
-                        max="3"
-                        step="0.25"
-                    />
-                    <ul id="functions"></ul>
-                </div>
+                <nav id="tokens" class="token-categories"></nav>
                 <ul id="code"></ul>
             </div>
         </div>
+        </main>
     </body>
 </html>
