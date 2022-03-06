@@ -39,7 +39,6 @@ function main() {
         ["FRACT_1_4", generateFract(1, 4)],
         ["FRACT_3_4", generateFract(3, 4)],
         ["FRACT_1_5", generateFract(1, 5)],
-        //["ANGLE_360", [new Circle([50, 50], 40)]],
         ["ANGLE_270", generateAngle(270)],
         ["ANGLE_180", generateAngle(180)],
         ["ANGLE_90", generateAngle(90)],

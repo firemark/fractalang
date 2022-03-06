@@ -18,7 +18,12 @@ export class Cursor {
     firstColor: [number, number, number];
     secondColor: [number, number, number];
 
-    constructor({strokeSize = 1, distanceMultipler = 100} = {}) {
+    constructor({
+        strokeSize = 1,
+        distanceMultipler = 100,
+        firstColor = "#000000",
+        secondColor = "#DC143C",
+    } = {}) {
         this.strokeSize = strokeSize;
         this.distanceMultipler = distanceMultipler;
         this.position = [0.0, 0.0];
@@ -29,8 +34,15 @@ export class Cursor {
             min: [0.0, 0.0],
             max: [0.0, 0.0],
         };
-        this.firstColor = [0, 0, 0];
-        this.secondColor = [220, 20, 60];
+        this.firstColor = this.hexToColor(firstColor);
+        this.secondColor = this.hexToColor(secondColor);
+    }
+
+    private hexToColor(hex: string): [number, number, number] {
+        const r = parseInt(hex.substr(1, 2), 16);
+        const g = parseInt(hex.substr(3, 2), 16);
+        const b = parseInt(hex.substr(5, 2), 16);
+        return [r, g, b];
     }
 
     rotate(angle: number) {

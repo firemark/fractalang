@@ -2,12 +2,19 @@ import { renderToken } from './tokens';
 import { scrapeAndRun } from './run';
 import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '../parser';
 
+const INPUTS = ["iterations", "first-color", "second-color", "stroke-size"];
+
 export function initCode(code) {
-    renderCode(code);
-    document.getElementById("iterations").addEventListener("change", () => {
+    const cb = () => {
         scrapeAndRun();
         return false;
-    }, false);
+    };
+
+    renderCode(code);
+    INPUTS.forEach(inputId => {
+        const node = document.getElementById(inputId);
+        node.addEventListener("change", cb, false);
+    });
 
     renderListOfFunctions();
 }

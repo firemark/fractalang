@@ -7,8 +7,8 @@ export interface Func {
     tokens: string[];
 }
 
-export function exec(valueArgument: number, maxIteration: number, functions: Func[]): Cursor {
-    const cursor = new Cursor();
+export function exec(valueArgument: number, maxIteration: number, functions: Func[], cursorCfg = {}): Cursor {
+    const cursor = new Cursor(cursorCfg);
     const bag = {};
     functions.forEach(({name, tokens: rawTokens}) => {
         const tokens = parseRawTokens(rawTokens);
