@@ -42,15 +42,16 @@
 }
 
 #code {
-    flex: 10;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 5px;
     overflow-x: hidden;
 
     > li {
+        flex: 0 1 auto;
         display: flex;
-        width: 100%;
+
         > .name {
             flex: 0 1 50px;
             font-size: 15pt;
@@ -60,11 +61,27 @@
             background-repeat: no-repeat;
             background-position: center;
         }
+
         > .outer-tokens  {
             flex: 1 1 auto;
-            overflow-x: scroll;
+            padding: 5px 0;
+            display: flex;
+            width: 0;
+            border: 2px #AAA solid;
+            border-radius: 5px;
+            background-color: #EEE;
 
-            > .inner-tokens { flex: 1 1 auto; }
+            > .inner-tokens {
+                padding: 0 5px;
+                flex: 1 1 auto;
+                display: flex;
+                align-items: center;
+                overflow-x: scroll;
+                overflow-y: hidden;
+                > * { flex: 0 0 auto; }
+            }
+
+            > .remove {flex: 0 0 auto; }
         }
 
         &.hide {

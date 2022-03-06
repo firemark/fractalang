@@ -17,23 +17,6 @@
     }
 }
 
-.outer-tokens {
-    display: flex;
-    font-variant: small-caps;
-    border: 2px #AAA solid;
-    border-radius: 5px;
-    background-color: #EEE;
-    padding: 20px;
-    justify-content: space-between;
-    align-items: stretch;
-}
-
-.inner-tokens {
-    display: flex;
-    font-variant: small-caps;
-    gap: 5px;
-}
-
 .token {
     padding: 5px;
     border: 2px #888 solid;
@@ -66,6 +49,7 @@
     &.remove {
         background-color: #D88;
         border: 2px #922 dotted;
+        border-radius: 5px;
         width: 50px;
 
         &::before {

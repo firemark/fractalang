@@ -13,7 +13,7 @@ main {
     align-items: stretch;
     flex-wrap: wrap;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 15px);
 }
 
 #image {
@@ -45,7 +45,7 @@ main {
 }
 
 #tokens {
-    flex: 1;
+    flex: 0 1 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
