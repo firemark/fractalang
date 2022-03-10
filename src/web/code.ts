@@ -43,7 +43,7 @@ function renderBarOfFunctions(name: string) {
 function renderAddFunction(type: string, name: string, suffix: string = "") {
     const node = document.createElement(type);
     const realName = suffix ? `SUFFIX_${suffix}` : `CALL_${name}`;
-    node.style.backgroundImage = `url(/icons/${realName}.svg)`;
+    node.style.backgroundImage = `url(${process.env.ASSET_PATH}icons/${realName}.svg)`;
     node.classList.add("token-btn");
     node.dataset.name = name;
     node.dataset.suffix = suffix;
@@ -88,7 +88,7 @@ function renderName(name: string, suffix: string): Element {
     const node = document.createElement("span");
     node.classList.add("name");
     const realname = suffix ? `${name}_${suffix}` : name;
-    node.style.backgroundImage = `url(/icons/CALL_${realname}.svg)`;
+    node.style.backgroundImage = `url(${process.env.ASSET_PATH}icons/CALL_${realname}.svg)`;
     return node;
 }
 

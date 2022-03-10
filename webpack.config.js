@@ -1,5 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ASSET_PATH = process.env.ASSET_PATH || '';
 
 module.exports = {
   entry: './src/web/index.ts',
@@ -31,8 +34,17 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: ASSET_PATH,
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.ASSET_PATH': JSON.stringify(ASSET_PATH),
+    }),
+    new CopyWebpackPlugin({
+        patterns: [
+            { from: 'public' }
+        ]
+    }),
     new HtmlWebpackPlugin({
       title: 'Fractalang',
       template: path.resolve(__dirname, 'src', 'web', 'index.html'),

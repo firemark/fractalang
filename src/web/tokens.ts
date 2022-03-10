@@ -8,7 +8,7 @@ export function renderToken(token: string, isTemplate: boolean = false): Element
     node.dataset.token = token;
     node.dataset.isTemplate = isTemplate ? 'yes' : 'no';
     //node.innerText = token;
-    node.style.backgroundImage = `url(/icons/${token}.svg)`;
+    node.style.backgroundImage = `url(${process.env.ASSET_PATH}icons/${token}.svg)`;
     setTokenEvents(node);
     return node;
 }

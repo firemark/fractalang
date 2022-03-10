@@ -11,6 +11,7 @@
     "generate-icon-tokens": "node dist-node/apps/generate-icon-tokens.js"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.5.1",
     "html-webpack-plugin": "^5.5.0",
     "sass": "^1.48.0",
