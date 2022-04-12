@@ -1,6 +1,6 @@
 import { v4 as uuid4 } from 'uuid';
 
-export function renderToken(token: string, isTemplate: boolean = false): Element {
+export function renderToken(token: string, isTemplate: boolean = false, isEventable: boolean = false): Element {
     const node = document.createElement('span');
     node.classList.add('token');
     node.setAttribute('draggable', 'true');

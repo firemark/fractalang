@@ -1,40 +1,21 @@
 const path = require('path');
 const webpack = require('webpack');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const config = require('./webpack.config.base.js');
 const ASSET_PATH = process.env.ASSET_PATH || '';
 
-module.exports = {
+module.exports = Object.assign(config, {
   entry: './src/web/index.ts',
-  devtool: 'inline-source-map',
-  mode: 'development',
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
-        ],
-      },
-    ],
-  },
-  resolve: {
-    extensions: ['.ts', '.js'],
-  },
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: ASSET_PATH,
+  },
+  devServer: {
+    port: 9000,
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -43,14 +24,11 @@ module.exports = {
     new CopyWebpackPlugin({
         patterns: [
             { from: 'public' }
-        ]
+        ],
     }),
     new HtmlWebpackPlugin({
       title: 'Fractalang',
       template: path.resolve(__dirname, 'src', 'web', 'index.html'),
     }),
   ],
-  devServer: {
-    port: 9000,
-  },
-};
+});
