@@ -7,12 +7,13 @@ export function scrapeAndRun() {
         secondColor: scrapeInput("second-color"),
         strokeSize: scrapeInputAsFloat("stroke-size"),
     }
-    run(scrapeCode(), scrapeInputAsInt("iterations"), cursorCfg);
+    const imageNode = document.getElementById("image");
+    const code = scrapeCode(document.getElementById("code"));
+    run(imageNode, code, scrapeInputAsInt("iterations"), cursorCfg);
 }
 
-function run(code: Func[], maxIteration: number = 3, cursorCfg = {}) {
-    const container = document.getElementById("image");
-    container.innerHTML = "";
+export function run(imageNode: HTMLElement, code: Func[], maxIteration: number = 3, cursorCfg = {}) {
+    imageNode.innerHTML = "";
 
     const argument = 1.0;
     const cursor = exec(argument, maxIteration, code, cursorCfg);
@@ -20,12 +21,11 @@ function run(code: Func[], maxIteration: number = 3, cursorCfg = {}) {
     const serializer = new XMLSerializer();
     const svg = createSvg(document, cursor);
 
-    container.appendChild(svg);
+    imageNode.appendChild(svg);
 }
 
-function scrapeCode(): Func[] {
+export function scrapeCode(codeNode: HTMLElement): Func[] {
     const code: Func[] = [];
-    const codeNode = document.getElementById("code");
     codeNode.querySelectorAll(".function").forEach((funcNode: HTMLElement) => {
         const isHide = funcNode.classList.contains("hide");
         if (isHide) {

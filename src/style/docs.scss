@@ -1,0 +1,30 @@
+@import './tokens';
+@import './code';
+
+.fract-animation {
+    width: 100%;
+    border: 1px black solid;
+}
+
+.fract-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.fract-image {
+    width: 100%;
+    > svg {
+        max-width: 100%;
+        height: 300px;
+    }
+}
+
+.fract-lines {
+    > li {
+        height: 100px;
+        .outer-tokens { height: 100%; }
+        .inner-tokens { height: 100%; }
+    }
+}

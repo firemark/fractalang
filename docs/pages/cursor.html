@@ -34,44 +34,26 @@
   <div class="section" id="cursor-manipulations">
 <h1>Cursor manipulations<a class="headerlink" href="#cursor-manipulations" title="Permalink to this headline">¶</a></h1>
 <p>X</p>
-<p>X</p>
-<p>&lt;script&gt;
-makeAnimation({</p>
-<blockquote>
-<div><p>lines: [“F”],
-tokens: [</p>
-<blockquote>
-<div>“<a class="reference external" href="mailto:F&#37;&#52;&#48;DRAW_LINE">F<span>&#64;</span>DRAW_LINE</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;COUNT_2">F<span>&#64;</span>COUNT_2</a>”,
-“<a class="reference external" href="mailto:F&#37;&#52;&#48;FORWARD">F<span>&#64;</span>FORWARD</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;COUNT_1">F<span>&#64;</span>COUNT_1</a>”,
-“<a class="reference external" href="mailto:F&#37;&#52;&#48;ROTATE_LEFT">F<span>&#64;</span>ROTATE_LEFT</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;ANGLE_30">F<span>&#64;</span>ANGLE_30</a>”,
-“<a class="reference external" href="mailto:F&#37;&#52;&#48;DRAW_CIRCLE">F<span>&#64;</span>DRAW_CIRCLE</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;COUNT_2">F<span>&#64;</span>COUNT_2</a>”,
-“<a class="reference external" href="mailto:F&#37;&#52;&#48;CALL_F">F<span>&#64;</span>CALL_F</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;ARGUMENT">F<span>&#64;</span>ARGUMENT</a>”,
-“!IT_INC”, “!IT_INC”, “!IT_INC”,</div></blockquote>
-<p>],
-iterations: 1,</p>
-</div></blockquote>
-<p>});
-&lt;/script&gt;</p>
-<p>&lt;script&gt;
-makeAnimation({</p>
-<blockquote>
-<div><p>lines: [“F”, “H”],
-tokens: [</p>
-<blockquote>
-<div>“<a class="reference external" href="mailto:H&#37;&#52;&#48;DRAW_LINE">H<span>&#64;</span>DRAW_LINE</a>”, “<a class="reference external" href="mailto:H&#37;&#52;&#48;COUNT_2">H<span>&#64;</span>COUNT_2</a>”,
-“<a class="reference external" href="mailto:H&#37;&#52;&#48;FORWARD">H<span>&#64;</span>FORWARD</a>”, “<a class="reference external" href="mailto:H&#37;&#52;&#48;COUNT_1">H<span>&#64;</span>COUNT_1</a>”,
-“<a class="reference external" href="mailto:H&#37;&#52;&#48;DRAW_CIRCLE">H<span>&#64;</span>DRAW_CIRCLE</a>”, “<a class="reference external" href="mailto:H&#37;&#52;&#48;COUNT_2">H<span>&#64;</span>COUNT_2</a>”,
-“<a class="reference external" href="mailto:F&#37;&#52;&#48;CALL_H">F<span>&#64;</span>CALL_H</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;ARGUMENT">F<span>&#64;</span>ARGUMENT</a>”,
-“<a class="reference external" href="mailto:F&#37;&#52;&#48;REPEAT">F<span>&#64;</span>REPEAT</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;_COUNT_3">F<span>&#64;</span>_COUNT_3</a>”,
-“<a class="reference external" href="mailto:F&#37;&#52;&#48;ROTATE_LEFT">F<span>&#64;</span>ROTATE_LEFT</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;ANGLE_30">F<span>&#64;</span>ANGLE_30</a>”,
-“<a class="reference external" href="mailto:F&#37;&#52;&#48;CALL_F">F<span>&#64;</span>CALL_F</a>”, “<a class="reference external" href="mailto:F&#37;&#52;&#48;ARGUMENT">F<span>&#64;</span>ARGUMENT</a>”,
-“!IT_INC”, “!IT_INC”, “!IT_INC”,</div></blockquote>
-<p>],
-iterations: 1,</p>
-</div></blockquote>
-<p>});
-&lt;/script&gt;</p>
-</div>
+<div id='animation-forward-cursor'></div>
+<script>
+TUT.makeAnimation({
+  lines: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE', 'F@COUNT_2', 'F@FORWARD', 'F@COUNT_2', 'F@DRAW_CIRCLE', 'F@COUNT_2', 'F@CALL_F', 'F@ARGUMENT', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-forward-cursor'
+});
+</script><p>X</p>
+<div id='animation-rotate-cursor'></div>
+<script>
+TUT.makeAnimation({
+  lines: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE', 'F@COUNT_2', 'F@ROTATE_LEFT', 'F@ANGLE_90', 'F@DRAW_CIRCLE', 'F@COUNT_2', 'F@CALL_F', 'F@ARGUMENT', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-rotate-cursor'
+});
+</script></div>
 
 
           </div>

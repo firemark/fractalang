@@ -15,9 +15,10 @@ from sphinx.util.nodes import make_refnode
 
 def token_role(name, rawtext, text, lineno, inliner, options=None, content=None):
     node = docutils_nodes.image(
-        uri=text,
+        uri=f"/../_static/icons/{text}.svg",
         name=text,
         alt=text,
+        classes=["token", "token-inline"],
     )
     return [node], []
 

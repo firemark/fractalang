@@ -52,9 +52,9 @@ Here, we used a *Draw Line* token :tut:token:`DRAW_LINE` and *Count 2* token :tu
    :iterations: 1
    :start: 1
 
-   F@DRAW_ARC_1_2
+   F@DRAW_ARCLINE_R_1_2
    F@COUNT_2
-   F@_DRAW_ARC_1_4
+   F@DRAW_ARCLINE_R_1_4
    F@COUNT_3
    F@DRAW_SQUARE
    F@COUNT_2
