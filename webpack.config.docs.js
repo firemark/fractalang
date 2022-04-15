@@ -1,5 +1,5 @@
 const path = require('path');
-const config = require('./webpack.config.base.js');
+const {config, envs} = require('./webpack.config.base.js');
 
 module.exports = Object.assign(config, {
   entry: './src/web/docs.ts',
@@ -7,6 +7,6 @@ module.exports = Object.assign(config, {
     filename: 'tut.js',
     path: path.resolve(__dirname, 'docs', '_static'),
     library: 'TUT',
-    // publicPath: config.envs.ASSET_PATH,
+    publicPath: envs.ASSET_PATH,
   },
 });

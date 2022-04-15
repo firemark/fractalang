@@ -64,13 +64,13 @@ function renderCode(code) {
     });
 }
 
-function renderFunction({name, suffix = "", tokens}): Element {
+export function renderFunction({name, suffix = "", tokens = [], isEditable = true}): Element {
     const node = document.createElement("li");
     node.classList.add("function");
     node.dataset.name = name;
     node.dataset.suffix = suffix;
     node.appendChild(renderName(name, suffix));
-    node.appendChild(renderTokens(tokens));
+    node.appendChild(renderTokens(tokens, {isEditable}));
     return node;
 }
 
@@ -92,20 +92,26 @@ function renderName(name: string, suffix: string): Element {
     return node;
 }
 
-function renderTokens(tokens): Element {
+function renderTokens(tokens, {isEditable = true}): Element {
     const tokensNode = document.createElement("div");
     tokensNode.classList.add("outer-tokens");
 
     const node = document.createElement("div");
     node.classList.add("inner-tokens");
-    node.appendChild(renderTokenSpan());
+    if (isEditable) {
+        node.appendChild(renderTokenSpan());
+    }
     tokens.forEach(token => {
         node.appendChild(renderToken(token));
-        node.appendChild(renderTokenSpan());
+        if (isEditable) {
+            node.appendChild(renderTokenSpan());
+        }
     });
 
     tokensNode.appendChild(node);
-    tokensNode.appendChild(renderTokenRemoveSpan());
+    if (isEditable) {
+        tokensNode.appendChild(renderTokenRemoveSpan());
+    }
 
     return tokensNode;
 }

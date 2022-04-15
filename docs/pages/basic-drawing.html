@@ -37,48 +37,60 @@
 <p>In this tutorial we’re draw lines, shapes and arces.
 I promise - these elements are easy and really fast to learn!</p>
 <p>Let’s try to draw one line:</p>
+<div id='animation-hello-world'></div>
 <script>
 TUT.makeAnimation({
   lines: ['F'],
   iterations: 1,
-  start: 1,
-  tokens: ['Hello World', '', 'F@DRAW_LINE', 'F@COUNT_2'],
+  start: 0,
+  tokens: ['F@DRAW_LINE', 'F@COUNT_2'],
+  nodeId: 'animation-hello-world'
 });
 </script><p>Here, we used a <em>Draw Line</em> token <img alt="DRAW_LINE" src="pages/DRAW_LINE" /> and <em>Count 2</em> token <img alt="COUNT_2" src="pages/COUNT_2" />.</p>
+<div id='animation-count-multipler'></div>
 <script>
 TUT.makeAnimation({
   lines: ['F'],
   iterations: 1,
   start: 1,
-  tokens: ['Count multipler', '', 'F@DRAW_LINE', 'F@COUNT_2', 'F@COUNT_3'],
+  tokens: ['F@DRAW_LINE', 'F@COUNT_2', 'F@COUNT_3'],
+  nodeId: 'animation-count-multipler'
 });
-</script><script>
+</script><div id='animation-drawing-a-circle'></div>
+<script>
 TUT.makeAnimation({
   lines: ['F'],
   iterations: 1,
   start: 1,
-  tokens: ['Drawing a circle', '', 'F@DRAW_LINE', 'F@COUNT_2', 'F@COUNT_3', 'F@DRAW_CIRCLE', 'F@COUNT_5'],
+  tokens: ['F@DRAW_LINE', 'F@COUNT_2', 'F@COUNT_3', 'F@DRAW_CIRCLE', 'F@COUNT_5'],
+  nodeId: 'animation-drawing-a-circle'
 });
-</script><script>
+</script><div id='animation-drawing-a-square'></div>
+<script>
 TUT.makeAnimation({
   lines: ['F'],
   iterations: 1,
   start: 3,
-  tokens: ['Drawing a square', '', 'F@DRAW_LINE', 'F@COUNT_2', 'F@COUNT_3', 'F@DRAW_SQUARE', 'F@COUNT_5'],
+  tokens: ['F@DRAW_LINE', 'F@COUNT_2', 'F@COUNT_3', 'F@DRAW_SQUARE', 'F@COUNT_5'],
+  nodeId: 'animation-drawing-a-square'
 });
-</script><script>
+</script><div id='animation-drawing-an-arc'></div>
+<script>
 TUT.makeAnimation({
   lines: ['F'],
   iterations: 1,
   start: 1,
-  tokens: ['Drawing an arc', '', 'F@DRAW_ARC_1_2', 'F@COUNT_2', 'F@_DRAW_ARC_1_4', 'F@COUNT_3', 'F@DRAW_SQUARE', 'F@COUNT_2'],
+  tokens: ['F@DRAW_ARC_1_2', 'F@COUNT_2', 'F@_DRAW_ARC_1_4', 'F@COUNT_3', 'F@DRAW_SQUARE', 'F@COUNT_2'],
+  nodeId: 'animation-drawing-an-arc'
 });
-</script><script>
+</script><div id='animation-simple-recursion'></div>
+<script>
 TUT.makeAnimation({
   lines: ['F'],
   iterations: 1,
   start: 1,
-  tokens: ['Simple recursion', '', 'F@DRAW_LINE', 'F@COUNT_5', 'F@DRAW_CIRCLE', 'F@COUNT_2', 'F@CALL_F', 'F@ARGUMENT', '!IT_ICR', '!IT_ICR', '!IT_ICR'],
+  tokens: ['F@DRAW_LINE', 'F@COUNT_5', 'F@DRAW_CIRCLE', 'F@COUNT_2', 'F@CALL_F', 'F@ARGUMENT', '!IT_ICR', '!IT_ICR', '!IT_ICR'],
+  nodeId: 'animation-simple-recursion'
 });
 </script></div>
 

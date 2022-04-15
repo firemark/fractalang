@@ -9,7 +9,7 @@ Let's try to draw one line:
 .. tut:animation:: Hello World
    :lines: F
    :iterations: 1
-   :start: 1
+   :start: 0
 
    F@DRAW_LINE
    F@COUNT_2

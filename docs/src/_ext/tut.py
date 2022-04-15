@@ -1,5 +1,8 @@
 from collections import defaultdict
 from dataclasses import dataclass
+from uuid import uuid4
+from urllib.parse import quote
+import re
 
 from docutils.parsers.rst import Directive, directives
 from docutils import nodes as docutils_nodes
@@ -20,7 +23,8 @@ def token_role(name, rawtext, text, lineno, inliner, options=None, content=None)
 
 
 class AnimationDirective(Directive):
-    """A custom directive that describes a recipe."""
+    optional_arguments = 1
+    final_argument_whitespace = True
     has_content = True
     option_spec = {
         'lines': directives.unchanged_required,
@@ -33,18 +37,28 @@ class AnimationDirective(Directive):
         tokens = list(self.content)
         iterations = int(self.options['iterations'])
         start = int(self.options['start'])
+        node_id = self.make_node_id()
         code = '\n'.join([
+            f"<div id='{node_id}'></div>",
             "<script>",
             "TUT.makeAnimation({",
             f"  lines: {lines},",
             f"  iterations: {iterations},",
             f"  start: {start},",
             f"  tokens: {tokens},",
+            f"  nodeId: '{node_id}'",
             "});",
             "</script>",
         ])
         raw_node = docutils_nodes.raw(format="html", text=code)
         return [raw_node]
+
+    def make_node_id(self):
+        if self.arguments:
+            node_id = quote(re.sub("\s+", "-", self.arguments[0])).lower()
+        else:
+            node_id = uuid4().hex
+        return f"animation-{node_id}"
 
 
 @dataclass
