@@ -35,6 +35,7 @@ Here, we used a *Draw Line* token :tut:token:`DRAW_LINE` and *Count 2* token :tu
    F@COUNT_3
    F@DRAW_CIRCLE
    F@COUNT_5
+   F@COUNT_5
 
 .. tut:animation:: Drawing a square
    :lines: F
@@ -45,6 +46,7 @@ Here, we used a *Draw Line* token :tut:token:`DRAW_LINE` and *Count 2* token :tu
    F@COUNT_2
    F@COUNT_3
    F@DRAW_SQUARE
+   F@COUNT_5
    F@COUNT_5
 
 .. tut:animation:: Drawing an arc
@@ -57,7 +59,8 @@ Here, we used a *Draw Line* token :tut:token:`DRAW_LINE` and *Count 2* token :tu
    F@DRAW_ARCLINE_R_1_4
    F@COUNT_3
    F@DRAW_SQUARE
-   F@COUNT_2
+   F@COUNT_5
+   F@COUNT_5
 
 .. tut:animation:: Simple recursion
    :lines: F
@@ -67,9 +70,10 @@ Here, we used a *Draw Line* token :tut:token:`DRAW_LINE` and *Count 2* token :tu
    F@DRAW_LINE
    F@COUNT_5
    F@DRAW_CIRCLE
-   F@COUNT_2
+   F@COUNT_5
+   F@COUNT_5
    F@CALL_F
    F@ARGUMENT
-   !IT_ICR
-   !IT_ICR
-   !IT_ICR
+   !IT_INC
+   !IT_INC
+   !IT_INC

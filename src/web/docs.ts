@@ -61,6 +61,14 @@ class TutAnim {
                 btnNode.addEventListener("click", event => { this.next(); });
                 barNode.appendChild(btnNode);
             }
+            {
+                const itNode = document.createElement("input");
+                itNode.type = "number";
+                itNode.value = this.iterations.toFixed();
+                itNode.disabled = true;
+                itNode.name = "iterations";
+                barNode.appendChild(itNode);
+            }
             this.node.appendChild(barNode);
         }
     }
@@ -108,7 +116,17 @@ class TutAnim {
     private nextExecute() {
         const command = this.tokens[this.position];
         if (command[0] == "!") {
-            // todo actions
+            switch(command.substring(1)) {
+                case "IT_INC":
+                    this.iterations += 1;
+                    this.updateIterationsInput();
+                break;
+                case "IT_DEC":
+                    this.iterations -= 1;
+                    this.updateIterationsInput();
+                break;
+                default: console.error(`${command} not found`); break;
+            }
             return;
         }
         const [line, token] = command.split("@", 2);
@@ -118,11 +136,25 @@ class TutAnim {
     private prevExecute() {
         const command = this.tokens[this.position];
         if (command[0] == "!") {
-            // todo actions
+            switch(command.substring(1)) {
+                case "IT_INC":
+                    this.iterations -= 1;
+                    this.updateIterationsInput();
+                break;
+                case "IT_DEC":
+                    this.iterations += 1;
+                    this.updateIterationsInput();
+                break;
+                default: console.error(`${command} not found`); break;
+            }
             return;
         }
         const [line] = command.split("@", 1);
         this.removeLastToken(line);
+    }
+
+    private updateIterationsInput() {
+        this.findInput("iterations").value = this.iterations.toFixed();
     }
 
     private domPushToken(fullLineName: string, token: string) {
