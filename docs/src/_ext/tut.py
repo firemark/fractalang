@@ -2,6 +2,7 @@ from collections import defaultdict
 from dataclasses import dataclass
 from uuid import uuid4
 from urllib.parse import quote
+from html import escape
 import re
 
 from docutils.parsers.rst import Directive, directives
@@ -39,6 +40,7 @@ class AnimationDirective(Directive):
         iterations = int(self.options['iterations'])
         start = int(self.options['start'])
         node_id = self.make_node_id()
+        title = escape(self.arguments[0].strip() if self.arguments else "")
         code = '\n'.join([
             f"<div id='{node_id}'></div>",
             "<script>",
@@ -47,7 +49,8 @@ class AnimationDirective(Directive):
             f"  iterations: {iterations},",
             f"  start: {start},",
             f"  tokens: {tokens},",
-            f"  nodeId: '{node_id}'",
+            f"  nodeId: '{node_id}',",
+            f"  title: '{title}',",
             "});",
             "</script>",
         ])

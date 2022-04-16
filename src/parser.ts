@@ -82,9 +82,7 @@ function parseLineFunc(name: string, tokens: Token[]) {
         }
     });
 
-    if (tmp.getValuesLength() > 0) {
-        tmp.pushAction();
-    }
+    tmp.pushAction(); // push last token.
 
     return new Function(name, tmp.getActions());
 }

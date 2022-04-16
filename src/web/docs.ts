@@ -9,6 +9,7 @@ interface TutAnimParams {
     iterations: number,
     start: number,
     tokens: string[],
+    title: string,
     nodeId: string,
 }
 
@@ -27,6 +28,12 @@ class TutAnim {
 
     initRender(params: TutAnimParams) {
         this.node.classList.add("fract-animation");
+        if (params.title.length > 0) {
+            const titleNode = document.createElement("h1");
+            titleNode.classList.add("fract-title");
+            titleNode.innerText = params.title;
+            this.node.appendChild(titleNode);
+        }
         {
             const imageNode = document.createElement("div");
             imageNode.classList.add("fract-image");
@@ -43,6 +50,11 @@ class TutAnim {
             this.node.appendChild(linesNode);
         }
         {
+            const commentNode = document.createElement("div");
+            commentNode.classList.add("fract-comment");
+            this.node.appendChild(commentNode);
+        }
+        {
             const barNode = document.createElement("div");
             barNode.classList.add("fract-bar");
             {
@@ -50,7 +62,8 @@ class TutAnim {
                 btnNode.type = "button";
                 btnNode.value = "« PREV";
                 btnNode.name = "prev";
-                btnNode.addEventListener("click", event => { this.prev(); });
+                btnNode.disabled = this.position <= 0;
+                btnNode.addEventListener("click", this.prev.bind(this));
                 barNode.appendChild(btnNode);
             }
             {
@@ -58,8 +71,15 @@ class TutAnim {
                 btnNode.type = "button";
                 btnNode.value = "NEXT »";
                 btnNode.name = "next";
-                btnNode.addEventListener("click", event => { this.next(); });
+                btnNode.disabled = this.position >= this.tokens.length - 1;
+                btnNode.addEventListener("click", this.next.bind(this));
                 barNode.appendChild(btnNode);
+            }
+            {
+                const labelNode = document.createElement("label");
+                labelNode.htmlFor = "iterations";
+                labelNode.innerText = "Iterations:";
+                barNode.appendChild(labelNode);
             }
             {
                 const itNode = document.createElement("input");
@@ -79,6 +99,7 @@ class TutAnim {
             this.nextExecute();
         }
         this.renderImage();
+        this.updateComment();
     }
 
     next() {
@@ -87,20 +108,22 @@ class TutAnim {
         }
         this.position += 1;
         this.nextExecute();
+        this.updateComment();
         this.renderImage();
         this.findInput("next").disabled = this.position >= this.tokens.length - 1;
         this.findInput("prev").disabled = false;
     }
 
     prev() {
-        if (this.position < 0) {
+        if (this.position <= 0) {
             return;
         }
         this.prevExecute();
         this.position -= 1;
+        this.updateComment();
         this.renderImage();
         this.findInput("next").disabled = false;
-        this.findInput("prev").disabled = this.position < 0;
+        this.findInput("prev").disabled = this.position <= 0;
     }
 
     private findInput(name: string): HTMLInputElement {
@@ -114,8 +137,12 @@ class TutAnim {
     }
 
     private nextExecute() {
-        const command = this.tokens[this.position];
-        if (command[0] == "!") {
+        this.getCommands().forEach(command => {
+            if (command[0] != "!") {
+                const [line, token] = command.split("@", 2);
+                this.domPushToken(line, token);
+                return;
+            }
             switch(command.substring(1)) {
                 case "IT_INC":
                     this.iterations += 1;
@@ -125,17 +152,19 @@ class TutAnim {
                     this.iterations -= 1;
                     this.updateIterationsInput();
                 break;
+                case "NOP": break;
                 default: console.error(`${command} not found`); break;
             }
-            return;
-        }
-        const [line, token] = command.split("@", 2);
-        this.domPushToken(line, token);
+        });
     }
 
     private prevExecute() {
-        const command = this.tokens[this.position];
-        if (command[0] == "!") {
+        this.getCommands().forEach(command => {
+            if (command[0] != "!") {
+                const [line] = command.split("@", 1);
+                this.removeLastToken(line);
+                return;
+            }
             switch(command.substring(1)) {
                 case "IT_INC":
                     this.iterations -= 1;
@@ -145,12 +174,24 @@ class TutAnim {
                     this.iterations += 1;
                     this.updateIterationsInput();
                 break;
+                case "NOP": break;
                 default: console.error(`${command} not found`); break;
             }
-            return;
-        }
-        const [line] = command.split("@", 1);
-        this.removeLastToken(line);
+        });
+    }
+
+    private getCommands(): string[] {
+        const commandWithComment = this.tokens[this.position];
+        const [rawCommands] = commandWithComment.split("#", 1);
+        return rawCommands.split(",").map(rawCommand => rawCommand.trim());
+    }
+
+    private updateComment() {
+        const commandWithComment = this.tokens[this.position];
+        const [, rawComment] = commandWithComment.split("#", 2);
+        const comment = rawComment ? rawComment.trim() : "";
+        const commentNode = this.node.querySelector(".fract-comment") as HTMLElement;
+        commentNode.innerText = comment;
     }
 
     private updateIterationsInput() {
