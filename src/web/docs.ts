@@ -228,11 +228,10 @@ export function makeAnimation(params: TutAnimParams) {
     ANIMATIONS_PARAMS.push(params);
 }
 
-
 function setBase() {
     const dirnameHref = CURRENT_HREF.substring(0, CURRENT_HREF.lastIndexOf('/') + 1);
     const baseNode = document.createElement("base");
-    baseNode.href = dirnameHref;
+    baseNode.href = `${dirnameHref}../_images/`;
     document.head.appendChild(baseNode);
 }
 
