@@ -1,15 +1,23 @@
 import { v4 as uuid4 } from 'uuid';
+import { DEFAULT_ICON_URL } from './consts';
 
-export function renderToken(token: string, isTemplate: boolean = false, isEventable: boolean = false): Element {
+export function renderToken(
+    token: string,
+    {
+        isTemplate = false,
+        isEventable = true,
+        iconUrl = DEFAULT_ICON_URL,
+    } = {}): Element {
     const node = document.createElement('span');
     node.classList.add('token');
-    node.setAttribute('draggable', 'true');
     node.id = `token-${uuid4()}`;
     node.dataset.token = token;
     node.dataset.isTemplate = isTemplate ? 'yes' : 'no';
-    //node.innerText = token;
-    node.style.backgroundImage = `url(${process.env.ASSET_PATH}icons/${token}.svg)`;
-    setTokenEvents(node);
+    node.style.backgroundImage = `url(${iconUrl}/${token}.svg)`;
+    if (isEventable) {
+        node.setAttribute('draggable', 'true');
+        setTokenEvents(node);
+    }
     return node;
 }
 
@@ -147,7 +155,7 @@ export function initTokens(isTemplate: boolean = true) {
         categoryNode.appendChild(categoryNodeName);
 
         category.tokens.forEach(tokenInfo => {
-            categoryNode.appendChild(renderToken(tokenInfo.name, isTemplate));
+            categoryNode.appendChild(renderToken(tokenInfo.name, {isTemplate}));
         });
 
         container.appendChild(categoryNode);

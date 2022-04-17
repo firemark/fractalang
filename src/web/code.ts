@@ -1,5 +1,6 @@
 import { renderToken } from './tokens';
 import { scrapeAndRun } from './run';
+import { DEFAULT_ICON_URL } from './consts';
 import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '../parser';
 
 const INPUTS = ["iterations", "first-color", "second-color", "stroke-size"];
@@ -43,7 +44,7 @@ function renderBarOfFunctions(name: string) {
 function renderAddFunction(type: string, name: string, suffix: string = "") {
     const node = document.createElement(type);
     const realName = suffix ? `SUFFIX_${suffix}` : `CALL_${name}`;
-    node.style.backgroundImage = `url(${process.env.ASSET_PATH}icons/${realName}.svg)`;
+    node.style.backgroundImage = `url(${DEFAULT_ICON_URL}/${realName}.svg)`;
     node.classList.add("token-btn");
     node.dataset.name = name;
     node.dataset.suffix = suffix;
@@ -60,17 +61,23 @@ function renderCode(code) {
     const container = document.getElementById("code");
     container.innerHTML = "";
     code.forEach(line => {
-        container.appendChild(renderFunction(line));
+        container.appendChild(renderFunction({name: line}));
     });
 }
 
-export function renderFunction({name, suffix = "", tokens = [], isEditable = true}): Element {
-    const node = document.createElement("li");
+export function renderFunction({
+    name,
+    suffix = "",
+    tokens = [],
+    isEditable = true,
+    iconUrl = DEFAULT_ICON_URL,
+}): Element {
+            const node = document.createElement("li");
     node.classList.add("function");
     node.dataset.name = name;
     node.dataset.suffix = suffix;
-    node.appendChild(renderName(name, suffix));
-    node.appendChild(renderTokens(tokens, {isEditable}));
+    node.appendChild(renderName(name, suffix, {iconUrl}));
+    node.appendChild(renderTokens(tokens, {isEditable, iconUrl}));
     return node;
 }
 
@@ -84,15 +91,15 @@ function showOrHideOrAddFunction(name: string, suffix: string = ""): void {
     }
 }
 
-function renderName(name: string, suffix: string): Element {
+function renderName(name: string, suffix: string, {iconUrl = DEFAULT_ICON_URL} = {}): Element {
     const node = document.createElement("span");
     node.classList.add("name");
     const realname = suffix ? `${name}_${suffix}` : name;
-    node.style.backgroundImage = `url(${process.env.ASSET_PATH}icons/CALL_${realname}.svg)`;
+    node.style.backgroundImage = `url(${iconUrl}/CALL_${realname}.svg)`;
     return node;
 }
 
-function renderTokens(tokens, {isEditable = true}): Element {
+function renderTokens(tokens, {isEditable = true, iconUrl = DEFAULT_ICON_URL} = {}): Element {
     const tokensNode = document.createElement("div");
     tokensNode.classList.add("outer-tokens");
 
@@ -102,7 +109,7 @@ function renderTokens(tokens, {isEditable = true}): Element {
         node.appendChild(renderTokenSpan());
     }
     tokens.forEach(token => {
-        node.appendChild(renderToken(token));
+        node.appendChild(renderToken(token, {isTemplate: isEditable}));
         if (isEditable) {
             node.appendChild(renderTokenSpan());
         }

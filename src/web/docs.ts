@@ -13,6 +13,8 @@ interface TutAnimParams {
     nodeId: string,
 }
 
+let ICONS_URL_PREFIX = "";
+
 class TutAnim {
     private tokens: string[];
     private position: number;
@@ -44,7 +46,12 @@ class TutAnim {
             linesNode.classList.add("fract-lines");
             params.lines.forEach(fullLineName => {
                 const [name, suffix] = this.splitFullLineName(fullLineName);
-                const lineNode = renderFunction({name, suffix, isEditable: false});
+                const lineNode = renderFunction({
+                    name,
+                    suffix,
+                    isEditable: false,
+                    iconUrl: ICONS_URL_PREFIX
+                });
                 linesNode.appendChild(lineNode);
             });
             this.node.appendChild(linesNode);
@@ -200,7 +207,11 @@ class TutAnim {
 
     private domPushToken(fullLineName: string, token: string) {
         const tokensNode = this.findLine(fullLineName);
-        const tokenNode = renderToken(token, false, false);
+        const tokenNode = renderToken(token, {
+            isTemplate: false,
+            isEventable: false,
+            iconUrl: ICONS_URL_PREFIX
+        });
         tokensNode.appendChild(tokenNode);
     }
 
@@ -228,11 +239,9 @@ export function makeAnimation(params: TutAnimParams) {
     ANIMATIONS_PARAMS.push(params);
 }
 
-function setBase() {
+function setIconsUrls() {
     const dirnameHref = CURRENT_HREF.substring(0, CURRENT_HREF.lastIndexOf('/') + 1);
-    const baseNode = document.createElement("base");
-    baseNode.href = `${dirnameHref}../_images/`;
-    document.head.appendChild(baseNode);
+    ICONS_URL_PREFIX = `${dirnameHref}../_images`;
 }
 
 function renderAll() {
@@ -244,7 +253,7 @@ function renderAll() {
 }
 
 window.addEventListener('load', event => {
-    setBase();
+    setIconsUrls();
     renderAll();
 });
 
