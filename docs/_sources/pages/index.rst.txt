@@ -7,6 +7,7 @@ Tutorial
    definitions
    basic-drawing
    cursor
+   lines
 
 ..
    1. Introduction
