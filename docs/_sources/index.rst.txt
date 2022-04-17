@@ -7,11 +7,11 @@ Welcome to Fractalang's documentation!
 ======================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
-   pages/basic-drawing
-   pages/cursor
+   pages/index
+   reference/index
 
 
 Indices and tables

@@ -1,0 +1,14 @@
+Painters
+=============
+
+Draw line
+   :tut:token:`DRAW_LINE`
+
+Draw circle
+   :tut:token:`DRAW_CIRCLE`
+
+Draw square
+   :tut:token:`DRAW_SQUARE`
+
+Draw triangle
+   :tut:token:`DRAW_TRIANGLE`

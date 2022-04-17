@@ -56,8 +56,14 @@
 .fract-lines {
     overflow: visible;
     > li {
-        height: 80px;
+        height: 60px;
         .outer-tokens { height: 100%; }
         .inner-tokens { height: 100%; }
+    }
+    .token {
+        width: 30px;
+        height: 30px;
+        padding: 2px;
+        margin-right: 2px;
     }
 }
