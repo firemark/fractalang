@@ -8,7 +8,7 @@ The Cursor (like a turtle from `logo`_) remembers last position and last heading
 We have two common operations on cursor. First is forward a cursor (it's like a drawing line without line ;-)):
 
 .. tut:animation:: Forward cursor
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 
@@ -22,7 +22,7 @@ We have two common operations on cursor. First is forward a cursor (it's like a 
 Second is rotate:
 
 .. tut:animation:: Rotate cursor
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 

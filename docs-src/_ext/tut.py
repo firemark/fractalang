@@ -29,13 +29,13 @@ class AnimationDirective(Directive):
     final_argument_whitespace = True
     has_content = True
     option_spec = {
-        'lines': directives.unchanged_required,
+        'staves': directives.unchanged_required,
         'iterations': directives.unchanged_required,
         'start': directives.unchanged_required,
     }
 
     def run(self):
-        lines = self.options['lines'].split()
+        staves = self.options['staves'].split()
         tokens = list(self.content)
         iterations = int(self.options['iterations'])
         start = int(self.options['start'])
@@ -45,7 +45,7 @@ class AnimationDirective(Directive):
             f"<div id='{node_id}'></div>",
             "<script>",
             "TUT.makeAnimation({",
-            f"  lines: {lines},",
+            f"  staves: {staves},",
             f"  iterations: {iterations},",
             f"  start: {start},",
             f"  tokens: {tokens},",

@@ -7,7 +7,7 @@ I promise - these elements are easy and really fast to learn!
 Let's try to draw one line:
 
 .. tut:animation:: Hello World
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 
@@ -29,7 +29,7 @@ In e.g. :tut:token:`DRAW_LINE` :tut:token:`COUNT_2` :tut:token:`COUNT_2` means *
 Let's try another example:
 
 .. tut:animation:: Count multipler
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 
@@ -41,7 +41,7 @@ Let's try another example:
 Except boring lines, we can draw a basic shapes:
 
 .. tut:animation:: Drawing a circle
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 
@@ -50,7 +50,7 @@ Except boring lines, we can draw a basic shapes:
    F@COUNT_5               # But here we add size of circle.
 
 .. tut:animation:: Drawing a square
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 
@@ -58,7 +58,7 @@ Except boring lines, we can draw a basic shapes:
    F@DRAW_SQUARE, F@COUNT_5  # Draw a square.
 
 .. tut:animation:: Drawing a triangle
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 
@@ -68,7 +68,7 @@ Except boring lines, we can draw a basic shapes:
 We can draw arcs too:
 
 .. tut:animation:: Drawing an arc
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 
@@ -81,7 +81,7 @@ And that is. Fractalang doesn't have more shapes, but I promise you, is enough t
 On the end I show you very simple recursion - it's a topic for the next tutorials, but this example should show power of recursion:
 
 .. tut:animation:: Simple recursion
-   :lines: F
+   :staves: F
    :iterations: 1
    :start: 1
 

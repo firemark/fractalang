@@ -17,7 +17,6 @@
     <script type="text/javascript" src="../_static/tut.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Reference" href="../reference/index.html" />
     <link rel="prev" title="Basic Drawing" href="basic-drawing.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -40,7 +39,7 @@
 <div id='animation-forward-cursor'></div>
 <script>
 TUT.makeAnimation({
-  lines: ['F'],
+  staves: ['F'],
   iterations: 1,
   start: 1,
   tokens: ["F@DRAW_LINE, F@COUNT_2      # Let's start with line", 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle.', 'F@FORWARD, F@COUNT_2        # Here we add "Forward action" which moving cursor by 2 units.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC'],
@@ -51,7 +50,7 @@ TUT.makeAnimation({
 <div id='animation-rotate-cursor'></div>
 <script>
 TUT.makeAnimation({
-  lines: ['F'],
+  staves: ['F'],
   iterations: 1,
   start: 1,
   tokens: ['F@DRAW_LINE, F@COUNT_2      # Again, draw line.', 'F@ROTATE_LEFT, F@ANGLE_90   # Rotate left cursor by 90°. Notice a token value. It means quarter of full-rotation (90°).', 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle. Notice a heading of triangle.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC', '!IT_INC'],
@@ -94,7 +93,6 @@ TUT.makeAnimation({
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Tutorial</a><ul>
       <li>Previous: <a href="basic-drawing.html" title="previous chapter">Basic Drawing</a></li>
-      <li>Next: <a href="../reference/index.html" title="next chapter">Reference</a></li>
   </ul></li>
   </ul></li>
 </ul>

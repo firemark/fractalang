@@ -7,7 +7,7 @@ Tutorial
    definitions
    basic-drawing
    cursor
-   lines
+   staves
 
 ..
    1. Introduction

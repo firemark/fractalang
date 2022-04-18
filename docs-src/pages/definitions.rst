@@ -21,7 +21,7 @@ Value
 Procedure
   A custom action written by user.
 
-Line
+Stave
   …
 
 Argument

@@ -60,12 +60,12 @@ function renderAddFunction(type: string, name: string, suffix: string = "") {
 function renderCode(code) {
     const container = document.getElementById("code");
     container.innerHTML = "";
-    code.forEach(line => {
-        container.appendChild(renderFunction({name: line}));
+    code.forEach(staveName => {
+        container.appendChild(renderStave({name: staveName}));
     });
 }
 
-export function renderFunction({
+export function renderStave({
     name,
     suffix = "",
     tokens = [],
@@ -85,7 +85,7 @@ function showOrHideOrAddFunction(name: string, suffix: string = ""): void {
     const codeNode = document.getElementById("code");
     const funcNode = codeNode.querySelector(`.function[data-name="${name}"][data-suffix="${suffix}"]`);
     if (!funcNode) {
-        codeNode.appendChild(renderFunction({name, suffix, tokens: []}));
+        codeNode.appendChild(renderStave({name, suffix, tokens: []}));
     } else {
         funcNode.classList.toggle("hide");
     }

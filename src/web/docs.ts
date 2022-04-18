@@ -1,11 +1,11 @@
 import { renderToken } from "./tokens";
-import { renderFunction } from "./code";
+import { renderStave } from "./code";
 import { run, scrapeCode } from "./run";
 
 import "../style/docs.scss";
 
 interface TutAnimParams {
-    lines: string[],
+    staves: string[],
     iterations: number,
     start: number,
     tokens: string[],
@@ -42,19 +42,19 @@ class TutAnim {
             this.node.appendChild(imageNode);
         }
         {
-            const linesNode = document.createElement("ul");
-            linesNode.classList.add("fract-lines");
-            params.lines.forEach(fullLineName => {
+            const stavesNode = document.createElement("ul");
+            stavesNode.classList.add("fract-staves");
+            params.staves.forEach(fullLineName => {
                 const [name, suffix] = this.splitFullLineName(fullLineName);
-                const lineNode = renderFunction({
+                const lineNode = renderStave({
                     name,
                     suffix,
                     isEditable: false,
-                    iconUrl: ICONS_URL_PREFIX
+                    iconUrl: ICONS_URL_PREFIX,
                 });
-                linesNode.appendChild(lineNode);
+                stavesNode.appendChild(lineNode);
             });
-            this.node.appendChild(linesNode);
+            this.node.appendChild(stavesNode);
         }
         {
             const commentNode = document.createElement("div");
@@ -139,7 +139,7 @@ class TutAnim {
 
     private renderImage() {
         const imageNode = this.node.querySelector(".fract-image") as HTMLElement;
-        const code = scrapeCode(this.node.querySelector(".fract-lines"));
+        const code = scrapeCode(this.node.querySelector(".fract-staves"));
         run(imageNode, code, this.iterations);
     }
 
