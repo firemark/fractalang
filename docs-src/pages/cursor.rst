@@ -34,6 +34,12 @@ Second is rotate:
    !IT_INC
    !IT_INC
 
+Third is reverse token. This tokens undo last **N** cursor movements (but not **drawing actions**)
+
+Last is replay token. Repeat **N** times last token-action.
+This token is not helpfull for sigle tokens, but on next section
+we learn about "grouping" tokens.
+
 And that is - in next sections we describe invoking another lines and operations on cursor will be very useful.
 
 .. _logo: https://en.wikipedia.org/wiki/Logo_(programming_language)

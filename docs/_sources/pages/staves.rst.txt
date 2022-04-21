@@ -1,9 +1,14 @@
 Invoking staves and recursion
 =============================
 
-As you see -
+Drawing lines is pretty boring.
+For move advanced fractals we should use
+recursion and invoking another staves.
 
-.. tut:animation:: Two Staves
+In previous examples we used a single stave **F**. But we can use more staves.
+In example we can put in *helper stave* tokens as part of fractal and *invoke* them in main stave **F**.
+
+.. tut:animation:: Two Staves with recursion.
    :staves: F G
    :iterations: 2
    :start: 1
@@ -18,7 +23,15 @@ As you see -
    !IT_INC
    !IT_INC
 
-.. tut:animation:: Argument [1]
+Arguments
+---------
+
+At last, we can talk about token-value Argument :tut:token:`ARGUMENT`.
+Each invoked stave had
+
+First iteration used stave **F** with default argument `1.0`
+
+.. tut:animation:: Argument
    :staves: F
    :iterations: 3
    :start: 1
@@ -34,7 +47,9 @@ As you see -
    !IT_INC
    !IT_INC
 
-.. tut:animation:: Argument [2]
+Argument can be used for any token-action, like in rotating:
+
+.. tut:animation:: Argument in rotating
    :staves: F
    :iterations: 3
    :start: 1
@@ -49,3 +64,27 @@ As you see -
    !IT_INC
    !IT_INC
    !IT_INC
+
+Argument can be used for invoking another staves
+
+.. tut:animation:: Argument in another staves
+   :staves: F G
+   :iterations: 3
+   :start: 1
+
+   G@DRAW_CIRCLE, G@ARGUMENT, G@ARGUMENT, G@FORWARD, G@FRACT_1_5, G@ARGUMENT  # Draw circle and move on.
+   F@CALL_G, F@COUNT_2     # First invoking of stave "G"
+   F@CALL_G, F@COUNT_5     # Second invoking of stave "G"
+   F@CALL_G, F@COUNT_3     # Third invoking of stave "G"
+   F@REPLAY, F@COUNT_3     # Repeat last action three times.
+   G@ROTATE_LEFT, G@ANGLE_15, G@DRAW_ARCLINE_L_1_4, G@ARGUMENT, G@REVERSE # draw fancy arcline
+
+Specialized Arguments
+^^^^^^^^^^^^^^^^^^^^^
+
+Parity Staves
+-------------
+
+
+End Staves
+----------

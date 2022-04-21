@@ -34,38 +34,69 @@
             
   <div class="section" id="invoking-staves-and-recursion">
 <h1>Invoking staves and recursion<a class="headerlink" href="#invoking-staves-and-recursion" title="Permalink to this headline">¶</a></h1>
-<p>As you see -</p>
-<div id='animation-two-staves'></div>
+<p>Drawing lines is pretty boring.
+For move advanced fractals we should use
+recursion and invoking another staves.</p>
+<p>In previous examples we used a single stave <strong>F</strong>. But we can use more staves.
+In example we can put in <em>helper stave</em> tokens as part of fractal and <em>invoke</em> them in main stave <strong>F</strong>.</p>
+<div id='animation-two-staves-with-recursion.'></div>
 <script>
 TUT.makeAnimation({
   staves: ['F', 'G'],
   iterations: 2,
   start: 1,
   tokens: ['G@DRAW_LINE, G@COUNT_2      # Let\'s start with stave on line "G".', 'G@DRAW_TRIANGLE, G@COUNT_5  # Draw a triangle.', 'G@DRAW_ARCLINE_R_1_4        # Draw an arc. I think, stave "G" is done.', 'F@CALL_G, F@ARGUMENT        # On line "F" we can invoke stave "G". Don\'t worry about Argument (Triangle) token. We will explain this later.', 'F@FORWARD, F@COUNT_2        # Add simple forward.', 'F@CALL_F, F@ARGUMENT        # Repeat itself.', 'G@DRAW_SQUARE, G@COUNT_5, G@COUNT_5  # We can still modifing stave "G". Next steps are increment iterations.', '!IT_INC', '!IT_INC'],
-  nodeId: 'animation-two-staves',
-  title: 'Two Staves',
+  nodeId: 'animation-two-staves-with-recursion.',
+  title: 'Two Staves with recursion.',
 });
-</script><div id='animation-argument-%5b1%5d'></div>
+</script><div class="section" id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h2>
+<p>At last, we can talk about token-value Argument <img alt="ARGUMENT" class="token token-inline" src="../_images/ARGUMENT.svg" />.
+Each invoked stave had</p>
+<p>First iteration used stave <strong>F</strong> with default argument <cite>1.0</cite></p>
+<div id='animation-argument'></div>
 <script>
 TUT.makeAnimation({
   staves: ['F'],
   iterations: 3,
   start: 1,
   tokens: ['F@DRAW_LINE, F@ARGUMENT     # Draw a line with an argument. Argument value is determined by value of invoking function.', 'F@DRAW_TRIANGLE, F@COUNT_3  # Draw a triangle.', 'F@ROTATE_LEFT, F@ANGLE_90   # Rotate a cursor.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. We should get a square when we pass value as "argument".', "F@FRACT_3_4                 # And now try to reduce a value of invoking staff. Each next line it's smaller than previous. It's a nice spiral! Next steps are increment iterations.", '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
-  nodeId: 'animation-argument-%5b1%5d',
-  title: 'Argument [1]',
+  nodeId: 'animation-argument',
+  title: 'Argument',
 });
-</script><div id='animation-argument-%5b2%5d'></div>
+</script><p>Argument can be used for any token-action, like in rotating:</p>
+<div id='animation-argument-in-rotating'></div>
 <script>
 TUT.makeAnimation({
   staves: ['F'],
   iterations: 3,
   start: 1,
   tokens: ['F@DRAW_LINE, F@COUNT_1                 # Draw a line.', 'F@DRAW_TRIANGLE, F@COUNT_3             # Draw a triangle.', 'F@ROTATE_LEFT, F@ANGLE_45, F@ARGUMENT  # Rotate a cursor with argument.', 'F@CALL_F, F@ARGUMENT                   # Repeat itself.', 'F@COUNT_3, F@FRACT_1_2, F@FRACT_3_4    # Increase an argument.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
-  nodeId: 'animation-argument-%5b2%5d',
-  title: 'Argument [2]',
+  nodeId: 'animation-argument-in-rotating',
+  title: 'Argument in rotating',
 });
-</script></div>
+</script><p>Argument can be used for invoking another staves</p>
+<div id='animation-argument-in-another-staves'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'G'],
+  iterations: 3,
+  start: 1,
+  tokens: ['G@DRAW_CIRCLE, G@ARGUMENT, G@ARGUMENT, G@FORWARD, G@FRACT_1_5, G@ARGUMENT  # Draw circle and move on.', 'F@CALL_G, F@COUNT_2     # First invoking of stave "G"', 'F@CALL_G, F@COUNT_5     # Second invoking of stave "G"', 'F@CALL_G, F@COUNT_3     # Third invoking of stave "G"', 'F@REPLAY, F@COUNT_3     # Repeat last action three times.', 'G@ROTATE_LEFT, G@ANGLE_15, G@DRAW_ARCLINE_L_1_4, G@ARGUMENT, G@REVERSE # draw fancy arcline'],
+  nodeId: 'animation-argument-in-another-staves',
+  title: 'Argument in another staves',
+});
+</script><div class="section" id="specialized-arguments">
+<h3>Specialized Arguments<a class="headerlink" href="#specialized-arguments" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="parity-staves">
+<h2>Parity Staves<a class="headerlink" href="#parity-staves" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="end-staves">
+<h2>End Staves<a class="headerlink" href="#end-staves" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
 
 
           </div>
@@ -89,7 +120,12 @@ TUT.makeAnimation({
 <li class="toctree-l2"><a class="reference internal" href="definitions.html">Definitions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basic-drawing.html">Basic Drawing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cursor.html">Cursor manipulations</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Invoking staves and recursion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Invoking staves and recursion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#arguments">Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parity-staves">Parity Staves</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#end-staves">End Staves</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
