@@ -116,9 +116,6 @@ export class Cursor {
 
     forward(distance: number) {
         this._forward(distance);
-        const [x, y] = this.position;
-        const ops = { fill: this.calcColor(1.0) };
-        this.figures.push(new Circle([x, y], 2.0, ops));
         this.computeBox(this.position);
     }
 

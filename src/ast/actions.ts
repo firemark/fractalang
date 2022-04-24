@@ -18,7 +18,7 @@ export class Function implements Node {
             const local = locals.at(index);
             const action = actions.at(index);
             const { shift, reverse } = action.exec(context, local);
-            this.execReverse(index, reverse ? Math.round(reverse) : 0, context);
+            this.execReverse(index - 1, reverse ? Math.round(reverse) - 1 : 0, context);
             index += shift ? Math.round(shift) : 1;
         }
     }
@@ -30,7 +30,7 @@ export class Function implements Node {
         const actions = this.actions;
         const startReserve = Math.max(0, stopIndex - reverse);
         for(let index = stopIndex; index >= startReserve; index--) {
-            actions.at(index).execReverse(context);
+            index -= actions.at(index).execReverse(context);
         }
     }
 
@@ -71,15 +71,16 @@ export class Call extends NodeWithValue {
         return {};
     }
 
-    execReverse(context: Context) {
+    execReverse(context: Context): number {
         const func = context.findFunction(this.name);
         if (!(func instanceof Function)) {
             return;
         }
         const newArgument = this.eval(context);
-        const newContext = context.createNewContext(newArgument);
+        const newContext = context.createNewContext(newArgument, { reverseValue: !context.reverseValue });
         const lastIndex = func.size() - 1;
         func.execReverse(lastIndex, lastIndex, newContext);
+        return 0;
     }
 }
 
@@ -90,9 +91,10 @@ export class DrawLine extends NodeWithValue {
         return {};
     }
 
-    execReverse(context: Context) {
+    execReverse(context: Context): number {
         const distance = -this.eval(context).value;
         context.getCursor().forward(distance);
+        return 0;
     }
 }
 
@@ -134,12 +136,13 @@ export class DrawArcLine extends NodeWithValue {
         return {};
     }
 
-    execReverse(context: Context) {
+    execReverse(context: Context): number {
         const distance = -this.eval(context).value;
         const cursor = context.getCursor();
         cursor.rotate(-this.ratio / 2);
         cursor.forward(distance);
         cursor.rotate(-this.ratio / 2);
+        return 0;
     }
 }
 
@@ -150,9 +153,10 @@ export class Forward extends NodeWithValue {
         return {};
     }
 
-    execReverse(context: Context) {
+    execReverse(context: Context): number {
         const distance = -this.eval(context).value;
         context.getCursor().forward(distance);
+        return 0;
     }
 }
 
@@ -163,9 +167,10 @@ export class RotateLeft extends NodeWithValue {
         return {};
     }
 
-    execReverse(context: Context) {
+    execReverse(context: Context): number {
         const angle = this.eval(context).value;
         context.getCursor().rotate(angle);
+        return 0;
     }
 }
 
@@ -176,9 +181,10 @@ export class RotateRight extends NodeWithValue {
         return {};
     }
 
-    execReverse(context: Context) {
+    execReverse(context: Context): number {
         const angle = -this.eval(context).value;
         context.getCursor().rotate(angle);
+        return 0;
     }
 }
 
@@ -186,6 +192,11 @@ export class Reverse extends NodeWithValue {
     exec(context: Context): ActionResult {
         const iterations = this.eval(context).value;
         return {reverse: iterations};
+    }
+
+    execReverse(context: Context): number {
+        let iterations = this.eval(context).value;
+        return Math.abs(iterations);
     }
 }
 

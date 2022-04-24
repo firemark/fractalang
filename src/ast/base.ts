@@ -13,7 +13,7 @@ export interface ActionResult {
 
 export abstract class ActionNode implements Node {
     abstract exec(context: Context, local: any): ActionResult;
-    execReverse(context: Context) {};
+    execReverse(context: Context): number { return 0; };
 }
 
 export function evalValue(valueNodes: ValueNode[], context: Context): EvaluedValue {
@@ -24,7 +24,11 @@ export function evalValue(valueNodes: ValueNode[], context: Context): EvaluedVal
         strokeThickness: context.argument.strokeThickness,
         valueTransformer: (a: number, b:number) => a * b,
     };
-    return valueNodes.reduce(partEval.bind(this, context), init);
+    const argument = valueNodes.reduce(partEval.bind(this, context), init);
+    if (context.reverseValue) {
+        argument.value *= -1.0;
+    }
+    return argument;
 }
 
 function partEval(context: Context, acc: EvaluedValue, node: ValueNode): EvaluedValue {
