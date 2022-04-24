@@ -61,7 +61,8 @@ function renderCode(code) {
     const container = document.getElementById("code");
     container.innerHTML = "";
     code.forEach(staveName => {
-        container.appendChild(renderStave({name: staveName}));
+        const [name, suffix] = staveName.split("::", 2);
+        container.appendChild(renderStave({name, suffix}));
     });
 }
 
@@ -72,7 +73,7 @@ export function renderStave({
     isEditable = true,
     iconUrl = DEFAULT_ICON_URL,
 }): Element {
-            const node = document.createElement("li");
+    const node = document.createElement("li");
     node.classList.add("function");
     node.dataset.name = name;
     node.dataset.suffix = suffix;

@@ -17,6 +17,7 @@
     <script type="text/javascript" src="../_static/tut.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Invoking staves and recursion" href="staves.html" />
     <link rel="prev" title="Basic Drawing" href="basic-drawing.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -36,6 +37,8 @@
 <p>We need to explain what is cursor before we start.</p>
 <p>The Cursor (like a turtle from <a class="reference external" href="https://en.wikipedia.org/wiki/Logo_(programming_language)">logo</a>) remembers last position and last heading (direction). If you draw a line, then cursor move to end of line. If you rotate, then cursor will be rotated. On plane cursor is invisible (because you want a fractal, not a cursor path!), but without him, it would not possible to draw anything.</p>
 <p>We have two common operations on cursor. First is forward a cursor (it’s like a drawing line without line ;-)):</p>
+<div class="section" id="go-forward">
+<h2>Go forward<a class="headerlink" href="#go-forward" title="Permalink to this headline">¶</a></h2>
 <div id='animation-forward-cursor'></div>
 <script>
 TUT.makeAnimation({
@@ -46,18 +49,52 @@ TUT.makeAnimation({
   nodeId: 'animation-forward-cursor',
   title: 'Forward cursor',
 });
-</script><p>Second is rotate:</p>
+</script></div>
+<div class="section" id="rotate">
+<h2>Rotate<a class="headerlink" href="#rotate" title="Permalink to this headline">¶</a></h2>
+<p>Second is rotate:</p>
 <div id='animation-rotate-cursor'></div>
 <script>
 TUT.makeAnimation({
   staves: ['F'],
   iterations: 1,
   start: 1,
-  tokens: ['F@DRAW_LINE, F@COUNT_2      # Again, draw line.', 'F@ROTATE_LEFT, F@ANGLE_90   # Rotate left cursor by 90°. Notice a token value. It means quarter of full-rotation (90°).', 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle. Notice a heading of triangle.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC', '!IT_INC'],
+  tokens: ['F@DRAW_LINE, F@COUNT_2      # Again, draw line.', 'F@ROTATE_LEFT, F@ANGLE_90   # Rotate left cursor by 90°. Notice a token value. It means quarter of full-rotation.', 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle. Notice a heading of triangle.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC', '!IT_INC'],
   nodeId: 'animation-rotate-cursor',
   title: 'Rotate cursor',
 });
+</script></div>
+<div class="section" id="reverse">
+<h2>Reverse<a class="headerlink" href="#reverse" title="Permalink to this headline">¶</a></h2>
+<p>Third is reverse token. This tokens undo last <strong>N</strong> cursor movements (but not <strong>drawing actions</strong>)</p>
+<div id='animation-reverse-cursor'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE, F@COUNT_2      # Again, draw line.', 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle.', 'F@REVERSE, F@COUNT_2        # Reverse last two cursor action.', 'F@ROTATE_LEFT, F@ANGLE_30   # Rotate left cursor by 30°.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-reverse-cursor',
+  title: 'Reverse cursor',
+});
+</script></div>
+<div class="section" id="replay">
+<h2>Replay<a class="headerlink" href="#replay" title="Permalink to this headline">¶</a></h2>
+<p>Last is replay token. Repeat <strong>N</strong> times last token-action.
+This token is not helpfull for sigle tokens, but on next section
+we learn about “grouping” tokens.</p>
+<div id='animation-replay'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE                 # Again, draw line.', 'F@REPLAY, F@COUNT_3         # Replay it three times.', 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-replay',
+  title: 'Replay',
+});
 </script><p>And that is - in next sections we describe invoking another lines and operations on cursor will be very useful.</p>
+</div>
 </div>
 
 
@@ -79,9 +116,18 @@ TUT.makeAnimation({
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="definitions.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="why.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html">Why?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basic-drawing.html">Basic Drawing</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Cursor manipulations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cursor manipulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#go-forward">Go forward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rotate">Rotate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reverse">Reverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#replay">Replay</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="staves.html">Invoking staves and recursion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fractals.html">Fractals</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
@@ -93,6 +139,7 @@ TUT.makeAnimation({
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Tutorial</a><ul>
       <li>Previous: <a href="basic-drawing.html" title="previous chapter">Basic Drawing</a></li>
+      <li>Next: <a href="staves.html" title="next chapter">Invoking staves and recursion</a></li>
   </ul></li>
   </ul></li>
 </ul>

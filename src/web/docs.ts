@@ -222,12 +222,12 @@ class TutAnim {
 
     private findLine(fullLineName: string): HTMLElement {
         const [name, suffix] = this.splitFullLineName(fullLineName);
-        const query = `.function[data-name='${name}'] .inner-tokens`;
+        const query = `.function[data-name='${name}'][data-suffix='${suffix}'] .inner-tokens`;
         return this.node.querySelector(query);
     }
 
     private splitFullLineName(fullLineName: string): [string, string] {
-        const [name, suffix] = fullLineName.split("::", 1);
+        const [name, suffix] = fullLineName.split("::", 2);
         return [name, suffix || ""];
     }
 }

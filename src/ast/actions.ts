@@ -164,7 +164,7 @@ export class RotateLeft extends NodeWithValue {
     }
 
     execReverse(context: Context) {
-        const angle = -this.eval(context).value;
+        const angle = this.eval(context).value;
         context.getCursor().rotate(angle);
     }
 }
@@ -193,7 +193,6 @@ export class Replay extends NodeWithValue {
     exec(context: Context, local: any): ActionResult {
         const counter = local.counter || 1;
         const size = Math.round(this.eval(context).value);
-        console.log(counter, size);
         if (counter < size) {
             local.counter = counter + 1;
             return {shift: -1};
