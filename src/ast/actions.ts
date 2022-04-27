@@ -77,7 +77,7 @@ export class Call extends NodeWithValue {
             return;
         }
         const newArgument = this.eval(context);
-        const newContext = context.createNewContext(newArgument, { reverseValue: !context.reverseValue });
+        const newContext = context.createNewContext(newArgument);
         const lastIndex = func.size() - 1;
         func.execReverse(lastIndex, lastIndex, newContext);
         return 0;

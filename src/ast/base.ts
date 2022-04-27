@@ -24,11 +24,7 @@ export function evalValue(valueNodes: ValueNode[], context: Context): EvaluedVal
         strokeThickness: context.argument.strokeThickness,
         valueTransformer: (a: number, b:number) => a * b,
     };
-    const argument = valueNodes.reduce(partEval.bind(this, context), init);
-    if (context.reverseValue) {
-        argument.value *= -1.0;
-    }
-    return argument;
+    return valueNodes.reduce(partEval.bind(this, context), init);
 }
 
 function partEval(context: Context, acc: EvaluedValue, node: ValueNode): EvaluedValue {

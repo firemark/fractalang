@@ -25,14 +25,12 @@ export class ContextCfg {
 export class Context {
     public iteration: number;
     public argument: EvaluedValue;
-    public reverseValue: boolean;
     private cfg: ContextCfg;
 
-    constructor({cfg, argument, reverseValue = false, iteration = 0}) {
+    constructor({cfg, argument, iteration = 0}) {
         this.cfg = cfg;
         this.argument = argument;
         this.iteration = iteration;
-        this.reverseValue = reverseValue;
     }
 
     findFunction(name: string) {
@@ -59,12 +57,11 @@ export class Context {
         return this.cfg.cursor;
     }
 
-    createNewContext(newArgument: EvaluedValue, {reverseValue = false} = {}) {
+    createNewContext(newArgument: EvaluedValue) {
         return new Context({
             cfg: this.cfg,
             argument: newArgument,
             iteration: this.iteration + 1,
-            reverseValue: reverseValue,
         });
     }
 }
