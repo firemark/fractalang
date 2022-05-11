@@ -9,6 +9,7 @@ from docutils.parsers.rst import Directive, directives
 from docutils import nodes as docutils_nodes
 
 from sphinx import addnodes
+from sphinx.directives import ObjectDescription
 from sphinx.domains import Domain, Index
 from sphinx.roles import XRefRole
 from sphinx.util.nodes import make_refnode
@@ -19,7 +20,7 @@ def token_role(name, rawtext, text, lineno, inliner, options=None, content=None)
         uri=f"/icons/{text}.svg",
         name=text,
         alt=text,
-        classes=["token", "token-inline"],
+        classes=["fract-token", "token-inline"],
     )
     return [node], []
 
@@ -65,6 +66,35 @@ class AnimationDirective(Directive):
         return f"animation-{node_id}"
 
 
+class TokenDirective(ObjectDescription):
+    has_content = True
+    final_argument_whitespace = True
+    required_arguments = 1
+    option_spec = {
+        'title': directives.unchanged_required,
+    }
+
+    def handle_signature(self, sig, signode):
+        signode += docutils_nodes.image(
+            uri=f"/icons/{sig}.svg",
+            name=sig,
+            alt=sig,
+            classes=["fract-token"],
+        )
+        signode += addnodes.desc_name(text=self.options['title'])
+        return sig
+
+    def add_target_and_index(self, name_cls, sig, signode):
+        return
+        signode['ids'].append('recipe' + '-' + sig)
+        if 'contains' in self.options:
+            ingredients = [
+                x.strip() for x in self.options.get('contains').split(',')]
+
+            recipes = self.env.get_domain('tut')
+            recipes.add_recipe(sig, ingredients)
+
+
 @dataclass
 class AnimationObj:
     name: str
@@ -106,6 +136,7 @@ class TutDomain(Domain):
     }
     directives = {
         'animation': AnimationDirective,
+        'token': TokenDirective,
     }
     indices = {
         AnimationIndex,

@@ -1,23 +1,41 @@
 Angles
 =============
 
-270°
-   :tut:token:`ANGLE_270`
+Angles used in rotate actions (:tut:token:`ROTATE_LEFT` and :tut:token:`ROTATE_RIGHT`).
 
-180°
-   :tut:token:`ANGLE_180`
+Note that 360° in fractalang is not 2π but 1.0 value.
 
-90°
-   :tut:token:`ANGLE_90`
+.. tut:token:: ANGLE_270
+   :title: 270° Angle
 
-60°
-   :tut:token:`ANGLE_60`
+   Alias for three quarters.
 
-45°
-   :tut:token:`ANGLE_45`
+.. tut:token:: ANGLE_180
+   :title: 180° Angle
 
-30°
-   :tut:token:`ANGLE_30`
+   Alias for half value.
 
-15°
-   :tut:token:`ANGLE_15`
+.. tut:token:: ANGLE_90
+   :title: 90° Angle
+
+   Alias for one quarter.
+
+.. tut:token:: ANGLE_60
+   :title: 60° Angle
+
+   Alias for one sixth.
+
+.. tut:token:: ANGLE_45
+   :title: 45° Angle
+
+   Alias for one eighth.
+
+.. tut:token:: ANGLE_30
+   :title: 30° Angle
+
+   Alias for one twelfth.
+
+.. tut:token:: ANGLE_15
+   :title: 15° Angle
+
+   Alias for one sixteenth.

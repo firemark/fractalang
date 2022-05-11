@@ -126,14 +126,14 @@ function renderTokens(tokens, {isEditable = true, iconUrl = DEFAULT_ICON_URL} = 
 
 function renderTokenSpan() {
     const node = document.createElement("span");
-    node.classList.add("token-span");
+    node.classList.add("fract-token-span");
     setTokenSpanEvents(node);
     return node;
 }
 
 function renderTokenRemoveSpan() {
     const node = document.createElement("span");
-    node.classList.add("token-span", "remove");
+    node.classList.add("fract-token-span", "remove");
     setTokenSpanEvents(node, true);
     return node;
 }

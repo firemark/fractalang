@@ -1,17 +1,19 @@
 Counters
 =============
 
-Count 1
- :tut:token:`COUNT_1`
+Used basically in any action.
 
-Count 2
- :tut:token:`COUNT_2`
+.. tut:token:: COUNT_1
+   :title: One value
 
-Count 3
- :tut:token:`COUNT_3`
+.. tut:token:: COUNT_2
+   :title: Two value
 
-Count 5
- :tut:token:`COUNT_5`
+.. tut:token:: COUNT_3
+   :title: Three value
 
-Minus One
- :tut:token:`COUNT_MINUS`
+.. tut:token:: COUNT_5
+   :title: Five value
+
+.. tut:token:: COUNT_MINUS
+   :title: Minus one value

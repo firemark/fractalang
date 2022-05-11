@@ -9,7 +9,7 @@ export function renderToken(
         iconUrl = DEFAULT_ICON_URL,
     } = {}): Element {
     const node = document.createElement('span');
-    node.classList.add('token');
+    node.classList.add('fract-token');
     node.id = `token-${uuid4()}`;
     node.dataset.token = token;
     node.dataset.isTemplate = isTemplate ? 'yes' : 'no';

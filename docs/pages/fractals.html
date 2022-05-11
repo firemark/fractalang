@@ -36,15 +36,41 @@
 <h1>Fractals<a class="headerlink" href="#fractals" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="binary-tree">
 <h2>Binary Tree<a class="headerlink" href="#binary-tree" title="Permalink to this headline">¶</a></h2>
-<div id='animation-binary-tree.'></div>
+<div id='animation-binary-tree'></div>
 <script>
 TUT.makeAnimation({
   staves: ['F', 'G'],
   iterations: 2,
   start: 1,
   tokens: ['G@DRAW_LINE, G@DRAW_CIRCLE, G@COUNT_3  # Draw a line and circle.', 'F@CALL_G                               # Invoke "G" Stave.', 'F@ROTATE_LEFT, F@ANGLE_15              # Rotate left', 'F@CALL_F, F@REVERSE, F@COUNT_2         # Repeat and reverse.', 'F@ROTATE_RIGHT, F@ANGLE_15             # Rotate Right', 'F@CALL_F, F@REVERSE, F@COUNT_2         # Repeat and reverse.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
-  nodeId: 'animation-binary-tree.',
-  title: 'Binary Tree.',
+  nodeId: 'animation-binary-tree',
+  title: 'Binary tree',
+});
+</script></div>
+<div class="section" id="koch-snowflake">
+<h2>Koch snowflake<a class="headerlink" href="#koch-snowflake" title="Permalink to this headline">¶</a></h2>
+<div id='animation-koch-snowflake'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'H', 'G', 'G::END', 'DIAMOND'],
+  iterations: 3,
+  start: 1,
+  tokens: ['F@CALL_H, F@ARGUMENT                      # Just invoke stave "H". Be patient :)', 'H@CALL_G, H@ARGUMENT                      # Just invoke stave "G".', 'G::END@DRAW_LINE, G::END@ARGUMENT         # Starts with drawing line on the last iteration.', 'DIAMOND@FRACT_1_3, DIAMOND@ARGUMENT       # Set Diamond argument as one of third argument.', 'G@CALL_G, G@CALL_DIAMOND, G@ROTATE_LEFT, G@ANGLE_60               # Invoke stave "G" and rotate by 60°', 'G@CALL_G, G@CALL_DIAMOND, G@ROTATE_RIGHT, G@COUNT_2, G@ANGLE_60   # Invoke stave "G" and rotate by 120°', 'G@CALL_G, G@CALL_DIAMOND, G@ROTATE_LEFT, G@ANGLE_60               # Invoke stave "G" and rotate by 60°', 'G@CALL_G, G@CALL_DIAMOND                                          # Invoke stave "G" without rotation', 'F@REPLAY, F@COUNT_3                    # Repeat invoking stave "H" three times.', 'H@ROTATE_RIGHT, H@COUNT_2, H@ANGLE_60  # Rotate by 120° in stave "H". Next steps are increasing iterations.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-koch-snowflake',
+  title: 'Koch snowflake',
+});
+</script></div>
+<div class="section" id="tatoo-like-fractal">
+<h2>Tatoo-like fractal<a class="headerlink" href="#tatoo-like-fractal" title="Permalink to this headline">¶</a></h2>
+<div id='animation-tatoo-like-fractal'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'G', 'G::END'],
+  iterations: 3,
+  start: 1,
+  tokens: ['F@CALL_G, F@ARGUMENT, F@REPLAY, F@COUNT_5     # Just invoke stave "G" five times.'],
+  nodeId: 'animation-tatoo-like-fractal',
+  title: 'Tatoo-like fractal',
 });
 </script></div>
 </div>
@@ -75,6 +101,8 @@ TUT.makeAnimation({
 <li class="toctree-l2"><a class="reference internal" href="staves.html">Invoking staves and recursion</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Fractals</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#binary-tree">Binary Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#koch-snowflake">Koch snowflake</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tatoo-like-fractal">Tatoo-like fractal</a></li>
 </ul>
 </li>
 </ul>

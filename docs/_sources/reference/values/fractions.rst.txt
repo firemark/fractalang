@@ -1,20 +1,22 @@
 Fractions
 =============
 
-Half
-   :tut:token:`FRACT_1_2`
+Used basically in any action.
 
-One third
-   :tut:token:`FRACT_1_3`
+.. tut:token:: FRACT_1_2
+   :title: Half value
 
-Two thirds
-   :tut:token:`FRACT_2_3`
+.. tut:token:: FRACT_1_3
+   :title: One third value
 
-Quarter
-   :tut:token:`FRACT_1_4`
+.. tut:token:: FRACT_2_3
+   :title: Two thirds value
 
-Three quarters
-   :tut:token:`FRACT_3_4`
+.. tut:token:: FRACT_1_4
+   :title: One quarter value
 
-One fifth
-   :tut:token:`FRACT_1_5`
+.. tut:token:: FRACT_3_4
+   :title: Third quarters value
+
+.. tut:token:: FRACT_1_5
+   :title: One fifth value

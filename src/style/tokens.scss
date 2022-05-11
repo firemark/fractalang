@@ -1,4 +1,4 @@
-.tokens {
+.fract-tokens {
     display: flex;
     font-variant: small-caps;
     border: 2px #AAA solid;
@@ -6,7 +6,7 @@
     background-color: #EEE;
     gap: 5px;
 
-    &.hide .token {
+    &.hide .fract-token {
         display: none;
     }
 
@@ -17,7 +17,7 @@
     }
 }
 
-.token {
+.fract-token {
     padding: 5px;
     border: 2px #888 solid;
     color: #333;
@@ -27,6 +27,7 @@
     height: 50px;
     background-repeat: no-repeat;
     background-position: center;
+    vertical-align: middle;
 
     &.token-inline {
         width: 25px;
@@ -37,7 +38,7 @@
     }
 }
 
-.token-span {
+.fract-token-span {
     padding: 5px;
     height: 50px;
 

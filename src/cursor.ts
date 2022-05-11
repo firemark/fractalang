@@ -59,7 +59,7 @@ export class Cursor {
 
     drawLine(distance: number, stroke: number, color: number) {
         const [old_x, old_y] = this.position;
-        this._forward(distance);
+        this.forward(distance);
         const [new_x, new_y] = this.position;
         const ops = {
             stroke: this.strokeSize * stroke,
@@ -89,7 +89,7 @@ export class Cursor {
         this.figures.push(new Arc(point, arcRadius, ratio, ops));
 
         this.rotate(ratio / 2);
-        this._forward(size);
+        this.forward(size);
         this.rotate(ratio / 2);
         this.computeBox(point, Math.abs(arcRadius));
     }
@@ -115,11 +115,6 @@ export class Cursor {
     }
 
     forward(distance: number) {
-        this._forward(distance);
-        this.computeBox(this.position);
-    }
-
-    private _forward(distance: number) {
         const [x, y] = this.orientation;
         this.position[0] += x * distance * this.distanceMultipler;
         this.position[1] += y * distance * this.distanceMultipler;
