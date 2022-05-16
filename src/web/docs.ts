@@ -210,14 +210,45 @@ class TutAnim {
         const tokenNode = renderToken(token, {
             isTemplate: false,
             isEventable: false,
-            iconUrl: ICONS_URL_PREFIX
-        });
-        tokensNode.appendChild(tokenNode);
+            iconUrl: ICONS_URL_PREFIX,
+        }) as HTMLElement;
+
+        const lastNode = tokensNode.lastChild as HTMLElement;
+        if (!lastNode) {
+          tokensNode.appendChild(tokenNode);
+          return;
+        }
+        const sibling = lastNode.nextSibling;
+
+        if (tokenNode.dataset.type === "action") {
+            tokensNode.insertBefore(tokenNode, sibling);
+            return;
+        }
+
+        if (lastNode.classList.contains("fract-token-group")) {
+            lastNode.appendChild(tokenNode);
+        } else {
+            const group = document.createElement("div");
+            group.classList.add("fract-token-group");
+            tokensNode.insertBefore(group, sibling);
+            tokensNode.removeChild(lastNode);
+            group.appendChild(lastNode);
+            group.appendChild(tokenNode);
+        }
     }
 
     private removeLastToken(fullLineName: string) {
         const tokensNode = this.findLine(fullLineName);
-        tokensNode.removeChild(tokensNode.lastChild);
+        const lastNode = tokensNode.lastChild as HTMLElement;
+
+        if (lastNode.classList.contains("fract-token-group")) {
+            lastNode.removeChild(lastNode.lastChild);
+            if (!lastNode.lastChild) {
+                tokensNode.removeChild(lastNode);
+            }
+        } else {
+            tokensNode.removeChild(lastNode);
+        }
     }
 
     private findLine(fullLineName: string): HTMLElement {

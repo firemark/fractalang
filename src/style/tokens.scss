@@ -38,6 +38,18 @@
     }
 }
 
+.fract-token-group {
+    margin-right: 3px;
+    display: flex;
+    align-items: center;
+    border: 2px #888 solid;
+    color: #333;
+    border-radius: 5px;
+    background-color: #CCC;
+    > * { flex: 0 0 auto; border: none; border-radius: 0px; }
+    > *:not(:first-child) { border-left: 2px #888 dotted; }
+}
+
 .fract-token-span {
     padding: 5px;
     height: 50px;

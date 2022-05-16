@@ -98,6 +98,7 @@ export class Cursor {
         const [x, y] = this.position;
         const ops = { fill: this.calcColor(color) };
         this.figures.push(new Circle([x, y], radius, ops));
+        this.computeBox([x, y], Math.abs(radius));
     }
 
     drawSquare(size: number, color: number) {
@@ -105,6 +106,7 @@ export class Cursor {
         const [dx, dy] = this.orientation;
         const ops = { fill: this.calcColor(color) };
         this.figures.push(new Square([x, y], [dx, dy], size, ops));
+        this.computeBox([x, y], Math.abs(size));
     }
 
     drawTriangle(size: number, color: number) {
@@ -112,6 +114,7 @@ export class Cursor {
         const [dx, dy] = this.orientation;
         const ops = { fill: this.calcColor(color) };
         this.figures.push(new Triangle([x, y], [dx, dy], size, ops));
+        this.computeBox([x, y], Math.abs(size));
     }
 
     forward(distance: number) {

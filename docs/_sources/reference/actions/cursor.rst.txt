@@ -21,7 +21,7 @@ Cursor operators
 
    Reverse last *N* (determined by action value) actions which modifing the cursor.
 
-   Non-cursor actions are ignored (because don't modify the cursor).
+   Non-cursor actions are ignored (because they don't modify the cursor).
 
    Note that painting a line or arcline are modifing cursor too.
 
