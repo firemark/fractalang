@@ -79,7 +79,7 @@ class TokenDirective(ObjectDescription):
             uri=f"/icons/{sig}.svg",
             name=sig,
             alt=sig,
-            classes=["fract-token"],
+            classes=["fract-token", "token-header"],
         )
         signode += addnodes.desc_name(text=self.options['title'])
         return sig

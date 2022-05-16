@@ -6,3 +6,5 @@ Token actions
    :caption: Token Values:
 
    painters
+   cursor
+   callers

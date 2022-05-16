@@ -33,7 +33,7 @@ export function scrapeCode(codeNode: HTMLElement): Func[] {
         }
         const {name, suffix} = funcNode.dataset;
         const tokens: string[] = [];
-        funcNode.querySelectorAll(".token").forEach(tokenNode => {
+        funcNode.querySelectorAll(".fract-token").forEach(tokenNode => {
             tokens.push((tokenNode as HTMLElement).dataset.token);
         });
         const realname = suffix ? `${name}::${suffix}` : name;

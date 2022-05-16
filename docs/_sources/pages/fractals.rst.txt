@@ -43,12 +43,13 @@ Koch snowflake
    !IT_INC
    !IT_INC
 
-Tatoo-like fractal
-^^^^^^^^^^^^^^^^^^
+..
+   Tatoo-like fractal
+   ^^^^^^^^^^^^^^^^^^
 
-.. tut:animation:: Tatoo-like fractal
-   :staves: F G G::END
-   :iterations: 3
-   :start: 1
+   .. tut:animation:: Tatoo-like fractal
+      :staves: F G G::END
+      :iterations: 3
+      :start: 1
 
-   F@CALL_G, F@ARGUMENT, F@REPLAY, F@COUNT_5     # Just invoke stave "G" five times.
+      F@CALL_G, F@ARGUMENT, F@REPLAY, F@COUNT_5     # Just invoke stave "G" five times.
