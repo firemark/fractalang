@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Why? &#8212; Fractalang 0.1 documentation</title>
+    <title>Definitions &#8212; Fractalang 0.1 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -18,7 +18,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Basic Drawing" href="basic-drawing.html" />
-    <link rel="prev" title="Definitions" href="why.html" />
+    <link rel="prev" title="Why?" href="why.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -32,9 +32,33 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="why">
-<h1>Why?<a class="headerlink" href="#why" title="Permalink to this headline">¶</a></h1>
-<p>TODO :(</p>
+  <div class="section" id="definitions">
+<h1>Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<p>Before we start, we should describe basic terms.</p>
+<div class="figure" id="id1">
+<img alt="definitions" src="../_images/definitions.png" />
+<p class="caption"><span class="caption-text">Definitions</span></p>
+</div>
+<dl class="docutils">
+<dt>Editor</dt>
+<dd>A program / GUI to make fractals.</dd>
+<dt>Plane</dt>
+<dd>An rendered image.</dd>
+<dt>Token</dt>
+<dd><p class="first">An atom of fractalang - in editor it’s a block with symbol.</p>
+<p>Token can describes numbers, colors or executing action like drawing or rotating.</p>
+<p class="last">Token is a <em>word</em> in fractalang. Like a <em>word</em> - token connected with another tokens
+can creates sentences which making nice figures or fractals.</p>
+</dd>
+<dt>Stave</dt>
+<dd>Stave like in music notation which is</dd>
+<dt>Action</dt>
+<dd>Token with action/command/order. Examples are drawing line (<img alt="DRAW_LINE" class="fract-token token-inline" src="../_images/DRAW_LINE.svg" />) or rotating (<img alt="ROTATE_LEFT" class="fract-token token-inline" src="../_images/ROTATE_LEFT.svg" /> or <img alt="ROTATE_RIGHT" class="fract-token token-inline" src="../_images/ROTATE_RIGHT.svg" />)</dd>
+<dt>Value</dt>
+<dd>Token with specified value - often a number (e.g. Three <img alt="COUNT_3" class="fract-token token-inline" src="../_images/COUNT_3.svg" />), fractions (e.g. One third <img alt="FRACT_1_3" class="fract-token token-inline" src="../_images/FRACT_1_3.svg" />) but it could be as color or stroke width.</dd>
+<dt>Argument</dt>
+<dd>…</dd>
+</dl>
 </div>
 
 
@@ -56,8 +80,8 @@
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="why.html">Definitions</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Why?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="why.html">Why?</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Definitions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="basic-drawing.html">Basic Drawing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cursor.html">Cursor manipulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="staves.html">Invoking staves and recursion</a></li>
@@ -72,7 +96,7 @@
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Tutorial</a><ul>
-      <li>Previous: <a href="why.html" title="previous chapter">Definitions</a></li>
+      <li>Previous: <a href="why.html" title="previous chapter">Why?</a></li>
       <li>Next: <a href="basic-drawing.html" title="next chapter">Basic Drawing</a></li>
   </ul></li>
   </ul></li>
