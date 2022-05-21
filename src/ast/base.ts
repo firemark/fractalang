@@ -13,7 +13,7 @@ export interface ActionResult {
 
 export abstract class ActionNode implements Node {
     abstract exec(context: Context, local: any): ActionResult;
-    execReverse(context: Context) {};
+    execReverse(context: Context): number { return 0; };
 }
 
 export function evalValue(valueNodes: ValueNode[], context: Context): EvaluedValue {

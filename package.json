@@ -6,7 +6,9 @@
   "scripts": {
     "build-node": "tsc --build tsconfig-node.json",
     "build-web": "webpack",
-    "serve": "webpack serve --live-reload",
+    "build-docs": "webpack -c ./webpack.config.docs.js",
+    "serve-web": "webpack serve --live-reload",
+    "serve-docs": "webpack serve -c ./webpack.config.docs.js --live-reload",
     "demo": "node dist-node/apps/demo.js",
     "generate-icon-tokens": "node dist-node/apps/generate-icon-tokens.js"
   },

@@ -1,0 +1,29 @@
+name: build and deploy docs
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install sphinx
+        run: sudo apt-get install -y python3-sphinx
+      - name: Install project
+        run: npm install
+      - name: Build docs
+        run: |
+          mkdir -p docs/_static
+          touch docs/.nojekyll
+          npm run build-node
+          npm run build-docs
+          npm run generate-icon-tokens
+          sphinx-build docs-src docs/
+          cp public/icons/* docs/_images/
+      - name: Deploy doc
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: docs

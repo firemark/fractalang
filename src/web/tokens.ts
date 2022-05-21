@@ -1,17 +1,5 @@
 import { v4 as uuid4 } from 'uuid';
-
-export function renderToken(token: string, isTemplate: boolean = false): Element {
-    const node = document.createElement('span');
-    node.classList.add('token');
-    node.setAttribute('draggable', 'true');
-    node.id = `token-${uuid4()}`;
-    node.dataset.token = token;
-    node.dataset.isTemplate = isTemplate ? 'yes' : 'no';
-    //node.innerText = token;
-    node.style.backgroundImage = `url(${process.env.ASSET_PATH}icons/${token}.svg)`;
-    setTokenEvents(node);
-    return node;
-}
+import { DEFAULT_ICON_URL } from './consts';
 
 function setTokenEvents(node: Element) {
     node.addEventListener('dragstart', evDragStart, false);
@@ -130,6 +118,35 @@ const TOKENS: TokenCategory[] = [
     },
 ];
 
+
+const NAME_TO_TOKEN = new Map<string, TokenInfo>(
+    TOKENS
+        .map(c => c.tokens.map(t => [t.name, t]))
+        .flat() as [string, TokenInfo][]
+);
+
+export function renderToken(
+    token: string,
+    {
+        isTemplate = false,
+        isEventable = true,
+        iconUrl = DEFAULT_ICON_URL,
+    } = {}): Element {
+    const tokenInfo = NAME_TO_TOKEN.get(token);
+    const node = document.createElement('span');
+    node.classList.add('fract-token');
+    node.id = `token-${uuid4()}`;
+    node.dataset.token = token;
+    node.dataset.type = tokenInfo ? tokenInfo.type : "unknown";
+    node.dataset.isTemplate = isTemplate ? 'yes' : 'no';
+    node.style.backgroundImage = `url(${iconUrl}/${token}.svg)`;
+    if (isEventable) {
+        node.setAttribute('draggable', 'true');
+        setTokenEvents(node);
+    }
+    return node;
+}
+
 export function initTokens(isTemplate: boolean = true) {
     const container = document.getElementById('tokens');
     container.innerHTML = '';
@@ -147,7 +164,7 @@ export function initTokens(isTemplate: boolean = true) {
         categoryNode.appendChild(categoryNodeName);
 
         category.tokens.forEach(tokenInfo => {
-            categoryNode.appendChild(renderToken(tokenInfo.name, isTemplate));
+            categoryNode.appendChild(renderToken(tokenInfo.name, {isTemplate}));
         });
 
         container.appendChild(categoryNode);
