@@ -1,0 +1,180 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Cursor manipulations &#8212; Fractalang 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/tut.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Invoking staves and recursion" href="staves.html" />
+    <link rel="prev" title="Basic Drawing" href="basic-drawing.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="cursor-manipulations">
+<h1>Cursor manipulations<a class="headerlink" href="#cursor-manipulations" title="Permalink to this headline">¶</a></h1>
+<p>We need to explain what is cursor before we start.</p>
+<p>The Cursor (like a turtle from <a class="reference external" href="https://en.wikipedia.org/wiki/Logo_(programming_language)">logo</a>) remembers last position and last heading (direction). If you draw a line, then cursor move to end of line. If you rotate, then cursor will be rotated. On plane cursor is invisible (because you want a fractal, not a cursor path!), but without him, it would not possible to draw anything.</p>
+<p>We have two common operations on cursor. First is forward a cursor (it’s like a drawing line without line ;-)):</p>
+<div class="section" id="go-forward">
+<h2>Go forward<a class="headerlink" href="#go-forward" title="Permalink to this headline">¶</a></h2>
+<div id='animation-forward-cursor'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ["F@DRAW_LINE, F@COUNT_2      # Let's start with line", 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle.', 'F@FORWARD, F@COUNT_2        # Here we add "Forward action" which moving cursor by 2 units.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-forward-cursor',
+  title: 'Forward cursor',
+});
+</script></div>
+<div class="section" id="rotate">
+<h2>Rotate<a class="headerlink" href="#rotate" title="Permalink to this headline">¶</a></h2>
+<p>Second is rotate:</p>
+<div id='animation-rotate-cursor'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE, F@COUNT_2      # Again, draw line.', 'F@ROTATE_LEFT, F@ANGLE_90   # Rotate left cursor by 90°. Notice a token value. It means quarter of full-rotation.', 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle. Notice a heading of triangle.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-rotate-cursor',
+  title: 'Rotate cursor',
+});
+</script></div>
+<div class="section" id="reverse">
+<h2>Reverse<a class="headerlink" href="#reverse" title="Permalink to this headline">¶</a></h2>
+<p>Third is reverse token. This tokens undo last <strong>N</strong> cursor movements (but not <strong>drawing actions</strong>)</p>
+<div id='animation-reverse-cursor'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE, F@COUNT_2      # Again, draw line.', 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle.', 'F@REVERSE, F@COUNT_2        # Reverse last two cursor action.', 'F@ROTATE_LEFT, F@ANGLE_30   # Rotate left cursor by 30°.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-reverse-cursor',
+  title: 'Reverse cursor',
+});
+</script></div>
+<div class="section" id="replay">
+<h2>Replay<a class="headerlink" href="#replay" title="Permalink to this headline">¶</a></h2>
+<p>Last is replay token. Repeat <strong>N</strong> times last token-action.
+This token is not helpfull for sigle tokens, but on next section
+we learn about “grouping” tokens.</p>
+<div id='animation-replay'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE                 # Again, draw line.', 'F@REPLAY, F@COUNT_3         # Replay it three times.', 'F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-replay',
+  title: 'Replay',
+});
+</script><p>And that is - in next sections we describe invoking another lines and operations on cursor will be very useful.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Fractalang</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="why.html">Why?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic-drawing.html">Basic Drawing</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cursor manipulations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#go-forward">Go forward</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rotate">Rotate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reverse">Reverse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#replay">Replay</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="staves.html">Invoking staves and recursion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fractals.html">Fractals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorial</a><ul>
+      <li>Previous: <a href="basic-drawing.html" title="previous chapter">Basic Drawing</a></li>
+      <li>Next: <a href="staves.html" title="next chapter">Invoking staves and recursion</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Firemark.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/pages/cursor.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

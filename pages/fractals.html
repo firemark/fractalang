@@ -1,0 +1,143 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Fractals &#8212; Fractalang 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/tut.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Invoking staves and recursion" href="staves.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fractals">
+<h1>Fractals<a class="headerlink" href="#fractals" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="binary-tree">
+<h2>Binary Tree<a class="headerlink" href="#binary-tree" title="Permalink to this headline">¶</a></h2>
+<div id='animation-binary-tree'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'G'],
+  iterations: 2,
+  start: 1,
+  tokens: ['G@DRAW_LINE, G@DRAW_CIRCLE, G@COUNT_3  # Draw a line and circle.', 'F@CALL_G                               # Invoke "G" Stave.', 'F@ROTATE_LEFT, F@ANGLE_15              # Rotate left', 'F@CALL_F, F@REVERSE, F@COUNT_2         # Repeat and reverse.', 'F@ROTATE_RIGHT, F@ANGLE_15             # Rotate Right', 'F@CALL_F, F@REVERSE, F@COUNT_2         # Repeat and reverse.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-binary-tree',
+  title: 'Binary tree',
+});
+</script></div>
+<div class="section" id="koch-snowflake">
+<h2>Koch snowflake<a class="headerlink" href="#koch-snowflake" title="Permalink to this headline">¶</a></h2>
+<div id='animation-koch-snowflake'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'H', 'G', 'G::END', 'DIAMOND'],
+  iterations: 3,
+  start: 1,
+  tokens: ['F@CALL_H, F@ARGUMENT                      # Just invoke stave "H". Be patient :)', 'H@CALL_G, H@ARGUMENT                      # Just invoke stave "G".', 'G::END@DRAW_LINE, G::END@ARGUMENT         # Starts with drawing line on the last iteration.', 'DIAMOND@FRACT_1_3, DIAMOND@ARGUMENT       # Set Diamond argument as one of third argument.', 'G@CALL_G, G@CALL_DIAMOND, G@ROTATE_LEFT, G@ANGLE_60               # Invoke stave "G" and rotate by 60°', 'G@CALL_G, G@CALL_DIAMOND, G@ROTATE_RIGHT, G@COUNT_2, G@ANGLE_60   # Invoke stave "G" and rotate by 120°', 'G@CALL_G, G@CALL_DIAMOND, G@ROTATE_LEFT, G@ANGLE_60               # Invoke stave "G" and rotate by 60°', 'G@CALL_G, G@CALL_DIAMOND                                          # Invoke stave "G" without rotation', 'F@REPLAY, F@COUNT_3                    # Repeat invoking stave "H" three times.', 'H@ROTATE_RIGHT, H@COUNT_2, H@ANGLE_60  # Rotate by 120° in stave "H". Next steps are increasing iterations.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-koch-snowflake',
+  title: 'Koch snowflake',
+});
+</script></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Fractalang</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="why.html">Why?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="definitions.html">Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basic-drawing.html">Basic Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cursor.html">Cursor manipulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="staves.html">Invoking staves and recursion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fractals</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#binary-tree">Binary Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#koch-snowflake">Koch snowflake</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorial</a><ul>
+      <li>Previous: <a href="staves.html" title="previous chapter">Invoking staves and recursion</a></li>
+      <li>Next: <a href="../reference/index.html" title="next chapter">Reference</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Firemark.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="../_sources/pages/fractals.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
