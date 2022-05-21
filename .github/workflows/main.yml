@@ -13,11 +13,12 @@ jobs:
       - name: Build docs
         run: |
           mkdir -p docs/_static
+          touch docs/.nojekyll
           npm run build-node
           npm run build-docs
           npm run generate-icon-tokens
-          cp -r public/icons docs-src/
           sphinx-build docs-src docs/
+          cp public/icons/* docs/_images/
       - name: Deploy doc
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
