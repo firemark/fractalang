@@ -3,8 +3,9 @@ Definitions
 
 Before we start, we should describe basic terms.
 
-.. figure:: definitions.png
+.. figure:: images/definitions.png
    :alt: definitions
+   :align: center
 
    Definitions
 

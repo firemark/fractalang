@@ -3,8 +3,9 @@ Definitions
 
 Before we start, we should describe basic terms.
 
-.. figure:: definitions.png
+.. figure:: images/definitions.png
    :alt: definitions
+   :align: center
 
    Definitions
 
@@ -30,6 +31,3 @@ Action
 
 Value
   Token with specified value - often a number (e.g. Three :tut:token:`COUNT_3`), fractions (e.g. One third :tut:token:`FRACT_1_3`) but it could be as color or stroke width.
-
-Argument
-  …

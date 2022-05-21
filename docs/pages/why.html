@@ -15,6 +15,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="../_static/language_data.js"></script>
     <script type="text/javascript" src="../_static/tut.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Definitions" href="definitions.html" />
@@ -34,7 +35,68 @@
             
   <div class="section" id="why">
 <h1>Why?<a class="headerlink" href="#why" title="Permalink to this headline">¶</a></h1>
-<p>TODO :(</p>
+<p>Why haven’t I writen a library in any language or made domain specific language
+(like <a class="reference external" href="https://en.wikipedia.org/wiki/Logo_(programming_language)">LOGO</a> language) to make simple fractals?</p>
+<p>Because I’m in love in many variatons of symbols and ancient manuscripts.
+I love mathematican symbols too - many equations is very hard to write as poetic poem.
+I think without simple symbols and simpler syntax in math formulas it wouldn’t possible
+to make advanced equations. In other scientific/enginneering branches it would be
+too hard to make something without symbols.</p>
+<div class="figure align-center" id="id1">
+<img alt="medieval notations" src="../_images/medieval.png" />
+<p class="caption"><span class="caption-text"><a class="reference external" href="https://www.researchgate.net/publication/266977181_Polynomials_and_equations_in_medieval_Italian_algebra">Medieval formulas</a> in the text was a little <em>“too big”</em>.</span></p>
+</div>
+<div class="figure align-center" id="id2">
+<img alt="circuit diagram" src="../_images/circuit-diagram.png" />
+<p class="caption"><span class="caption-text">Each <a class="reference external" href="https://en.wikipedia.org/wiki/Circuit_diagram">Circuit Diagrams</a> have a many symbols. I can’t imagine how would be work without diagrams.</span></p>
+</div>
+<div class="figure align-center" id="id3">
+<img alt="road sign in poland" src="../_images/road_sign.jpg" />
+<p class="caption"><span class="caption-text"><a class="reference external" href="https://en.wikipedia.org/wiki/Road_signs_in_Poland#/media/File:Zakaz_wjazdu_-_nie_dotyczy_rowerów.JPG">Road sign</a> is a code for drivers. This sign means <em>“no entry in both ways”</em>.</span></p>
+</div>
+<p>So I thinking about to make “language” to draw simple and little advanced figures and fractals with symbols.
+But not a typical <em>computer language</em> - this lang have custom symbols (<em>tokens</em>)
+and splitted by staves (similar to computer functions / procedures).
+Each symbol try to avoid common mathematical symbols
+(but it was too hard to achieve that - some tokens have mathematical symbols like <img alt="CALL_F" class="fract-token token-inline" src="../_images/CALL_F.svg" />)
+and arabic numerals (roman numerals is still in my heart <code class="code docutils literal notranslate"><span class="pre">&lt;3</span></code>).
+I wish to make language with “senteces” (in e.g. <img alt="DRAW_CIRCLE" class="fract-token token-inline" src="../_images/DRAW_CIRCLE.svg" /> <img alt="COUNT_5" class="fract-token token-inline" src="../_images/COUNT_5.svg" />
+<img alt="DRAW_LINE" class="fract-token token-inline" src="../_images/DRAW_LINE.svg" /> <img alt="COUNT_2" class="fract-token token-inline" src="../_images/COUNT_2.svg" /> means <em>Draw circle of size 5 units and after that
+draw line of width 2 units</em> - did you notice difference of size between text and tokens?).</p>
+<p>But symbols can be very unclear if reader is not familiar with specific set of symbols.
+It’s very nice if somebody know that, but most people don’t know specific languages.
+To achieve that, then need a documentation, courses or worse - scientific degree
+(let him who doesn’t fail the exam of derivations cast the first <span class="math notranslate nohighlight">\(e\)</span> constant)!</p>
+<p>Second disadvantage is limited number of symbols - many languages (natural and computer)
+have advanced grammar (<a class="reference external" href="https://en.wikipedia.org/wiki/Chomsky_hierarchy">Chomsky hierarchy</a>) and <a class="reference external" href="https://en.wikipedia.org/wiki/Morphology_(linguistics)#Examples">morphology</a> to describe
+(almost) any situation. My language unfortunately don’t have advanced grammar
+and have small set of symbols - because I think it would be too difficult
+to remember bigger constructs in this language. I suppose, for now is enough
+to make a very fancy fractals.</p>
+<div class="figure align-center" id="id4">
+<img alt="heisenberg picture" src="../_images/heisenberg.svg" /><p class="caption"><span class="caption-text"><a class="reference external" href="https://en.wikipedia.org/wiki/Heisenberg_picture">Heisenberg equation</a> is only understand only for people which
+know advanced mathematic and quantum mechanics.
+For mortals looks like a black magic spell.</span></p>
+</div>
+<div class="figure align-center" id="id5">
+<img alt="mensural notation" src="../_images/mensural_notation.jpg" />
+<p class="caption"><span class="caption-text"><a class="reference external" href="https://en.wikipedia.org/wiki/Mensural_notation#/media/File:Barbireau_illum.jpg">Mensural notation</a> from 16th-century - If you aren’t similar with music notation
+then this manuscript would be unreadable.</span></p>
+</div>
+<p>It’s very similar situations in computer languages. Symbols contra keywords:</p>
+<div class="figure align-center" id="id6">
+<img alt="cobol" src="../_images/cobol.png" />
+<p class="caption"><span class="caption-text"><a class="reference external" href="https://en.wikipedia.org/wiki/COBOL">Cobol</a> have tried to be english-friendly language.</span></p>
+</div>
+<div class="figure align-center" id="id7">
+<img alt="APL" src="../_images/APLSC_matrix.jpg" />
+<p class="caption"><span class="caption-text"><a class="reference external" href="https://computerhistory.org/blog/the-apl-programming-language-source-code/">APL</a> has many symbols - only who knew these all symbols and gramar can write programs in APL language.</span></p>
+</div>
+<div class="figure align-center" id="id8">
+<img alt="game maker" src="../_images/game_maker.png" />
+<p class="caption"><span class="caption-text"><a class="reference external" href="http://www.multiwingspan.co.uk/old/gm/tutorials/breakout/br5.htm">Game Maker</a> in early versions has blocks too. It was very nice to learn programming
+computer games but not enough to make a bigger game.</span></p>
+</div>
 </div>
 
 
