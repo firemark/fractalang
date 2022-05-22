@@ -1,24 +1,6 @@
 import { v4 as uuid4 } from 'uuid';
 import { DEFAULT_ICON_URL } from './consts';
 
-function setTokenEvents(node: Element) {
-    node.addEventListener('dragstart', evDragStart, false);
-    node.addEventListener('dragend', evDragEnd, false);
-
-    function evDragStart(e) {
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('token', this.dataset.token);
-        e.dataTransfer.setData('id', this.id);
-    }
-    function evDragEnd(e) {
-        /*
-        this.parentElement.querySelectorAll('.token').forEach(function (item) {
-          item.classList.remove('over');
-        });
-        */
-    }
-}
-
 interface TokenInfo {
     name: string;
     label: string;
@@ -46,7 +28,7 @@ const TOKENS: TokenCategory[] = [
         label: 'Fractions',
         tokens: [
             {name: 'FRACT_1_2', label: 'Half', type: 'value'},
-            {name: 'FRACT_1_3', label: 'Third', type: 'value'},
+            {name: 'FRACT_1_3', label: 'One Third', type: 'value'},
             {name: 'FRACT_2_3', label: 'Two thirds', type: 'value'},
             {name: 'FRACT_1_4', label: 'Quarter', type: 'value'},
             {name: 'FRACT_3_4', label: 'Three quarters', type: 'value'},
@@ -118,55 +100,8 @@ const TOKENS: TokenCategory[] = [
     },
 ];
 
-
-const NAME_TO_TOKEN = new Map<string, TokenInfo>(
+export const NAME_TO_TOKEN = new Map<string, TokenInfo>(
     TOKENS
         .map(c => c.tokens.map(t => [t.name, t]))
         .flat() as [string, TokenInfo][]
 );
-
-export function renderToken(
-    token: string,
-    {
-        isTemplate = false,
-        isEventable = true,
-        iconUrl = DEFAULT_ICON_URL,
-    } = {}): Element {
-    const tokenInfo = NAME_TO_TOKEN.get(token);
-    const node = document.createElement('span');
-    node.classList.add('fract-token');
-    node.id = `token-${uuid4()}`;
-    node.dataset.token = token;
-    node.dataset.type = tokenInfo ? tokenInfo.type : "unknown";
-    node.dataset.isTemplate = isTemplate ? 'yes' : 'no';
-    node.style.backgroundImage = `url(${iconUrl}/${token}.svg)`;
-    if (isEventable) {
-        node.setAttribute('draggable', 'true');
-        setTokenEvents(node);
-    }
-    return node;
-}
-
-export function initTokens(isTemplate: boolean = true) {
-    const container = document.getElementById('tokens');
-    container.innerHTML = '';
-    TOKENS.forEach(category => {
-        const categoryNode = document.createElement('div');
-        categoryNode.classList.add('tokens', 'hide');
-
-        const categoryNodeName = document.createElement('span');
-        categoryNodeName.classList.add('label');
-        categoryNodeName.innerText = category.label;
-        categoryNodeName.addEventListener('click', () => {
-            categoryNode.classList.toggle('hide');
-            return false;
-        }, false);
-        categoryNode.appendChild(categoryNodeName);
-
-        category.tokens.forEach(tokenInfo => {
-            categoryNode.appendChild(renderToken(tokenInfo.name, {isTemplate}));
-        });
-
-        container.appendChild(categoryNode);
-    });
-}

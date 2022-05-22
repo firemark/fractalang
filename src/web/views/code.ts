@@ -1,9 +1,6 @@
-import { renderToken } from './tokens';
-import { scrapeAndRun } from './run';
-import { DEFAULT_ICON_URL } from './consts';
-import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '../parser';
-
-const INPUTS = ["iterations", "first-color", "second-color", "stroke-size"];
+import { TokensStaveView } from './staveToken';
+import { scrapeAndRun } from '../run';
+import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '.../parser';
 
 export function initCode(code) {
     const cb = () => {
@@ -57,85 +54,60 @@ function renderAddFunction(type: string, name: string, suffix: string = "") {
     return node;
 }
 
-function renderCode(code) {
-    const container = document.getElementById("code");
-    container.innerHTML = "";
-    code.forEach(staveName => {
-        const [name, suffix] = staveName.split("::", 2);
-        container.appendChild(renderStave({name, suffix}));
-    });
-}
+class CodeView extends View {
+    private node: HTMLElement;
+    private iconUrl: str;
 
-export function renderStave({
-    name,
-    suffix = "",
-    tokens = [],
-    isEditable = true,
-    iconUrl = DEFAULT_ICON_URL,
-}): Element {
-    const node = document.createElement("li");
-    node.classList.add("function");
-    node.dataset.name = name;
-    node.dataset.suffix = suffix;
-    node.appendChild(renderName(name, suffix, {iconUrl}));
-    node.appendChild(renderTokens(tokens, {isEditable, iconUrl}));
-    return node;
+    constructor({
+        node: HTMLElement,
+        iconUrl = DEFAULT_ICON_URL,
+    }) {
+        this.node = node;
+        this.iconUrl = iconUrl;
+    }
+
+    renderStaves(staves: Stave): Element {
+        const container = this.node.querySelector(".fract-staves");
+        container.innerHTML = "";
+        code.forEach({ name: StaveName } => {
+            const [name, suffix] = staveName.split("::", 2);
+            container.appendChild(this.renderStave({name, suffix}));
+        });
+        return code;
+    }
+
+    renderStave({
+        name,
+        suffix = "",
+        tokens = [],
+        isEditable = true,
+    }): Element {
+        const node = document.createElement("li");
+        node.classList.add("stave");
+        node.dataset.name = name;
+        node.dataset.suffix = suffix;
+        node.appendChild(this.renderName(name, suffix, {iconUrl}));
+        node.appendChild(this.renderTokens(tokens, {isEditable, iconUrl}));
+        return node;
+    }
+
+    renderName(name: string, suffix: string = {}): Element {
+        const node = document.createElement("span");
+        node.classList.add("name");
+        const realname = suffix ? `${name}_${suffix}` : name;
+        node.style.backgroundImage = `url(${this.iconUrl}/CALL_${realname}.svg)`;
+        return node;
+    }
 }
 
 function showOrHideOrAddFunction(name: string, suffix: string = ""): void {
     const codeNode = document.getElementById("code");
-    const funcNode = codeNode.querySelector(`.function[data-name="${name}"][data-suffix="${suffix}"]`);
+    const funcNode = codeNode.querySelector(`.stave[data-name="${name}"][data-suffix="${suffix}"]`);
     if (!funcNode) {
         codeNode.appendChild(renderStave({name, suffix, tokens: []}));
     } else {
         funcNode.classList.toggle("hide");
     }
-}
-
-function renderName(name: string, suffix: string, {iconUrl = DEFAULT_ICON_URL} = {}): Element {
-    const node = document.createElement("span");
-    node.classList.add("name");
-    const realname = suffix ? `${name}_${suffix}` : name;
-    node.style.backgroundImage = `url(${iconUrl}/CALL_${realname}.svg)`;
-    return node;
-}
-
-function renderTokens(tokens, {isEditable = true, iconUrl = DEFAULT_ICON_URL} = {}): Element {
-    const tokensNode = document.createElement("div");
-    tokensNode.classList.add("outer-tokens");
-
-    const node = document.createElement("div");
-    node.classList.add("inner-tokens");
-    if (isEditable) {
-        node.appendChild(renderTokenSpan());
-    }
-    tokens.forEach(token => {
-        node.appendChild(renderToken(token, {isTemplate: isEditable}));
-        if (isEditable) {
-            node.appendChild(renderTokenSpan());
-        }
-    });
-
-    tokensNode.appendChild(node);
-    if (isEditable) {
-        tokensNode.appendChild(renderTokenRemoveSpan());
-    }
-
-    return tokensNode;
-}
-
-function renderTokenSpan() {
-    const node = document.createElement("span");
-    node.classList.add("fract-token-span");
-    setTokenSpanEvents(node);
-    return node;
-}
-
-function renderTokenRemoveSpan() {
-    const node = document.createElement("span");
-    node.classList.add("fract-token-span", "remove");
-    setTokenSpanEvents(node, true);
-    return node;
 }
 
 function setTokenSpanEvents(node: Element, remove: boolean = false) {

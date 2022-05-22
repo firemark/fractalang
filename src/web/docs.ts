@@ -15,7 +15,7 @@ interface TutAnimParams {
 
 let ICONS_URL_PREFIX = "";
 
-class TutAnim {
+class TutAnimController {
     private tokens: string[];
     private position: number;
     private iterations: number;
