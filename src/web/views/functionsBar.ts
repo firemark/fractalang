@@ -1,18 +1,18 @@
+import { View } from './view';
 import { TokensStaveView } from './staveToken';
-import { scrapeAndRun } from '../run';
-import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '.../parser';
+import { DEFAULT_ICON_URL } from '../consts';
+
+import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '../../parser';
 
 
-class FunctionsBarView extends View {
+export class FunctionsBarView extends View {
+    private iconUrl: string;
+    private onSelect: (name: string, suffix: string) => void;
 
-    constructor({
-        node: HTMLElement,
-        iconUrl = DEFAULT_ICON_URL,
-        showOrHideOrAddStaveCallback,
-    }) {
+    constructor({node, onSelect, iconUrl = DEFAULT_ICON_URL}) {
         super(node);
         this.iconUrl = iconUrl;
-        this.showOrHideOrAddStaveCallback = showOrHideOrAddStaveCallback;
+        this.onSelect = onSelect;
     }
 
     render() {
@@ -21,7 +21,7 @@ class FunctionsBarView extends View {
         });
     }
 
-    createBarOfFunctionsNode(name: string) {
+    private createBarOfFunctionsNode(name: string) {
         const node = this.createElement({ name: "li", classes: ["dropdown"] });
         const baseFuncNode = this.createAddFunctionNode("span", name);
         const barNode = this.createElement({ name : "ul", classes: ["dropdown-content"] });
@@ -34,18 +34,16 @@ class FunctionsBarView extends View {
         return node;
     }
 
-    createAddFunctionNode(type: string, name: string, suffix: string = "") : Node {
-        const { showOrHideOrAddStaveCallback } = this;
+    private createAddFunctionNode(type: string, name: string, suffix: string = "") : Node {
         const node = document.createElement(type);
         const realName = suffix ? `SUFFIX_${suffix}` : `CALL_${name}`;
         node.style.backgroundImage = `url(${this.iconUrl}/${realName}.svg)`;
         node.classList.add("token-btn");
         node.dataset.name = name;
         node.dataset.suffix = suffix;
-        node.addEventListener("click", function() {
-            const {name, suffix} = this.dataset;
-            showOrHideOrAddStaveCallback(name, suffix);
-            scrapeAndRun();
+        node.addEventListener("click", () => {
+            const {name, suffix} = node.dataset;
+            this.onSelect(name, suffix);
             return false;
         }, false);
         return node;

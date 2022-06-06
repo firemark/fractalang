@@ -1,26 +1,34 @@
-class TokensCategoryView extends TokensView {
+import { TokensView } from "./token";
+import { TokenCategory } from "../models";
 
-    constructor({
+import { DEFAULT_ICON_URL } from '../consts';
+
+export class TokensCategoryView extends TokensView {
+    protected categories: TokenCategory[];
+
+    constructor({node, categories, iconUrl = DEFAULT_ICON_URL}: {
         node: HTMLElement,
-        iconUrl = DEFAULT_ICON_URL,
+        categories: TokenCategory[],
+        iconUrl?: string,
     }) {
         super({
             node,
             iconUrl,
-            isMovable = false,
-            isEventable = true,
+            isMovable: false,
+            isEditable: true,
         });
+        this.categories = categories;
     }
 
-    render(categories: TokenCategory[]) {
+    render() {
         this.clear();
-        categories.forEach(category => {
+        this.categories.forEach(category => {
             const categoryNode = this.createCategoryNode(category);
             this.node.appendChild(categoryNode);
         });
     }
 
-    createCategoryNode(category: TokenCategory): Element {
+    protected createCategoryNode(category: TokenCategory): HTMLElement {
         const categoryNode = this.createElement({
             name: 'div',
             classes: ['tokens', 'hide'],
@@ -30,20 +38,21 @@ class TokensCategoryView extends TokensView {
             classes: ['label'],
             text: category.label,
         });
-        categoryNodeName.addEventListener('click', () => {
-            categoryNode.classList.toggle('hide');
+        categoryNodeName.addEventListener('click', function () {
+            this.classList.toggle('hide');
             return false;
         }, false);
         categoryNode.appendChild(categoryNodeName);
 
         category.tokens.forEach(tokenInfo => {
-            categoryNode.appendChild(this.createTokenNode(tokenInfo.name, {isTemplate}));
+            categoryNode.appendChild(this.createTokenNode(tokenInfo.name));
             categoryNode.appendChild(this.createElement({
                 name: 'span',
                 classes: ['label'],
                 text: tokenInfo.label,
             }));
         });
-        return category;
+
+        return categoryNode;
     }
 }

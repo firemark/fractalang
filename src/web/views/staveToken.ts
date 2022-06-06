@@ -1,10 +1,13 @@
-import { TokensView }
+import { TokensView } from './token';
+import { Stave } from '../models';
 import { DEFAULT_ICON_URL } from '../consts';
 
 export class TokensStaveView extends TokensView {
+    private onDrop: () => void;
 
     constructor({
-        node: HTMLElement,
+        node,
+        onDrop,
         iconUrl = DEFAULT_ICON_URL,
         isMovable = false,
     }) {
@@ -12,8 +15,9 @@ export class TokensStaveView extends TokensView {
             node,
             iconUrl,
             isMovable,
-            isEventable = true,
+            isEditable: true,
         });
+        this.onDrop = onDrop;
     }
 
     render(tokens: string[]) {
@@ -23,43 +27,52 @@ export class TokensStaveView extends TokensView {
         innerNode.classList.add("inner-tokens");
 
         if (this.isEditable) {
-            node.appendChild(this.createTokenSpanNode());
+            innerNode.appendChild(this.createTokenSpanNode());
         }
 
         tokens.forEach(token => {
-            node.appendChild(this.createTokenNode(token));
-            if (isEditable) {
-                node.appendChild(this.createTokenSpanNode());
+            innerNode.appendChild(this.createTokenNode(token));
+            if (this.isEditable) {
+                innerNode.appendChild(this.createTokenSpanNode());
             }
         });
 
         this.node.appendChild(innerNode);
 
         if (this.isEditable) {
-            tokensNode.appendChild(this.createTokenRemoveSpanNode());
+            this.node.appendChild(this.createTokenRemoveSpanNode());
         }
     }
 
-    createTokenSpanNode() {
+    protected createTokenSpanNode() {
         const node = this.createElement({
             name: 'span',
-
+            classes: ["fract-token-span"],
         });
-        const node = document.createElement("span");
-        node.classList.add("fract-token-span");
-        setTokenSpanEvents.bind(this, node);
+        setTokenSpanEvents(this, node, this.onDrop);
         return node;
     }
 
-    createTokenRemoveSpanNode() {
+    protected createTokenRemoveSpanNode() {
         const node = document.createElement("span");
         node.classList.add("fract-token-span", "remove");
-        setTokenSpanEvents(node, true);
+        setTokenSpanEvents(this, node, this.onDrop, true);
         return node;
     }
+
+    scrape(): Stave {
+        const {name, suffix} = this.node.dataset;
+        const tokens: string[] = [];
+        this.node.querySelectorAll(".fract-token").forEach(tokenNode => {
+            tokens.push((tokenNode as HTMLElement).dataset.token);
+        });
+        const realname = suffix ? `${name}::${suffix}` : name;
+        return {name: realname, tokens};
+    }
+
 };
 
-function setTokenSpanEvents(view, node: Element, remove: boolean = false) {
+function setTokenSpanEvents(view, node: Element, onDrop: () => void, remove: boolean = false) {
     node.addEventListener('dragover', evDragOver, false);
     node.addEventListener('drop', evDrop, false);
     node.addEventListener('dragenter', evDragEnter, false);
@@ -90,12 +103,12 @@ function setTokenSpanEvents(view, node: Element, remove: boolean = false) {
 
         // todo
         const oldTokenNode = document.getElementById(oldId);
-        if (oldTokenNode.dataset.isTemplate === "no") {
+        if (oldTokenNode.dataset.isMovable === "no") {
             oldTokenNode.nextSibling.remove();
             oldTokenNode.remove();
         }
 
-        scrapeAndRun();
+        onDrop();
         return false;
     }
 

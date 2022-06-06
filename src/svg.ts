@@ -3,7 +3,7 @@ import { Figure, Circle, Arc, Square, Triangle, Line } from "./figures";
 
 const NAMESPACE = "http://www.w3.org/2000/svg";
 
-export function createSvg(document, cursor: Cursor) {
+export function createSvg(document, cursor: Cursor): HTMLElement {
     const svg = document.createElementNS(NAMESPACE, "svg");
     const [min_x, min_y] = cursor.box.min;
     const [max_x, max_y] = cursor.box.max;

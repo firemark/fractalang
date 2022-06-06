@@ -1,31 +1,35 @@
 import { View } from "./view";
+import { v4 as uuid4 } from 'uuid';
 import { NAME_TO_TOKEN } from "../tokens";
+import { DEFAULT_ICON_URL } from '../consts';
 
-class TokensView : extends View {
-    private iconUrl: str;
-    private isEditable: boolean;
-    private isMovable: boolean;
+export class TokensView extends View {
+    readonly iconUrl: string;
+    readonly isEditable: boolean;
+    readonly isMovable: boolean;
 
-    constructor({
+    constructor({node, isMovable, isEditable, iconUrl = DEFAULT_ICON_URL}: {
         node: HTMLElement,
-        iconUrl = DEFAULT_ICON_URL,
-        isMovable = false,
-        isEventable = false,
+        isMovable: boolean,
+        isEditable: boolean,
+        iconUrl?: string,
     }) {
         super(node);
         this.iconUrl = iconUrl;
         this.isMovable = isMovable;
-        this.isEventable = isEventable;
+        this.isEditable = isEditable;
     }
 
     createTokenNode(token: string): Element {
         const tokenInfo = NAME_TO_TOKEN.get(token);
-        const node = document.createElement('span');
-        node.classList.add('fract-token');
+        const node = this.createElement({
+            name: 'span',
+            classes: ['fract-token'],
+        });
         node.id = `token-${uuid4()}`;
         node.dataset.token = token;
         node.dataset.type = tokenInfo ? tokenInfo.type : "unknown";
-        node.dataset.isTemplate = this.isTemplate ? 'yes' : 'no';
+        node.dataset.isMovable = this.isMovable ? 'yes' : 'no';
         node.style.backgroundImage = `url(${this.iconUrl}/${token}.svg)`;
         if (this.isMovable) {
             node.setAttribute('draggable', 'true');

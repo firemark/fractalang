@@ -9,11 +9,17 @@ export class View {
         this.node.innerHTML = "";
     }
 
-    protected createElement({name: string, classes: string[] = [], text?: string}): HTMLElement {
-        const node = document.createElement(name);
-        tokenLabel.classList.add(classes...);
-        if (text !== undefined) {
-            node.innerText = text;
+    protected createElement(params: {
+        name: string;
+        classes?: string[];
+        text?: string;
+    }): HTMLElement {
+        const node = document.createElement(params.name) as HTMLElement;
+        if (params.classes) {
+            node.classList.add(...params.classes);
+        }
+        if (params.text) {
+            node.innerText = params.text;
         }
 
         return node;
