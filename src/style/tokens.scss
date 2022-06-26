@@ -6,11 +6,13 @@
     background-color: #EEE;
     gap: 5px;
 
-    &.hide .fract-token {
-        display: none;
+    &.hide {
+        .fract-token, .label {
+            display: none;
+        }
     }
 
-    > .label {
+    > .label, .group-label {
         display: inline;
         font-size: 1.4rem;
         cursor: pointer;

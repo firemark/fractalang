@@ -1,3 +1,4 @@
+/*
 import { renderToken } from "./tokens";
 import { renderStave } from "./code";
 import { run, scrapeCode } from "./run";
@@ -288,4 +289,5 @@ window.addEventListener('load', event => {
     renderAll();
 });
 
+*/
 // ON INIT

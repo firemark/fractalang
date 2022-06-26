@@ -5,22 +5,19 @@ import { DEFAULT_ICON_URL } from '../consts';
 
 export class TokensView extends View {
     readonly iconUrl: string;
-    readonly isEditable: boolean;
-    readonly isMovable: boolean;
+    readonly isDraggable: boolean;
 
-    constructor({node, isMovable, isEditable, iconUrl = DEFAULT_ICON_URL}: {
+    constructor({node, isDraggable, iconUrl = DEFAULT_ICON_URL}: {
         node: HTMLElement,
-        isMovable: boolean,
-        isEditable: boolean,
+        isDraggable: boolean,
         iconUrl?: string,
     }) {
         super(node);
         this.iconUrl = iconUrl;
-        this.isMovable = isMovable;
-        this.isEditable = isEditable;
+        this.isDraggable = isDraggable;
     }
 
-    createTokenNode(token: string): Element {
+    createTokenNode(token: string): HTMLElement {
         const tokenInfo = NAME_TO_TOKEN.get(token);
         const node = this.createElement({
             name: 'span',
@@ -29,9 +26,8 @@ export class TokensView extends View {
         node.id = `token-${uuid4()}`;
         node.dataset.token = token;
         node.dataset.type = tokenInfo ? tokenInfo.type : "unknown";
-        node.dataset.isMovable = this.isMovable ? 'yes' : 'no';
         node.style.backgroundImage = `url(${this.iconUrl}/${token}.svg)`;
-        if (this.isMovable) {
+        if (this.isDraggable) {
             node.setAttribute('draggable', 'true');
             this.setTokenEvents(node);
         }

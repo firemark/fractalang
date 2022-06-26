@@ -6,12 +6,12 @@ export class Controller {
     }
 
     protected findInput(name: string): HTMLInputElement {
-        return this.node.querySelector(`[name='${name}']`);
+        return this.node.querySelector(`input[name='${name}']`);
     }
 
     protected scrapeInput(name: string): string {
         const node = this.findInput(name);
-        return this.findInput(name).value;
+        return node.value;
     }
 
     protected scrapeInputAsInt(name: string): number {

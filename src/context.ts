@@ -45,7 +45,7 @@ export class Context {
         } else {
             namesToFind.unshift(`${name}::ODD`);
         }
-        if (iteration == this.cfg.maxIteration - 1) {
+        if (iteration >= this.cfg.maxIteration - 1) {
             namesToFind.unshift(`${name}::END`);
         }
 

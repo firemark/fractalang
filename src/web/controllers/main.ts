@@ -46,6 +46,7 @@ export class MainController extends Controller {
         this.functionsBarView.render();
         this.actionsCategoryView.render();
         this.valuesCategoryView.render();
+        this.scrapeAndRun();
     }
 
     scrapeAndRun() {

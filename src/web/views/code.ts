@@ -30,8 +30,7 @@ export class CodeView extends View {
     }
 
     addStave(params: { name: string; suffix: string; tokens: string[] }) {
-        const staveName = `${params.name}::${params.suffix}`;
-        const view = this.createStave({name: staveName, tokens: params.tokens});
+        const view = this.createStave({name: params.name, suffix: params.suffix, tokens: params.tokens});
         this.staveViews.push(view);
     }
 
@@ -39,9 +38,8 @@ export class CodeView extends View {
         return this.staveViews.filter(view => view.couldBeScraped()).map(view => view.scrape());
     }
 
-    protected createStave({ name: staveName, tokens }): StaveView {
+    protected createStave({ name, suffix, tokens }): StaveView {
         const node = document.createElement("li");
-        const [name, suffix] = staveName.split("::", 2);
         this.node.appendChild(node);
 
         const view = new StaveView({node, iconUrl: this.iconUrl, onChange: this.onChange});

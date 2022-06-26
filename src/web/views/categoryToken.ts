@@ -14,8 +14,7 @@ export class TokensCategoryView extends TokensView {
         super({
             node,
             iconUrl,
-            isMovable: false,
-            isEditable: true,
+            isDraggable: true,
         });
         this.categories = categories;
     }
@@ -31,15 +30,15 @@ export class TokensCategoryView extends TokensView {
     protected createCategoryNode(category: TokenCategory): HTMLElement {
         const categoryNode = this.createElement({
             name: 'div',
-            classes: ['tokens', 'hide'],
+            classes: ['fract-tokens', 'hide'],
         });
         const categoryNodeName = this.createElement({
             name: 'span',
-            classes: ['label'],
+            classes: ['group-label'],
             text: category.label,
         });
         categoryNodeName.addEventListener('click', function () {
-            this.classList.toggle('hide');
+            categoryNode.classList.toggle('hide');
             return false;
         }, false);
         categoryNode.appendChild(categoryNodeName);

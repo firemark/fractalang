@@ -22,7 +22,7 @@ export class StaveView extends View {
             node: this.tokensNode,
             onDrop: onChange,
             iconUrl,
-            isMovable: true,
+            isDraggable: true,
         });
     }
 
@@ -61,7 +61,10 @@ export class StaveView extends View {
     }
 
     scrape(): Stave {
-        return this.tokenView.scrape();
+        const tokens = this.tokenView.scrapeTokens();
+        const {name, suffix} = this.node.dataset;
+        const realname = suffix ? `${name}::${suffix}` : name;
+        return {name: realname, tokens};
     }
 
     protected createName(name: string, suffix?: string): Element {
