@@ -1,7 +1,7 @@
 export class View {
     protected node: HTMLElement;
 
-    constructor(node) {
+    constructor(node: HTMLElement) {
         this.node = node;
     }
 
