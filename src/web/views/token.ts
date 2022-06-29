@@ -17,7 +17,7 @@ export class TokensView extends View {
         this.isDraggable = isDraggable;
     }
 
-    createTokenNode(token: string): HTMLElement {
+    protected createTokenNode(token: string): HTMLElement {
         const tokenInfo = NAME_TO_TOKEN.get(token);
         const node = this.createElement({
             name: 'span',

@@ -7,16 +7,19 @@ import { DEFAULT_ICON_URL } from '../consts';
 export class CodeView extends View {
     private iconUrl: string;
     private staveViews: StaveView[];
+    private isDraggable: boolean;
     private onChange: () => void;
 
-    constructor({node, onChange, iconUrl = DEFAULT_ICON_URL}: {
+    constructor({node, onChange, isDraggable = false, iconUrl = DEFAULT_ICON_URL}: {
         node: HTMLElement,
         onChange: () => void,
+        isDraggable?: boolean,
         iconUrl?: string,
     }) {
         super(node);
         this.iconUrl = iconUrl;
         this.staveViews = [];
+        this.isDraggable = isDraggable;
         this.onChange = onChange;
     }
 
@@ -25,12 +28,16 @@ export class CodeView extends View {
         this.staveViews = staves.map(this.createStave.bind(this));
     }
 
-    findStave(name: string, suffix: string) {
+    findStave(name: string, suffix: string): StaveView | undefined {
         return this.staveViews.find(view => view.checkName(name, suffix));
     }
 
     addStave(params: { name: string; suffix: string; tokens: string[] }) {
-        const view = this.createStave({name: params.name, suffix: params.suffix, tokens: params.tokens});
+        const view = this.createStave({
+            name: params.name,
+            suffix: params.suffix,
+            tokens: params.tokens,
+        });
         this.staveViews.push(view);
     }
 
@@ -42,7 +49,12 @@ export class CodeView extends View {
         const node = document.createElement("li");
         this.node.appendChild(node);
 
-        const view = new StaveView({node, iconUrl: this.iconUrl, onChange: this.onChange});
+        const view = new StaveView({
+            node,
+            iconUrl: this.iconUrl,
+            onChange: this.onChange,
+            isDraggable: this.isDraggable,
+        });
         view.render({name, suffix, tokens});
         return view;
     }

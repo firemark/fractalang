@@ -13,6 +13,7 @@ export class StaveView extends View {
     constructor({
         node,
         onChange,
+        isDraggable = false,
         iconUrl = DEFAULT_ICON_URL,
     }) {
         super(node);
@@ -21,8 +22,8 @@ export class StaveView extends View {
         this.tokenView = new TokensStaveView({
             node: this.tokensNode,
             onDrop: onChange,
+            isDraggable,
             iconUrl,
-            isDraggable: true,
         });
     }
 
@@ -53,6 +54,14 @@ export class StaveView extends View {
 
     showOrHide() {
         this.node.classList.toggle("hide");
+    }
+
+    pushTokenOnBack(token: string) {
+        this.tokenView.pushTokenOnBack(token);
+    }
+
+    removeTokenOnBack() {
+        this.tokenView.removeTokenOnBack();
     }
 
     couldBeScraped(): boolean {

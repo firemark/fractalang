@@ -11,7 +11,7 @@ export class DocBarView extends View {
         this.prev = prev;
     }
 
-    render(position: Number, tokenSize: Number, iterations: Number) {
+    render(position: number, tokenSize: number, iterations: number) {
         {
             const btnNode = document.createElement("input");
             btnNode.type = "button";
@@ -42,13 +42,13 @@ export class DocBarView extends View {
             this.node.appendChild(itNode);
         }
 
-        update(position, tokenSize, iterations);
+        this.update(position, tokenSize, iterations);
     }
 
-    update(position: Number, tokenSize: Number, iterations: Number) {
+    update(position: number, tokenSize: number, iterations: number) {
         this.findInput("next").disabled = position >= tokenSize - 1;
         this.findInput("prev").disabled = position <= 0;
-        this.findInput("iterations").value = this.iterations.toFixed();
+        this.findInput("iterations").value = iterations.toFixed();
     }
 
     private findInput(name: string): HTMLInputElement {

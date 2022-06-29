@@ -9,6 +9,10 @@ export class TitleView extends View {
     }
 
     render() {
+        if (!this.text) {
+            this.node.remove();
+            return;
+        }
         this.node.innerText = this.text;
     }
 }

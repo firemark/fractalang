@@ -1,7 +1,5 @@
 import { DocsController, TutAnimParams } from "./controllers/docs";
 
-let ICONS_URL_PREFIX = "";
-
 import "../style/docs.scss";
 
 const ANIMATIONS_PARAMS: TutAnimParams[] = [];
@@ -11,20 +9,20 @@ export function makeAnimation(params: TutAnimParams) {
     ANIMATIONS_PARAMS.push(params);
 }
 
-function setIconsUrls() {
+function getIconsUrls(): string {
     const dirnameHref = CURRENT_HREF.substring(0, CURRENT_HREF.lastIndexOf('/') + 1);
-    ICONS_URL_PREFIX = `${dirnameHref}../_images`;
+    return `${dirnameHref}../_images`;
 }
 
-function renderAll() {
+function renderAll(iconUrl: string) {
     ANIMATIONS_PARAMS.forEach(params => {
-        const controller = new DocsController(params);
+        const controller = new DocsController(params, iconUrl);
         controller.render(params);
         controller.iterateToPosition(params);
     });
 }
 
 window.addEventListener('load', event => {
-    setIconsUrls();
-    renderAll();
+    const iconUrl = getIconsUrls();
+    renderAll(iconUrl);
 });

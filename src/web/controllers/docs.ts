@@ -5,6 +5,7 @@ import { DocBarView } from "../views/docBar";
 import { TitleView } from "../views/title";
 import { CommentView } from "../views/comment";
 import { ImageView } from "../views/image";
+import { StaveView } from "../views/stave";
 
 import { Stave } from "../models";
 import { exec } from "../../exec";
@@ -29,17 +30,20 @@ export class DocsController extends Controller {
     private iterations: number;
     private position: number;
     private tokens: string[];
+    private iconUrl: string;
 
-    constructor(params: TutAnimParams) {
+    constructor(params: TutAnimParams, iconUrl: string) {
         super(document.getElementById(params.nodeId));
         this.initRender(params);
 
         this.iterations = params.iterations;
-        this.position = params.start;
         this.tokens = params.tokens;
+        this.position = -1;
+
+        this.iconUrl = iconUrl;
 
         this.imageView = new ImageView(this.node.querySelector(".fract-image"));
-        this.titleView = new TitleView(this.node.querySelector(".fract-title"));
+        this.titleView = new TitleView(this.node.querySelector(".fract-title"), params.title);
         this.commentView = new CommentView(this.node.querySelector(".fract-comment"));
         this.docBarView = new DocBarView({
             node: this.node.querySelector(".fract-bar"),
@@ -48,7 +52,9 @@ export class DocsController extends Controller {
         });
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
+            isDraggable: false,
             onChange: () => { this.scrapeAndRun(); },
+            iconUrl,
         });
     }
 
@@ -83,12 +89,13 @@ export class DocsController extends Controller {
 
     render(params: TutAnimParams) {
         const staveBag: Stave[] = params.staves.map(stave => {
-            return {name: stave, tokens: []};
+            const [name, suffix = ""] = stave.split("::");
+            return {name, suffix, tokens: []};
         });
         this.codeView.render(staveBag);
-        this.docBarView.render();
-        this.titleBarView.render(params.title);
-        this.commentBarView.render();
+        this.docBarView.render(this.position, this.tokens.length, this.iterations);
+        this.titleView.render();
+        this.commentView.render();
     }
 
     update() {
@@ -102,8 +109,7 @@ export class DocsController extends Controller {
             this.position += 1;
             this.nextExecute();
         }
-        this.scrapeAndRun();
-        this.updateComment();
+        this.update();
     }
 
     next() {
@@ -135,8 +141,8 @@ export class DocsController extends Controller {
     private nextExecute() {
         this.getCommands().forEach(command => {
             if (command[0] != "!") {
-                const [line, token] = command.split("@", 2);
-                this.domPushToken(line, token);
+                const [stave, token] = command.split("@", 2);
+                this.pushTokenOnBack(stave, token);
                 return;
             }
             switch(command.substring(1)) {
@@ -185,14 +191,11 @@ export class DocsController extends Controller {
         this.commentView.render(comment);
     }
 
-    private domPushToken(fullLineName: string, token: string) {
-        const tokensNode = this.findLine(fullLineName);
-        const tokenNode = renderToken(token, {
-            isTemplate: false,
-            isEventable: false,
-            iconUrl: ICONS_URL_PREFIX,
-        }) as HTMLElement;
+    private pushTokenOnBack(fullStaveName: string, token: string) {
+        const stave = this.findStave(fullStaveName);
+        stave.pushTokenOnBack(token);
 
+        /*
         const lastNode = tokensNode.lastChild as HTMLElement;
         if (!lastNode) {
           tokensNode.appendChild(tokenNode);
@@ -215,10 +218,14 @@ export class DocsController extends Controller {
             group.appendChild(lastNode);
             group.appendChild(tokenNode);
         }
+        */
     }
 
-    private removeLastToken(fullLineName: string) {
-        const tokensNode = this.findLine(fullLineName);
+    private removeLastToken(fullStaveName: string) {
+        const stave = this.findStave(fullStaveName);
+        stave.removeTokenOnBack();
+
+        /*
         const lastNode = tokensNode.lastChild as HTMLElement;
 
         if (lastNode.classList.contains("fract-token-group")) {
@@ -229,16 +236,20 @@ export class DocsController extends Controller {
         } else {
             tokensNode.removeChild(lastNode);
         }
+        */
     }
 
-    private findLine(fullLineName: string): HTMLElement {
-        const [name, suffix] = this.splitFullLineName(fullLineName);
-        const query = `.function[data-name='${name}'][data-suffix='${suffix}'] .inner-tokens`;
-        return this.node.querySelector(query);
+    private findStave(fullStaveName: string): StaveView {
+        const [name, suffix] = this.splitFullStaveName(fullStaveName);
+        const stave = this.codeView.findStave(name, suffix);
+        if (stave === undefined) {
+            throw `stave not found: ${fullStaveName}`;
+        }
+        return stave;
     }
 
-    private splitFullLineName(fullLineName: string): [string, string] {
-        const [name, suffix] = fullLineName.split("::", 2);
+    private splitFullStaveName(fullStaveName: string): [string, string] {
+        const [name, suffix] = fullStaveName.split("::", 2);
         return [name, suffix || ""];
     }
 }

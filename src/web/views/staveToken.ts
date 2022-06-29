@@ -29,12 +29,7 @@ export class TokensStaveView extends TokensView {
             innerNode.appendChild(this.createTokenSpanNode());
         }
 
-        tokens.forEach(token => {
-            innerNode.appendChild(this.createTokenNode(token));
-            if (this.isDraggable) {
-                innerNode.appendChild(this.createTokenSpanNode());
-            }
-        });
+        tokens.forEach(this.pushToken.bind(this, innerNode));
 
         this.node.appendChild(innerNode);
 
@@ -43,7 +38,29 @@ export class TokensStaveView extends TokensView {
         }
     }
 
-    createTokenNode(token: string): HTMLElement {
+    pushTokenOnBack(token: string) {
+        this.pushToken(this.getInnerNode(), token);
+    }
+
+    removeTokenOnBack() {
+        const innerNode = this.getInnerNode();
+        if (innerNode.lastChild) {
+          innerNode.lastChild.remove();
+        }
+    }
+
+    private getInnerNode(): HTMLElement {
+        return this.node.querySelector('.inner-tokens');
+    }
+
+    private pushToken(innerNode: HTMLElement, token: string) {
+        innerNode.appendChild(this.createTokenNode(token));
+        if (this.isDraggable) {
+            innerNode.appendChild(this.createTokenSpanNode());
+        }
+    }
+
+    protected createTokenNode(token: string): HTMLElement {
         const node = super.createTokenNode(token);
         node.dataset.isEditable = this.isDraggable ? 'yes' : 'no';
         return node;
