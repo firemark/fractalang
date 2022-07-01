@@ -39,7 +39,6 @@ export class TokensView extends View {
 
         function evDragStart(e) {
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('token', this.dataset.token);
             e.dataTransfer.setData('id', this.id);
         }
     }

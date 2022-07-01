@@ -51,11 +51,15 @@ export class CodeView extends View {
 
         const view = new StaveView({
             node,
+            name,
+            suffix: suffix || "",
             iconUrl: this.iconUrl,
             onChange: this.onChange,
+            findStaveDelegator: this.findStave.bind(this),
             isDraggable: this.isDraggable,
+            tokens,
         });
-        view.render({name, suffix, tokens});
+        view.render();
         return view;
     }
 }

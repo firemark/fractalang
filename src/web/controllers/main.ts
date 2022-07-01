@@ -23,6 +23,7 @@ export class MainController extends Controller {
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
             onChange: () => { this.scrapeAndRun(); },
+            isDraggable: true,
         });
         this.functionsBarView = new FunctionsBarView({
             node: this.node.querySelector(".fract-functions-list"),

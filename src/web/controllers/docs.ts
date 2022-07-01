@@ -66,14 +66,14 @@ export class DocsController extends Controller {
             this.node.appendChild(titleNode);
         }
         {
-            const stavesNode = document.createElement("ul");
-            stavesNode.classList.add("fract-staves");
-            this.node.appendChild(stavesNode);
-        }
-        {
             const imageNode = document.createElement("div");
             imageNode.classList.add("fract-image");
             this.node.appendChild(imageNode);
+        }
+        {
+            const stavesNode = document.createElement("ul");
+            stavesNode.classList.add("fract-staves");
+            this.node.appendChild(stavesNode);
         }
         {
             const commentNode = document.createElement("div");
@@ -194,49 +194,11 @@ export class DocsController extends Controller {
     private pushTokenOnBack(fullStaveName: string, token: string) {
         const stave = this.findStave(fullStaveName);
         stave.pushTokenOnBack(token);
-
-        /*
-        const lastNode = tokensNode.lastChild as HTMLElement;
-        if (!lastNode) {
-          tokensNode.appendChild(tokenNode);
-          return;
-        }
-        const sibling = lastNode.nextSibling;
-
-        if (tokenNode.dataset.type === "action") {
-            tokensNode.insertBefore(tokenNode, sibling);
-            return;
-        }
-
-        if (lastNode.classList.contains("fract-token-group")) {
-            lastNode.appendChild(tokenNode);
-        } else {
-            const group = document.createElement("div");
-            group.classList.add("fract-token-group");
-            tokensNode.insertBefore(group, sibling);
-            tokensNode.removeChild(lastNode);
-            group.appendChild(lastNode);
-            group.appendChild(tokenNode);
-        }
-        */
     }
 
     private removeLastToken(fullStaveName: string) {
         const stave = this.findStave(fullStaveName);
         stave.removeTokenOnBack();
-
-        /*
-        const lastNode = tokensNode.lastChild as HTMLElement;
-
-        if (lastNode.classList.contains("fract-token-group")) {
-            lastNode.removeChild(lastNode.lastChild);
-            if (!lastNode.lastChild) {
-                tokensNode.removeChild(lastNode);
-            }
-        } else {
-            tokensNode.removeChild(lastNode);
-        }
-        */
     }
 
     private findStave(fullStaveName: string): StaveView {
