@@ -195,29 +195,18 @@ export class TokensStaveView extends TokensView {
             const oldTokenNode = document.getElementById(oldId) as HTMLElement;
             const { token, isEditable, name, suffix } = oldTokenNode.dataset;
 
-            if (view.name === name && view.suffix === suffix) {
-                if (!remove) {
-                    view.pushTokenAfter(token, this.dataset.index);
-                }
-
-                const oldIndex = parseInt(oldTokenNode.dataset.index);
-                const shift = parseInt(this.dataset.index) > oldIndex ? 0 : 1;
-
-                if (isEditable === "yes") {
-                    const stave = view.findStaveDelegator(name, suffix);
-                    stave.removeToken(oldIndex + shift);
-                }
-            } else {
-                if (!remove) {
-                    view.pushTokenAfter(token, this.dataset.index);
-                }
-
-                if (isEditable === "yes") {
-                    const stave = view.findStaveDelegator(name, suffix);
-                    stave.removeToken(parseInt(oldTokenNode.dataset.index));
-                }
+            if (!remove) {
+                view.pushTokenAfter(token, this.dataset.index);
             }
 
+            const oldIndex = parseInt(oldTokenNode.dataset.index);
+            const shift = remove || (view.name === name && view.suffix === suffix && parseInt(this.dataset.index)) > oldIndex ? 0 : 1;
+
+            if (isEditable === "yes") {
+                console.log(oldIndex, shift);
+                const stave = view.findStaveDelegator(name, suffix);
+                stave.removeToken(oldIndex + shift);
+            }
 
             view.onDrop();
             return false;
