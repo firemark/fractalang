@@ -7,42 +7,8 @@
         <main>
         <div id="image" class="fract-image"></div>
         <div id="editor">
-            <div id="code-bar">
-                <label name="iterations">Iterations:&nbsp;</label>
-                <input
-                    id="iterations"
-                    name="iterations"
-                    type="number"
-                    value="3"
-                    min="1"
-                    max="20"
-                />
-                <label name="first-color">First color:&nbsp;</label>
-                <input
-                    id="first-color"
-                    name="first-color"
-                    type="color"
-                    value="#000000"
-                />
-                <label name="second-color">Second color:&nbsp;</label>
-                <input
-                    id="second-color"
-                    name="second-color"
-                    type="color"
-                    value="#DC143C"
-                />
-                <label name="stroke-size">Stroke size:&nbsp;</label>
-                <input
-                    id="stroke-size"
-                    name="stroke-size"
-                    type="range"
-                    value="1"
-                    min="0.5"
-                    max="3"
-                    step="0.25"
-                />
-                <input type="button" id="action-hide" value="HIDE" />
-                <input type="button" id="action-show" class="hidden" value="SHOW" />
+            <div>
+                <form id="code-bar"></form>
                 <ul id="functions" class="fract-functions-list"></ul>
             </div>
             <div id="code-panel">

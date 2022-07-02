@@ -10,5 +10,4 @@ window.addEventListener('load', event => {
         {name: "F", suffix: "END", tokens: ["DRAW_CIRCLE", "COUNT_5", "COUNT_2"]},
     ];
     controller.render(staves);
-    controller.scrapeAndRun();
 });

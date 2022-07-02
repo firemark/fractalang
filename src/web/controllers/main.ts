@@ -4,6 +4,7 @@ import { CodeView } from "../views/code";
 import { FunctionsBarView } from "../views/functionsBar";
 import { TokensCategoryView } from "../views/categoryToken";
 import { ImageView } from "../views/image";
+import { CodeBarView } from "../views/codeBar";
 
 import { Stave } from "../models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "../tokens";
@@ -16,20 +17,21 @@ export class MainController extends Controller {
     private functionsBarView: FunctionsBarView;
     private actionsCategoryView: TokensCategoryView;
     private valuesCategoryView: TokensCategoryView;
+    private codeBarView: CodeBarView;
 
     constructor() {
         super(document.querySelector("main"));
         this.imageView = new ImageView(this.node.querySelector(".fract-image"));
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
-            onChange: () => { this.scrapeAndRun(); },
+            onChange: () => { this.scrapeAndRun(this.codeBarView.getData()); },
             isDraggable: true,
         });
         this.functionsBarView = new FunctionsBarView({
             node: this.node.querySelector(".fract-functions-list"),
             onSelect: (name: string, suffix: string) => {
                 this.showOrHideOrAddFunction(name, suffix);
-                this.scrapeAndRun();
+                this.scrapeAndRun(this.codeBarView.getData());
             }
         });
         this.actionsCategoryView = new TokensCategoryView({
@@ -40,6 +42,10 @@ export class MainController extends Controller {
             node: document.getElementById("value-tokens"),
             categories: VALUE_TOKENS,
         });
+        this.codeBarView = new CodeBarView({
+            node: document.getElementById("code-bar"),
+            onUpdate: this.scrapeAndRun.bind(this),
+        });
     }
 
     render(staves: Stave[]) {
@@ -47,17 +53,19 @@ export class MainController extends Controller {
         this.functionsBarView.render();
         this.actionsCategoryView.render();
         this.valuesCategoryView.render();
-        this.scrapeAndRun();
+        this.codeBarView.render();
+        this.scrapeAndRun(this.codeBarView.getData());
     }
 
-    scrapeAndRun() {
+    scrapeAndRun(data) {
+        console.log(data);
         const cursorCfg = {
-            firstColor: this.scrapeInput("first-color"),
-            secondColor: this.scrapeInput("second-color"),
-            strokeSize: this.scrapeInputAsFloat("stroke-size"),
+            firstColor: data["first-color"],
+            secondColor: data["second-color"],
+            strokeSize: data["stroke-size"],
         };
         const argument = 1.0;
-        const maxIteration = this.scrapeInputAsInt("iterations");
+        const maxIteration = data["iterations"];
         const code = this.codeView.scrapeCode();
 
         const cursor = exec(argument, maxIteration, code, cursorCfg);
