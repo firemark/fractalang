@@ -50,6 +50,18 @@ export class CodeBarView extends View {
         {
             const labelNode = document.createElement("label");
             const node = document.createElement("input");
+            labelNode.htmlFor = "background-color";
+            labelNode.innerHTML = "Backround color:&nbsp;";
+            node.name = "background-color";
+            node.type = "color";
+            node.value = '#FFFFFF';
+            node.onchange = this.onChange.bind(this);
+            this.node.appendChild(labelNode);
+            this.node.appendChild(node);
+        }
+        {
+            const labelNode = document.createElement("label");
+            const node = document.createElement("input");
             labelNode.htmlFor = "stroke-size";
             labelNode.innerHTML = "Stroke size:&nbsp;";
             node.name = "stroke-size";

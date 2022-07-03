@@ -4,8 +4,9 @@ import { Cursor } from "../../cursor";
 
 export class ImageView extends View {
 
-    render(cursor: Cursor) {
+    render(cursor: Cursor, backgroundColor: string | null = null) {
         this.clear();
+        this.node.style.backgroundColor = backgroundColor ? backgroundColor : "none";
         this.node.appendChild(createSvg(document, cursor));
     }
 }

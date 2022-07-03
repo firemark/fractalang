@@ -70,7 +70,7 @@ export class MainController extends Controller {
         const cursor = exec(argument, maxIteration, code, cursorCfg);
         cursor.addMargin(20);
 
-        this.imageView.render(cursor);
+        this.imageView.render(cursor, data["background-color"]);
     }
 
     private showOrHideOrAddFunction(name: string, suffix: string = ""): void {
