@@ -58,7 +58,6 @@ export class MainController extends Controller {
     }
 
     scrapeAndRun(data) {
-        console.log(data);
         const cursorCfg = {
             firstColor: data["first-color"],
             secondColor: data["second-color"],

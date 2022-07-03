@@ -109,7 +109,13 @@ export class TokensStaveView extends TokensView {
             appendChild(tokensNode, tokenNode);
         } else {
             if (isGroup(lastNode)) {
+                if (this.isDraggable) {
+                    tokensNode.removeChild(lastNode.nextSibling);
+                }
                 appendChild(lastNode, tokenNode);
+                if (this.isDraggable) {
+                    appendSpan(tokensNode);
+                }
                 return;
             }
 
@@ -203,7 +209,6 @@ export class TokensStaveView extends TokensView {
             const shift = remove || (view.name === name && view.suffix === suffix && parseInt(this.dataset.index)) > oldIndex ? 0 : 1;
 
             if (isEditable === "yes") {
-                console.log(oldIndex, shift);
                 const stave = view.findStaveDelegator(name, suffix);
                 stave.removeToken(oldIndex + shift);
             }
