@@ -12,10 +12,15 @@
         }
     }
 
-    > .label, .group-label {
+    > .group-label {
         display: inline;
         font-size: 1.4rem;
         cursor: pointer;
+    }
+
+    > .label {
+        font-size: 1.1rem;
+        text-align: center;
     }
 }
 

@@ -33,8 +33,14 @@ main {
     width: 95%;
 }
 
+#editor > nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 #code-bar {
-    margin: 0 30px;
+    margin-left: 30px;
 }
 
 #code-panel {

@@ -62,6 +62,28 @@ export class CodeBarView extends View {
             this.node.appendChild(labelNode);
             this.node.appendChild(node);
         }
+        {
+            const showNode = this.createElement({ name: "input", classes: ["hidden"] });
+            const hideNode = this.createElement({ name: "input" });
+            showNode.value = "SHOW";
+            showNode.type = "button";
+            showNode.onclick = () => {
+                showNode.classList.add("hidden");
+                hideNode.classList.remove("hidden");
+                document.getElementById("code-panel").classList.remove("hidden");
+                return false;
+            };
+            hideNode.value = "HIDE";
+            hideNode.type = "button";
+            hideNode.onclick = () => {
+                hideNode.classList.add("hidden");
+                showNode.classList.remove("hidden");
+                document.getElementById("code-panel").classList.add("hidden");
+                return false;
+            };
+            this.node.appendChild(showNode);
+            this.node.appendChild(hideNode);
+        }
     }
 
     getData() {

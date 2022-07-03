@@ -4,23 +4,4 @@ export class Controller {
     constructor(node: HTMLElement) {
         this.node = node;
     }
-
-    protected findInput(name: string): HTMLInputElement {
-        return this.node.querySelector(`input[name='${name}']`);
-    }
-
-    protected scrapeInput(name: string): string {
-        const node = this.findInput(name);
-        return node.value;
-    }
-
-    protected scrapeInputAsInt(name: string): number {
-        const value = this.scrapeInput(name);
-        return parseInt(value);
-    }
-
-    protected scrapeInputAsFloat(name: string): number {
-        const value = this.scrapeInput(name);
-        return parseFloat(value);
-    }
 }

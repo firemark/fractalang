@@ -9,12 +9,12 @@ export class View {
         this.node.innerHTML = "";
     }
 
-    protected createElement(params: {
-        name: string;
+    protected createElement<K extends keyof HTMLElementTagNameMap>(params: {
+        name: K;
         classes?: string[];
         text?: string;
-    }): HTMLElement {
-        const node = document.createElement(params.name) as HTMLElement;
+    }): HTMLElementTagNameMap[K] {
+        const node = document.createElement(params.name);
         if (params.classes) {
             node.classList.add(...params.classes);
         }

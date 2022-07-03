@@ -83,19 +83,3 @@ export class MainController extends Controller {
         }
     }
 }
-
-function setEvents() {
-    document.getElementById("action-hide").addEventListener('click', () => {
-        document.getElementById("action-hide").classList.add("hidden");
-        document.getElementById("action-show").classList.remove("hidden");
-        document.getElementById("code-panel").classList.add("hidden");
-        return false;
-    }, false);
-
-    document.getElementById("action-show").addEventListener('click', () => {
-        document.getElementById("action-show").classList.add("hidden");
-        document.getElementById("action-hide").classList.remove("hidden");
-        document.getElementById("code-panel").classList.remove("hidden");
-        return false;
-    }, false);
-}
