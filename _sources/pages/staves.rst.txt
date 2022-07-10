@@ -21,7 +21,7 @@ In example we can put in *helper stave* tokens as part of fractal and *invoke* t
    G@DRAW_TRIANGLE, G@COUNT_5  # Draw a triangle.
    G@DRAW_ARCLINE_R_1_4        # Draw an arc. I think, stave "G" is done.
    F@CALL_G, F@ARGUMENT        # On line "F" we can invoke stave "G". Don't worry about Argument (Triangle) token. We will explain this later.
-   F@FORWARD, F@COUNT_2        # Add simple forward.
+   F@MOVE_FORWARD, F@COUNT_2   # Add simple forward.
    F@CALL_F, F@ARGUMENT        # Repeat itself.
    G@DRAW_SQUARE, G@COUNT_5, G@COUNT_5  # We can still modifing stave "G". Next steps are increment iterations.
    !IT_INC
@@ -81,7 +81,7 @@ Argument can be used for invoking another staves:
    :iterations: 3
    :start: 1
 
-   G@DRAW_CIRCLE, G@ARGUMENT, G@ARGUMENT, G@FORWARD, G@FRACT_1_5, G@ARGUMENT  # Draw circle and move on.
+   G@DRAW_CIRCLE, G@ARGUMENT, G@ARGUMENT, G@MOVE_FORWARD, G@FRACT_1_5, G@ARGUMENT  # Draw circle and move on.
    F@CALL_G, F@COUNT_2     # First invoking of stave "G"
    F@CALL_G, F@COUNT_5     # Second invoking of stave "G"
    F@CALL_G, F@COUNT_3     # Third invoking of stave "G"
@@ -103,7 +103,7 @@ These arguments are declared as another staves with one rule - without recurrenc
 
    DIAMOND@ARGUMENT, DIAMOND@FRACT_1_3    # Set "Diamond argument" as one third of argument.
    INV_TRIANGLE@COUNT_2, INV_TRIANGLE@COUNT_5, INV_TRIANGLE@ARGUMENT  # Set "Inverse triangle argument" as 10 * argument
-   F@FORWARD, F@FRACT_1_5                 # Go forward.
+   F@MOVE_FORWARD, F@FRACT_1_5                 # Go forward.
    F@DRAW_CIRCLE, F@CALL_INV_TRIANGLE     # Draw a circle with "Inverse triangle argument".
    F@CALL_F, F@CALL_DIAMOND               # Repeat stave with "Diamond argument". Next circles should be smaller than previous.
    F@CALL_F, F@COUNT_3, F@CALL_DIAMOND    # Do it again! Next steps are increase an interations.

@@ -17,7 +17,7 @@ Go forward
 
    F@DRAW_LINE, F@COUNT_2      # Let's start with line
    F@DRAW_TRIANGLE, F@COUNT_5  # Draw a triangle.
-   F@FORWARD, F@COUNT_2        # Here we add "Forward action" which moving cursor by 2 units.
+   F@MOVE_FORWARD, F@COUNT_2        # Here we add "Forward action" which moving cursor by 2 units.
    F@CALL_F, F@ARGUMENT        # Repeat itself. Next steps are increment iterations.
    !IT_INC
    !IT_INC
