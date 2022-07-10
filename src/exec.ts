@@ -20,6 +20,7 @@ export function exec(valueArgument: number, maxIteration: number, functions: Fun
         strokeStyle: "solid",
         strokeThickness: 1.0,
         color: 0.0,
+        isFilled: true,
     };
     const context = new Context({ cfg, argument });
 

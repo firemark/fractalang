@@ -3,13 +3,25 @@ import { ValueNode } from "./base";
 
 export class MaxColor extends ValueNode {
     eval(context: Context): EvaluedValue {
-        return {color: 1.0};
+        return {color: 0.5};
     }
 }
 
 export class MinColor extends ValueNode {
     eval(context: Context): EvaluedValue {
         return {color: 0.0};
+    }
+}
+
+export class FillColor extends ValueNode {
+    eval(context: Context): EvaluedValue {
+        return {isFilled: true};
+    }
+}
+
+export class EmptyColor extends ValueNode {
+    eval(context: Context): EvaluedValue {
+        return {isFilled: false};
     }
 }
 

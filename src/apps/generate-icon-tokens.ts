@@ -1,6 +1,6 @@
 import { createSvg } from "../svg";
 import { Cursor } from "../cursor";
-import { Figure, Line, Square, Triangle, Circle, Arc } from "../figures";
+import { Figure, Line, Rectangle, Triangle, Circle, Arc } from "../figures";
 import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from "../parser";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 import { writeFile, mkdir } from "fs";
@@ -9,7 +9,7 @@ type Tokens = [string, Figure[], number?, number?];
 
 const SUFFIX_TO_ICON = {
     "END": [
-        new Arc([80, 80], 10, -0.5, { shift: 0.75, fill: "none", color: "black", stroke: 3 }),
+        new Arc([80, 80], 10, -0.5, { shift: 0.75 }, { fill: "none", color: "black", stroke: 3 }),
         new Line([70, 80], [80, 80], { stroke: 3 }),
     ],
     "EVEN": [
@@ -21,10 +21,35 @@ const SUFFIX_TO_ICON = {
         new Line([75, 70], [75, 90], { stroke: 3 }),
         new Line([80, 65], [65, 95], { stroke: 3 }),
     ],
+    "GE3": [
+        new Line([60, 70], [70, 75], { stroke: 2 }),
+        new Line([60, 80], [70, 75], { stroke: 2 }),
+        new Line([60, 85], [70, 80], { stroke: 2 }),
+        new Line([75, 70], [75, 90], { stroke: 3 }),
+        new Line([80, 70], [80, 90], { stroke: 3 }),
+        new Line([85, 70], [85, 90], { stroke: 3 }),
+    ],
+    "GE5": [
+        new Line([60, 70], [70, 75], { stroke: 2 }),
+        new Line([60, 80], [70, 75], { stroke: 2 }),
+        new Line([60, 85], [70, 80], { stroke: 2 }),
+        new Line([75, 70], [80, 90], { stroke: 3 }),
+        new Line([80, 90], [85, 70], { stroke: 3 }),
+    ],
+    "GE7": [
+        new Line([60, 70], [70, 75], { stroke: 2 }),
+        new Line([60, 80], [70, 75], { stroke: 2 }),
+        new Line([60, 85], [70, 80], { stroke: 2 }),
+        new Line([75, 70], [80, 90], { stroke: 3 }),
+        new Line([80, 90], [85, 70], { stroke: 3 }),
+        new Line([87, 70], [87, 90], { stroke: 3 }),
+        new Line([92, 70], [92, 90], { stroke: 3 }),
+    ],
 };
 
 const BLACK = "#000000";
 const RED = "#DC143C";
+const SQRT_2_2 = Math.sqrt(2) / 2;
 
 function main() {
     const tokens: Tokens[] = [
@@ -82,6 +107,9 @@ function main() {
         ["SUFFIX_END", SUFFIX_TO_ICON["END"], 60, 100],
         ["SUFFIX_EVEN", SUFFIX_TO_ICON["EVEN"], 60, 100],
         ["SUFFIX_ODD", SUFFIX_TO_ICON["ODD"], 60, 100],
+        ["SUFFIX_GE3", SUFFIX_TO_ICON["GE3"], 60, 100],
+        ["SUFFIX_GE5", SUFFIX_TO_ICON["GE5"], 60, 100],
+        ["SUFFIX_GE7", SUFFIX_TO_ICON["GE7"], 60, 100],
         ["DRAW_LINE", withPencil([
             new Line([20, 70], [80, 70], { stroke: 5 }),
         ])],
@@ -95,7 +123,10 @@ function main() {
             new Circle([50, 70], 20),
         ])],
         ["DRAW_SQUARE", withPencil([
-            new Square([50, 70], [0, 1], 20),
+            new Rectangle([50, 70], [0, 1], 20, 20),
+        ])],
+        ["DRAW_DIAMOND", withPencil([
+            new Rectangle([50, 70], [SQRT_2_2, SQRT_2_2], 10, 20),
         ])],
         ["DRAW_TRIANGLE", withPencil([
             new Triangle([50, 70], [0, -1], 20),
@@ -116,6 +147,18 @@ function main() {
         ])],
         ["COLOR_MIN", withStar(7, [
             new Circle([50, 60], 20, { fill: BLACK }),
+        ])],
+        ["COLOR_FILL", withStar(7, [
+            new Circle([25, 60], 15, { fill: "none", color: BLACK, stroke: 3 }),
+            new Circle([75, 60], 15, { fill: BLACK }),
+            new Line([45, 60], [55, 60], { stroke: 2, color: BLACK }),
+            new Triangle([55, 60], [+1, 0], 5, { fill: BLACK }),
+        ])],
+        ["COLOR_EMPTY", withStar(7, [
+            new Circle([25, 60], 15, { fill: BLACK }),
+            new Circle([75, 60], 15, { fill: "none", color: BLACK, stroke: 3 }),
+            new Line([45, 60], [55, 60], { stroke: 2, color: BLACK }),
+            new Triangle([55, 60], [+1, 0], 5, { fill: BLACK }),
         ])],
         ["COLOR_SHIFT_1_2", withStar(7, [
             new Circle([25, 60], 15, { fill: BLACK }),
@@ -182,18 +225,33 @@ function main() {
             new Triangle([60, 65], [+1, 0], 5),
             new Triangle([60, 50], [+1, 0], 5),
         ])],
-        ["FORWARD", [
+        ["MOVE_FORWARD", [
             new Line([50, 80], [50, 20], { stroke: 10 }),
             new Line([30, 40], [50, 20], { stroke: 5 }),
             new Line([70, 40], [50, 20], { stroke: 5 }),
         ]],
+        ["MOVE_BACKWARD", [
+            new Line([50, 80], [50, 20], { stroke: 10 }),
+            new Line([30, 60], [50, 80], { stroke: 5 }),
+            new Line([70, 60], [50, 80], { stroke: 5 }),
+        ]],
+        ["MOVE_LEFT", [
+            new Line([80, 50], [20, 50], { stroke: 10 }),
+            new Line([40, 30], [20, 50], { stroke: 5 }),
+            new Line([40, 70], [20, 50], { stroke: 5 }),
+        ]],
+        ["MOVE_RIGHT", [
+            new Line([80, 50], [20, 50], { stroke: 10 }),
+            new Line([60, 30], [80, 50], { stroke: 5 }),
+            new Line([60, 70], [80, 50], { stroke: 5 }),
+        ]],
         ["ROTATE_LEFT", [
-            new Arc([50, 50], 30, 0.5, { shift: 0.75, fill: "none", color: "black", stroke: 5 }),
+            new Arc([50, 50], 30, 0.5, { shift: 0.75 }, { fill: "none", color: "black", stroke: 5 }),
             new Line([50, 80], [60, 65], { stroke: 5 }),
             new Line([50, 80], [60, 93], { stroke: 5 }),
         ]],
         ["ROTATE_RIGHT", [
-            new Arc([50, 50], 30, -0.5, { shift: 0.75, fill: "none", color: "black", stroke: 5 }),
+            new Arc([50, 50], 30, -0.5, { shift: 0.75 }, { fill: "none", color: "black", stroke: 5 }),
             new Line([50, 80], [40, 65], { stroke: 5 }),
             new Line([50, 80], [40, 93], { stroke: 5 }),
         ]],
@@ -206,7 +264,7 @@ function main() {
             new Line([80, 80], [80, 20], { stroke: 3 }),
         ]],
         ["REPLAY", [
-            new Arc([50, 50], 30, 0.85, { shift: 0.75, fill: "none", color: "black", stroke: 5 }),
+            new Arc([50, 50], 30, 0.85, { shift: 0.75 }, {fill: "none", color: "black", stroke: 5 }),
             new Circle([50, 20], 10),
             new Line([26, 32], [10, 35], { stroke: 5 }),
             new Line([26, 32], [35, 45], { stroke: 5 }),
@@ -267,7 +325,7 @@ function generateFract(filled: number, total: number): Figure[] {
     const diff = total - filled;
     const f = (i, opts) => {
         const y = (size + 3) * i;
-        figures.push(new Square([50, y], [0, 1], size, opts));
+        figures.push(new Rectangle([50, y], [0, 1], size, size, opts));
     }
     for(let i = 1; i <= diff; i++) {
         f(i, {fill: "none", color: "black", stroke: 1});
@@ -281,14 +339,14 @@ function generateFract(filled: number, total: number): Figure[] {
 function generateAngle(angle): Figure[] {
     const figures: Figure[] = [];
     figures.push(new Circle([50, 50], 40, {fill: "none", color: "black", stroke: 3}));
-    figures.push(new Arc([50, 50], 40, angle / 360, {close: true}));
+    figures.push(new Arc([50, 50], 40, angle / 360, { close: true }));
     return figures;
 }
 
 function generateQuarterAngle(angle): Figure[] {
     const figures: Figure[] = [];
-    figures.push(new Arc([10, 10], 80, 0.25, {fill: "none", color: "black", close: true, stroke: 3}));
-    figures.push(new Arc([10, 10], 80, angle / 360, {close: true}));
+    figures.push(new Arc([10, 10], 80, 0.25, { close: true }, {fill: "none", color: "black", stroke: 3}));
+    figures.push(new Arc([10, 10], 80, angle / 360, { close: true }));
     return figures;
 }
 
@@ -323,7 +381,7 @@ function withStar(points: number, oldFigures: Figure[]): Figure[] {
 }
 
 function withPencilArcLine(ratio): Figure[] {
-    return withPencil([new Arc([50, 70], 20, ratio, {fill: "none", color: "black", stroke: 5, shift: 0.25})]);
+    return withPencil([new Arc([50, 70], 20, ratio, { shift: 0.25 }, {fill: "none", color: "black", stroke: 5 })]);
 }
 
 main();

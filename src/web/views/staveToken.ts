@@ -206,7 +206,7 @@ export class TokensStaveView extends TokensView {
             }
 
             const oldIndex = parseInt(oldTokenNode.dataset.index);
-            const shift = remove || (view.name === name && view.suffix === suffix && parseInt(this.dataset.index)) > oldIndex ? 0 : 1;
+            const shift = !remove && view.name === name && view.suffix === suffix && parseInt(this.dataset.index) <= oldIndex ? 1 : 0;
 
             if (isEditable === "yes") {
                 const stave = view.findStaveDelegator(name, suffix);

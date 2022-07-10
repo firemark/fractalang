@@ -30,7 +30,10 @@ export const ACTION_TOKENS: TokenCategory[] = [
     {
         label: 'Cursor',
         tokens: [
-            {name: 'FORWARD', label: 'Move forward', type: 'action'},
+            {name: 'MOVE_FORWARD', label: 'Move forward', type: 'action'},
+            {name: 'MOVE_BACKWARD', label: 'Move backward', type: 'action'},
+            {name: 'MOVE_LEFT', label: 'Move left', type: 'action'},
+            {name: 'MOVE_RIGHT', label: 'Move right', type: 'action'},
             {name: 'ROTATE_LEFT', label: 'Rotate left', type: 'action'},
             {name: 'ROTATE_RIGHT', label: 'Rotate right', type: 'action'},
             {name: 'REVERSE', label: 'Reverse', type: 'action'},
@@ -81,6 +84,8 @@ export const VALUE_TOKENS: TokenCategory[] = [
             {name: 'OP_SUB', label: 'Subtraction operator', type: 'value'},
             {name: 'COLOR_MAX', label: 'Second Color', type: 'value'},
             {name: 'COLOR_MIN', label: 'First Color', type: 'value'},
+            {name: 'COLOR_FILL', label: 'Filled Figure', type: 'value'},
+            {name: 'COLOR_EMPTY', label: 'Transparent Figure', type: 'value'},
             {name: 'COLOR_SHIFT_1_2', label: 'Change Color', type: 'value'},
             {name: 'COLOR_SHIFT_1_4', label: 'Change Color', type: 'value'},
             {name: 'COLOR_SHIFT_1_5', label: 'Change Color', type: 'value'},

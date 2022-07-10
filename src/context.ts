@@ -7,6 +7,7 @@ export interface EvaluedValue {
     color?: number;
     strokeStyle?: StrokeStyle;
     strokeThickness?: number;
+    isFilled?: boolean;
     valueTransformer?: (a: number, b: number) => number;
 }
 
@@ -39,15 +40,15 @@ export class Context {
             return null;
         }
 
-        const namesToFind = [name];
-        if (iteration % 2 == 0) {
-            namesToFind.unshift(`${name}::EVEN`);
-        } else {
-            namesToFind.unshift(`${name}::ODD`);
-        }
+        const namesToFind = [];
         if (iteration >= this.cfg.maxIteration - 1) {
-            namesToFind.unshift(`${name}::END`);
+            namesToFind.push(`${name}::END`);
         }
+        namesToFind.push(`${name}::${iteration % 2 ? 'ODD' : 'EVEN'}`);
+        for(let i = iteration; i > 0; --i) {
+            namesToFind.push(`${name}::GE${i}`);
+        }
+        namesToFind.push(name);
 
         const existFuncName = namesToFind.find(name => this.cfg.bag[name]);
         return existFuncName ? this.cfg.bag[existFuncName] : null;

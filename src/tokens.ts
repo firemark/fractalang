@@ -62,6 +62,8 @@ export const tokens = {
     COLOR_SHIFT_1_4: createValue(() => new colors.ShiftColor(1 / 4)),
     COLOR_SHIFT_1_5: createValue(() => new colors.ShiftColor(1 / 5)),
     COLOR_SHIFT_1_10: createValue(() => new colors.ShiftColor(1 / 10)),
+    COLOR_FILL: createValue(() => new colors.FillColor()),
+    COLOR_EMPTY: createValue(() => new colors.EmptyColor()),
     // Stroke
     STROKE_SOLID: createValue(() => new strokes.SetStrokeStyle("solid")),
     STROKE_DASHED: createValue(() => new strokes.SetStrokeStyle("dashed")),
@@ -94,7 +96,10 @@ export const tokens = {
     DRAW_ARCLINE_L_1_2: createAction("+", v => new actions.DrawArcLine(-1 / 2, v)),
     DRAW_ARCLINE_L_1_4: createAction("+", v => new actions.DrawArcLine(-1 / 4, v)),
     // Cursor Operators
-    FORWARD: createAction("+", v => new actions.Forward(v)),
+    MOVE_FORWARD: createAction("+", v => new actions.MoveForward(v)),
+    MOVE_BACKWARD: createAction("+", v => new actions.MoveBackward(v)),
+    MOVE_LEFT: createAction("+", v => new actions.MoveLeft(v)),
+    MOVE_RIGHT: createAction("+", v => new actions.MoveRight(v)),
     ROTATE_LEFT: createAction("+", v => new actions.RotateLeft(v)),
     ROTATE_RIGHT: createAction("+", v => new actions.RotateRight(v)),
     REVERSE: createAction("+", v => new actions.Reverse(v)),

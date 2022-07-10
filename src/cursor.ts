@@ -1,8 +1,14 @@
-import { Figure, Line, Square, Triangle, Circle, Arc } from "./figures";
+import { Figure, Line, Rectangle, Triangle, Circle, Arc, Style } from "./figures";
 
 export interface Box {
     min: [number, number];
     max: [number, number];
+}
+
+export interface OpsParams {
+    color: number,
+    stroke: number,
+    isFilled: boolean,
 }
 
 export class Cursor {
@@ -61,11 +67,11 @@ export class Cursor {
         const [old_x, old_y] = this.position;
         this.forward(distance);
         const [new_x, new_y] = this.position;
-        const ops = {
+        const style = {
             stroke: this.strokeSize * stroke,
             color: this.calcColor(color),
         };
-        this.figures.push(new Line([old_x, old_y], [new_x, new_y], ops));
+        this.figures.push(new Line([old_x, old_y], [new_x, new_y], style));
         this.computeBox(this.position);
     }
 
@@ -78,15 +84,13 @@ export class Cursor {
         const ndy = dx;
         const [x, y] = this.position;
         const point = [x + arcRadius * ndx, y + arcRadius * ndy];
-        const shift = this.angle - 0.25;
+        const style = this.calcStyleParams({stroke, color, isFilled: false});
         const ops = {
-            stroke: this.strokeSize * stroke,
-            color: this.calcColor(color),
-            fill: "none",
-            shift,
+            shift: this.angle - 0.25,
+            close: false,
         };
 
-        this.figures.push(new Arc(point, arcRadius, ratio, ops));
+        this.figures.push(new Arc(point, arcRadius, ratio, ops, style));
 
         this.rotate(ratio / 2);
         this.forward(size);
@@ -94,26 +98,26 @@ export class Cursor {
         this.computeBox(point, Math.abs(arcRadius));
     }
 
-    drawCircle(radius: number, color: number) {
+    drawCircle(radius: number, ops: OpsParams) {
         const [x, y] = this.position;
-        const ops = { fill: this.calcColor(color) };
-        this.figures.push(new Circle([x, y], radius, ops));
+        const style = this.calcStyleParams(ops);
+        this.figures.push(new Circle([x, y], radius, style));
         this.computeBox([x, y], Math.abs(radius));
     }
 
-    drawSquare(size: number, color: number) {
+    drawSquare(size: number, ops: OpsParams) {
         const [x, y] = this.position;
         const [dx, dy] = this.orientation;
-        const ops = { fill: this.calcColor(color) };
-        this.figures.push(new Square([x, y], [dx, dy], size, ops));
+        const style = this.calcStyleParams(ops);
+        this.figures.push(new Rectangle([x, y], [dx, dy], size, size, style));
         this.computeBox([x, y], Math.abs(size));
     }
 
-    drawTriangle(size: number, color: number) {
+    drawTriangle(size: number, ops: OpsParams) {
         const [x, y] = this.position;
         const [dx, dy] = this.orientation;
-        const ops = { fill: this.calcColor(color) };
-        this.figures.push(new Triangle([x, y], [dx, dy], size, ops));
+        const style = this.calcStyleParams(ops);
+        this.figures.push(new Triangle([x, y], [dx, dy], size, style));
         this.computeBox([x, y], Math.abs(size));
     }
 
@@ -121,6 +125,21 @@ export class Cursor {
         const [x, y] = this.orientation;
         this.position[0] += x * distance * this.distanceMultipler;
         this.position[1] += y * distance * this.distanceMultipler;
+    }
+
+    backward(distance: number) {
+        this.forward(-distance);
+    }
+
+    right(distance: number) {
+        const [x, y] = this.orientation;
+        // rotate orientation by 90°
+        this.position[0] -= y * distance * this.distanceMultipler;
+        this.position[1] += x * distance * this.distanceMultipler;
+    }
+
+    left(distance: number) {
+        this.right(-distance);
     }
 
     addMargin(margin: number) {
@@ -146,5 +165,13 @@ export class Cursor {
         const g = Math.trunc(ca[1] * aRatio + cb[1] * bRatio);
         const b = Math.trunc(ca[2] * aRatio + cb[2] * bRatio);
         return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    private calcStyleParams(ops: OpsParams): Style {
+        const color = this.calcColor(ops.color);
+        if (ops.isFilled) {
+            return { fill: color };
+        }
+        return { fill: "none", color: color, stroke: ops.stroke };
     }
 }

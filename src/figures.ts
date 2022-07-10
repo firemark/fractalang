@@ -1,32 +1,37 @@
 export interface Figure {}
 
+export interface LineStyle {
+    color?: string;
+    stroke?: number;
+}
+
+export class Style {
+    color?: string;
+    stroke?: number;
+    fill?: string;
+}
+
 export class Line {
     firstPoint: [number, number];
     secondPoint: [number, number];
-    stroke: number;
-    color: string;
+    style: LineStyle;
 
-    constructor(firstPoint, secondPoint, {color = "black", stroke = 1} = {}) {
+    constructor(firstPoint, secondPoint, style: LineStyle = {}) {
         this.firstPoint = firstPoint;
         this.secondPoint = secondPoint;
-        this.stroke = stroke;
-        this.color = color;
+        this.style = style;
     }
 }
 
 export class Circle {
     point: [number, number];
     radius: number;
-    fill: string;
-    color: string;
-    stroke: number;
+    style: Style;
 
-    constructor(point, radius, {fill = "black", color = "none", stroke = 0} = {}) {
+    constructor(point, radius, style: Style = {}) {
         this.point = point;
         this.radius = radius;
-        this.fill = fill;
-        this.stroke = stroke;
-        this.color = color;
+        this.style = style;
     }
 }
 
@@ -34,56 +39,46 @@ export class Arc {
     point: [number, number];
     radius: number;
     ratio: number;
-    fill: string;
-    color: string;
     close: boolean;
     shift: number;
-    stroke: number;
+    style: Style;
 
-    constructor(point, radius, ratio, {fill = "black", color = "none", close = false, shift = 0.0, stroke = 0} = {}) {
+    constructor(point, radius, ratio, { shift = 0.0, close = false } = {}, style: Style = {}) {
         this.point = point;
         this.radius = radius;
         this.ratio = ratio;
-        this.fill = fill;
-        this.close = close;
         this.shift = shift;
-        this.stroke = stroke;
-        this.color = color;
+        this.close = close;
+        this.style = style;
     }
 }
 
-export class Square {
+export class Rectangle {
     point: [number, number];
     orientation: [number, number];
-    size: number;
-    fill: string;
-    stroke: number;
-    color: string;
+    width: number;
+    height: number;
+    style: Style;
 
-    constructor(point, orientation, size, {fill = "black", color = "none", stroke = 0} = {}) {
+    constructor(point, orientation, width, height, style: Style = {}) {
         this.point = point;
         this.orientation = orientation;
-        this.size = size;
-        this.fill = fill;
-        this.stroke = stroke;
-        this.color = color;
+        this.width = width;
+        this.height = height;
+        this.style = style;
     }
 }
 
-export class Triangle  {
+export class Triangle {
     point: [number, number];
     orientation: [number, number];
     size: number;
-    fill: string;
-    stroke: number;
-    color: string;
+    style: Style;
 
-    constructor(point, orientation, size, {fill = "black", color = "none", stroke = 0} = {}) {
+    constructor(point, orientation, size, style: Style = {}) {
         this.point = point;
         this.orientation = orientation;
         this.size = size;
-        this.fill = fill;
-        this.stroke = stroke;
-        this.color = color;
+        this.style = style;
     }
 }

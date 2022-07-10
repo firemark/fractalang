@@ -1,7 +1,9 @@
 import { Cursor } from "./cursor";
-import { Figure, Circle, Arc, Square, Triangle, Line } from "./figures";
+import { Figure, Circle, Arc, Rectangle, Triangle, Line, Style } from "./figures";
 
 const NAMESPACE = "http://www.w3.org/2000/svg";
+const BLACK = "black";
+const RED = "red";
 
 export function createSvg(document, cursor: Cursor): HTMLElement {
     const svg = document.createElementNS(NAMESPACE, "svg");
@@ -32,8 +34,8 @@ function toSvg(document, figure: Figure) {
         node.setAttribute("y1", y1);
         node.setAttribute("x2", x2);
         node.setAttribute("y2", y2);
-        node.setAttribute("stroke", figure.color);
-        node.setAttribute("stroke-width", figure.stroke);
+        node.setAttribute("stroke", figure.style.color || "black");
+        node.setAttribute("stroke-width", figure.style.stroke !== undefined ? figure.style.stroke : 1);
         return node;
     } else if (figure instanceof Circle) {
         const node = document.createElementNS(NAMESPACE, "circle");
@@ -41,7 +43,7 @@ function toSvg(document, figure: Figure) {
         node.setAttribute("cx", x);
         node.setAttribute("cy", y);
         node.setAttribute("r", figure.radius);
-        setBasicAttrs(figure, node);
+        setBasicAttrs(figure.style, node);
         return node;
     } else if (figure instanceof Arc) {
         const node = document.createElementNS(NAMESPACE, "path");
@@ -61,21 +63,22 @@ function toSvg(document, figure: Figure) {
             path += `L ${x} ${y} Z`;
         }
         node.setAttribute("d", path);
-        setBasicAttrs(figure, node);
+        setBasicAttrs(figure.style, node);
         return node;
-    } else if (figure instanceof Square) {
+    } else if (figure instanceof Rectangle) {
         const node = document.createElementNS(NAMESPACE, "path");
         const [x, y] = figure.point;
         const [dx, dy] = figure.orientation;
-        const S = figure.size / 2;
+        const W = figure.width / 2;
+        const H = figure.height / 2;
         let path = '';
-        path += ` M ${x - S * dx - S * dy} ${y + S * dx - S * dy}`;
-        path += ` L ${x - S * dx + S * dy} ${y - S * dx - S * dy}`;
-        path += ` L ${x + S * dx + S * dy} ${y - S * dx + S * dy}`;
-        path += ` L ${x + S * dx - S * dy} ${y + S * dx + S * dy}`;
+        path += ` M ${x - W * dx - H * dy} ${y + H * dx - W * dy}`;
+        path += ` L ${x - W * dx + H * dy} ${y - H * dx - W * dy}`;
+        path += ` L ${x + W * dx + H * dy} ${y - H * dx + W * dy}`;
+        path += ` L ${x + W * dx - H * dy} ${y + H * dx + W * dy}`;
         path += ' Z';
         node.setAttribute("d", path);
-        setBasicAttrs(figure, node);
+        setBasicAttrs(figure.style, node);
         return node;
     } else if (figure instanceof Triangle) {
         const node = document.createElementNS(NAMESPACE, "path");
@@ -88,17 +91,17 @@ function toSvg(document, figure: Figure) {
         path += ` L ${x + SQRT3H2 * S * dy - H2 * S * dx} ${y - H2 * S * dy - SQRT3H2 * S * dx}`;
         path += ' Z';
         node.setAttribute("d", path);
-        setBasicAttrs(figure, node);
+        setBasicAttrs(figure.style, node);
         return node;
     }
     return null;
 }
 
-function setBasicAttrs(figure, node) {
-    let style = `fill: ${figure.fill};`;
-    if (figure.stroke > 0) {
-        style += `stroke-width: ${figure.stroke};`
-        style += `stroke: ${figure.color}`;
+function setBasicAttrs(style: Style, node) {
+    let styleAttr = `fill: ${style.fill || "black"};`;
+    if (style.stroke !== undefined && style.stroke > 0) {
+        styleAttr += `stroke-width: ${style.stroke};`
+        styleAttr += `stroke: ${style.color || "none"}`;
     }
-    node.setAttribute("style", style);
+    node.setAttribute("style", styleAttr);
 }

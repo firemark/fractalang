@@ -4,7 +4,7 @@ import { Function } from "./ast/actions";
 
 export const DYNAMIC_ARGS = ["DIAMOND", "INV_TRIANGLE"];
 export const PROCEDURES = ["F", "G", "H"];
-export const SUFFIXES = ["END", "EVEN", "ODD"];
+export const SUFFIXES = ["END", "EVEN", "ODD", "GE3", "GE5", "GE7"];
 
 export function parseRawTokens(rawTokens: string[]): Token[] {
     return rawTokens.map(raw => {
