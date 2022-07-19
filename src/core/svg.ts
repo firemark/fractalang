@@ -1,5 +1,5 @@
-import { Cursor } from "./cursor";
-import { Figure, Circle, Arc, Rectangle, Triangle, Line, Style } from "./figures";
+import { Cursor } from "@/core/cursor";
+import { Figure, Circle, Arc, Rectangle, Triangle, Line, Style } from "@/core/figures";
 
 const NAMESPACE = "http://www.w3.org/2000/svg";
 const BLACK = "black";

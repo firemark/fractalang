@@ -1,5 +1,5 @@
-import { Context, EvaluedValue } from "../context";
-import { Cursor, OpsParams } from "../cursor";
+import { Context, EvaluedValue } from "@/core/context";
+import { Cursor, OpsParams } from "@/core/cursor";
 import { Node, ValueNode, ActionNode, ActionResult, evalValue } from "./base";
 
 export class Function implements Node {

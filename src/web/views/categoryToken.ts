@@ -1,7 +1,7 @@
 import { TokensView } from "./token";
-import { TokenCategory } from "../models";
+import { TokenCategory } from "@/web/models";
 
-import { DEFAULT_ICON_URL } from '../consts';
+import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class TokensCategoryView extends TokensView {
     protected categories: TokenCategory[];

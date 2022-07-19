@@ -1,9 +1,9 @@
-import { Node, ValueNode, ActionNode } from "./ast/base";
-import { Multipler, Angle, Argument, DynamicArgument } from "./ast/values";
-import * as actions from "./ast/actions";
-import * as colors from "./ast/colors";
-import * as strokes from "./ast/strokes";
-import * as ops from "./ast/ops";
+import { Node, ValueNode, ActionNode } from "@/core/ast/base";
+import { Multipler, Angle, Argument, DynamicArgument } from "@/core/ast/values";
+import * as actions from "@/core/ast/actions";
+import * as colors from "@/core/ast/colors";
+import * as strokes from "@/core/ast/strokes";
+import * as ops from "@/core/ast/ops";
 
 export type ActionCb = (values: ValueNode[]) => ActionNode;
 export type ValueCb = () => ValueNode;

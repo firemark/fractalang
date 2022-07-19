@@ -1,6 +1,6 @@
-import { Token, tokens, ActionCb, ValueCb } from "./tokens";
-import { Node, ActionNode, ValueNode } from "./ast/base";
-import { Function } from "./ast/actions";
+import { Token, tokens, ActionCb, ValueCb } from "@/core/tokens";
+import { Node, ActionNode, ValueNode } from "@/core/ast/base";
+import { Function } from "@/core/ast/actions";
 
 export const DYNAMIC_ARGS = ["DIAMOND", "INV_TRIANGLE"];
 export const PROCEDURES = ["F", "G", "H"];

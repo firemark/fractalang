@@ -1,4 +1,4 @@
-import { Cursor } from "./cursor";
+import { Cursor } from "@/core/cursor";
 
 export type StrokeStyle = "solid" | "dotted" | "dashed";
 

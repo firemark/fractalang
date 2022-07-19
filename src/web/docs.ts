@@ -1,6 +1,6 @@
 import { DocsController, TutAnimParams } from "./controllers/docs";
 
-import "../style/docs.scss";
+import "@/style/docs.scss";
 
 const ANIMATIONS_PARAMS: TutAnimParams[] = [];
 const CURRENT_HREF = (document.currentScript as HTMLScriptElement).src;

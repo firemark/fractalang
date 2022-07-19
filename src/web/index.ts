@@ -1,6 +1,6 @@
 import { MainController } from "./controllers/main";
 
-import "../style/main.scss";
+import "@/style/main.scss";
 
 const controller = new MainController();
 

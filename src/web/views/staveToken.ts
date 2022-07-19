@@ -1,8 +1,8 @@
 import { StaveView } from './stave';
 import { TokensView } from './token';
 
-import { Stave } from '../models';
-import { DEFAULT_ICON_URL } from '../consts';
+import { Stave } from '@/web/models';
+import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class TokensStaveView extends TokensView {
     private onDrop: () => void;

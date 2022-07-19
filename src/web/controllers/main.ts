@@ -1,15 +1,15 @@
 import { Controller } from "./controller";
 
-import { CodeView } from "../views/code";
-import { FunctionsBarView } from "../views/functionsBar";
-import { TokensCategoryView } from "../views/categoryToken";
-import { ImageView } from "../views/image";
-import { CodeBarView } from "../views/codeBar";
+import { CodeView } from "@/web/views/code";
+import { FunctionsBarView } from "@/web/views/functionsBar";
+import { TokensCategoryView } from "@/web/views/categoryToken";
+import { ImageView } from "@/web/views/image";
+import { CodeBarView } from "@/web/views/codeBar";
 
-import { Stave } from "../models";
-import { ACTION_TOKENS, VALUE_TOKENS } from "../tokens";
+import { Stave } from "@/web/models";
+import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokens";
 
-import { exec } from "../../exec";
+import { exec } from "@/core/exec";
 
 export class MainController extends Controller {
     private imageView: ImageView;

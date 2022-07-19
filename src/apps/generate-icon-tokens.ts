@@ -1,7 +1,7 @@
-import { createSvg } from "../svg";
-import { Cursor } from "../cursor";
-import { Figure, Line, Rectangle, Triangle, Circle, Arc } from "../figures";
-import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from "../parser";
+import { createSvg } from "@/core/svg";
+import { Cursor } from "@/core/cursor";
+import { Figure, Line, Rectangle, Triangle, Circle, Arc } from "@/core/figures";
+import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from "@/core/parser";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 import { writeFile, mkdir } from "fs";
 

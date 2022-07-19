@@ -1,8 +1,8 @@
 import { View } from './view';
 import { StaveView } from './stave';
 
-import { Stave } from '../models';
-import { DEFAULT_ICON_URL } from '../consts';
+import { Stave } from '@/web/models';
+import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class CodeView extends View {
     private iconUrl: string;

@@ -1,4 +1,4 @@
-import { Figure, Line, Rectangle, Triangle, Circle, Arc, Style } from "./figures";
+import { Figure, Line, Rectangle, Triangle, Circle, Arc, Style } from "@/core/figures";
 
 export interface Box {
     min: [number, number];

@@ -1,7 +1,7 @@
 import { View } from "./view";
 import { v4 as uuid4 } from 'uuid';
-import { NAME_TO_TOKEN } from "../tokens";
-import { DEFAULT_ICON_URL } from '../consts';
+import { NAME_TO_TOKEN } from "@/web/tokens";
+import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class TokensView extends View {
     readonly iconUrl: string;

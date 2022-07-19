@@ -1,14 +1,14 @@
 import { Controller } from "./controller";
 
-import { CodeView } from "../views/code";
-import { DocBarView } from "../views/docBar";
-import { TitleView } from "../views/title";
-import { CommentView } from "../views/comment";
-import { ImageView } from "../views/image";
-import { StaveView } from "../views/stave";
+import { CodeView } from "@/web/views/code";
+import { DocBarView } from "@/web/views/docBar";
+import { TitleView } from "@/web/views/title";
+import { CommentView } from "@/web/views/comment";
+import { ImageView } from "@/web/views/image";
+import { StaveView } from "@/web/views/stave";
 
-import { Stave } from "../models";
-import { exec } from "../../exec";
+import { Stave } from "@/web/models";
+import { exec } from "@/core/exec";
 
 export interface TutAnimParams {
     staves: string[];

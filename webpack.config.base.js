@@ -1,9 +1,10 @@
+const path = require('path');
 const webpack = require('webpack');
 const ASSET_PATH = process.env.ASSET_PATH || '';
 
 module.exports = {
   envs: {ASSET_PATH},
-  config:{
+  config: {
     devtool: 'inline-source-map',
     mode: 'development',
     module: {
@@ -20,6 +21,9 @@ module.exports = {
       ],
     },
     resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
       extensions: ['.ts', '.js'],
     },
     plugins: [

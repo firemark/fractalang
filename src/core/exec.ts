@@ -1,6 +1,6 @@
-import { Cursor } from "./cursor";
-import { parseLine, parseRawTokens } from "./parser";
-import { ContextCfg, Context } from "./context";
+import { Cursor } from "@/core/cursor";
+import { parseLine, parseRawTokens } from "@/core/parser";
+import { ContextCfg, Context } from "@/core/context";
 
 export interface Func {
     name: string;

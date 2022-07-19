@@ -1,5 +1,5 @@
-import { exec } from "../exec";
-import { createSvg } from "../svg";
+import { exec } from "@/core/exec";
+import { createSvg } from "@/core/svg";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 
 function main() {

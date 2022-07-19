@@ -1,8 +1,8 @@
 import { View } from './view';
 import { TokensStaveView } from './staveToken';
-import { DEFAULT_ICON_URL } from '../consts';
+import { DEFAULT_ICON_URL } from '@/web/consts';
 
-import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '../../parser';
+import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '@/core/parser';
 
 
 export class FunctionsBarView extends View {

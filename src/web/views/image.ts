@@ -1,6 +1,6 @@
 import { View } from "./view";
-import { createSvg } from "../../svg";
-import { Cursor } from "../../cursor";
+import { createSvg } from "@/core/svg";
+import { Cursor } from "@/core/cursor";
 
 export class ImageView extends View {
 

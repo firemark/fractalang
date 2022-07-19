@@ -1,4 +1,4 @@
-import { Context, EvaluedValue } from "../context";
+import { Context, EvaluedValue } from "@/core/context";
 import { ValueNode, evalValue } from "./base";
 
 export class Angle extends ValueNode {

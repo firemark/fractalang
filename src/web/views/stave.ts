@@ -2,8 +2,8 @@ import { View } from './view';
 
 import { TokensStaveView } from './staveToken';
 
-import { Stave } from '../models';
-import { DEFAULT_ICON_URL } from '../consts';
+import { Stave } from '@/web/models';
+import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class StaveView extends View {
     private tokenView: TokensStaveView

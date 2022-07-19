@@ -1,5 +1,5 @@
-import { Context, EvaluedValue } from "../context";
-import type { StrokeStyle } from "../context";
+import { Context, EvaluedValue } from "@/core/context";
+import type { StrokeStyle } from "@/core/context";
 import { ValueNode } from "./base";
 
 export class SetStrokeStyle extends ValueNode {
