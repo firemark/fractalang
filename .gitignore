@@ -110,4 +110,5 @@ dist
 
 # Node build
 dist-node
+dist-server
 public/icons
