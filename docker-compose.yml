@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      WEBSERVER_PORT: 5000
+      MONGODB_URI: mongodb://a:a@mongodb:27017/
+  mongodb:
+    image: "mongo:5.0"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: a
+      MONGO_INITDB_ROOT_PASSWORD: a

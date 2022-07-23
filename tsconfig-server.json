@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist-server/",
+    "moduleResolution": "node",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["src/server/app.ts"]
+}
