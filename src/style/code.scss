@@ -47,6 +47,11 @@
     flex-direction: column;
     gap: 5px;
     overflow-x: hidden;
+    transition: background-color 300ms;
+
+    &.over {
+        background-color: #EE4B2B;
+    }
 
     > li {
         flex: 0 1 auto;
@@ -81,7 +86,7 @@
                 > * { flex: 0 0 auto; }
             }
 
-            > .remove {flex: 0 0 auto; }
+            > .remove { flex: 0 0 auto; }
         }
 
         &.hide {

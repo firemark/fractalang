@@ -7,7 +7,7 @@ export class TokensView extends View {
     readonly iconUrl: string;
     readonly isDraggable: boolean;
 
-    constructor({node, isDraggable, iconUrl = DEFAULT_ICON_URL}: {
+    constructor({ node, isDraggable, iconUrl = DEFAULT_ICON_URL }: {
         node: HTMLElement,
         isDraggable: boolean,
         iconUrl?: string,
@@ -41,8 +41,8 @@ export class TokensView extends View {
             event.preventDefault();
             const context = new DragContext(node, getMouseCoords);
             context.init({
-                mousemove: dragMove(context),
-                mouseup: dragStop(context),
+                mousemove: context.createDragMove(),
+                mouseup: context.createDragStop(),
             });
             context.update(event);
         }
@@ -50,22 +50,10 @@ export class TokensView extends View {
         function dragTouchStart(event: TouchEvent) {
             const context = new DragContext(node, getTouchCoords);
             context.init({
-                touchmove: dragMove(context),
-                touchend: dragStop(context),
+                touchmove: context.createDragMove(),
+                touchend: context.createDragStop(),
             });
             context.update(event);
-        }
-
-        function dragMove<EventType extends Event>(context: DragContext<EventType>) {
-            return (event: EventType) => {
-                context.update(event);
-            }
-        }
-
-        function dragStop<EventType extends Event>(context: DragContext<EventType>) {
-            return (event: EventType) => {
-                context.clear();
-            }
         }
 
         function getMouseCoords(event: MouseEvent): [number, number] {
@@ -82,9 +70,8 @@ export class TokensView extends View {
 class DragContext<EventType extends Event> {
     public dragNode: HTMLElement;
     public overNode: HTMLElement | null;
-    public eventCallbacks: {[k: string]: (e: EventType) => void};
+    public eventCallbacks: { [k: string]: (e: EventType) => void };
     private _getCoords: (event: EventType) => [number, number];
-    private VALID_CLASSES = ['fract-token-span', 'fract-token', 'fract-token-group'];
 
     constructor(parentNode: HTMLElement, getCoords: (event: EventType) => [number, number]) {
         this.dragNode = this.createDragNode(parentNode);
@@ -93,14 +80,26 @@ class DragContext<EventType extends Event> {
         this._getCoords = getCoords;
     }
 
-    public init(eventCallbacks: {[k: string]: (e: EventType) => void}) {
+    createDragMove() {
+        return (event: EventType) => {
+            this.update(event);
+        }
+    }
+
+    createDragStop() {
+        return (event: EventType) => {
+            this.clear();
+        }
+    }
+
+    public init(eventCallbacks: { [k: string]: (e: EventType) => void }) {
         this.eventCallbacks = eventCallbacks
         document.body.appendChild(this.dragNode);
         Object.entries(this.eventCallbacks).forEach(([name, cb]) => {
             document.addEventListener(name, cb, false);
         });
     }
-    
+
     public clear() {
         this.dragNode.remove();
         if (this.overNode !== null) {
@@ -117,7 +116,7 @@ class DragContext<EventType extends Event> {
         if (this.overNode !== null) {
             this.overNode.classList.remove("over");
         }
-        this.updateOverNode(x, y);
+        this.updateOverNode();
         if (this.overNode !== null) {
             this.overNode.classList.add("over");
         }
@@ -128,18 +127,42 @@ class DragContext<EventType extends Event> {
         this.dragNode.style.top = `${y.toFixed()}px`;
     }
 
-    private updateOverNode(x: number, y: number) {
-        const nodes = document.elementsFromPoint(x, y);
-        const node = nodes.find(
-            node => !node.classList.contains("move") && this.VALID_CLASSES.some(c => node.classList.contains(c))
-        );
-        this.overNode = (node as HTMLElement) || null;
+    private updateOverNode() {
+        const codeNode = document.querySelector("#code");
+        const filter = this.getWalkerFilter();
+        const walker = document.createTreeWalker(codeNode, NodeFilter.SHOW_ELEMENT, filter);
+        while (walker.nextNode() !== null);
+        this.overNode = walker.currentNode as HTMLElement;
+    }
+
+    private getWalkerFilter() {
+        const VALID_CLASSES = ['fract-token-span', 'fract-staves', 'outer-tokens'];
+        const dragRect = this.dragNode.getBoundingClientRect();
+
+        return {
+            acceptNode(node: HTMLElement) {
+                const rect = node.getBoundingClientRect();
+
+                if (dragRect.right < rect.left
+                    || dragRect.left > rect.right
+                    || dragRect.bottom < rect.top
+                    || dragRect.top > rect.bottom) {
+                    return NodeFilter.FILTER_REJECT;
+                }
+
+                if (!VALID_CLASSES.some(c => node.classList.contains(c))) {
+                    return NodeFilter.FILTER_SKIP;
+                }
+
+                return NodeFilter.FILTER_ACCEPT;
+            }
+        };
     }
 
     private getCoords(event: EventType): [number, number] {
         const [x, y] = this._getCoords(event);
         const nx = x - this.dragNode.clientWidth / 2;
-        const ny = y - this.dragNode.clientHeight / 2;
+        const ny = y - this.dragNode.clientHeight;
         return [nx, ny];
     }
 
