@@ -34,34 +34,46 @@ export class TokensView extends View {
     }
 
     private setTokenEvents(node: HTMLElement) {
-        node.addEventListener('mousedown', dragStart, false);
+        node.addEventListener('mousedown', dragMouseStart, false);
+        node.addEventListener('touchstart', dragTouchStart, false);
 
-        function dragStart(event: MouseEvent) {
+        function dragMouseStart(event: MouseEvent) {
             event.preventDefault();
             const context = new DragContext(node, getMouseCoords);
-            context.init();
+            context.init({
+                mousemove: dragMove(context),
+                mouseup: dragStop(context),
+            });
             context.update(event);
+        }
 
-            document.addEventListener('mousemove', dragMove(context), false);
-            document.addEventListener('mouseup', dragStop(context), false);
+        function dragTouchStart(event: TouchEvent) {
+            const context = new DragContext(node, getTouchCoords);
+            context.init({
+                touchmove: dragMove(context),
+                touchend: dragStop(context),
+            });
+            context.update(event);
         }
 
         function dragMove<EventType extends Event>(context: DragContext<EventType>) {
             return (event: EventType) => {
-                event.preventDefault();
                 context.update(event);
             }
         }
 
         function dragStop<EventType extends Event>(context: DragContext<EventType>) {
             return (event: EventType) => {
-                event.preventDefault();
                 context.clear();
             }
         }
 
         function getMouseCoords(event: MouseEvent): [number, number] {
             return [event.clientX, event.clientY];
+        }
+
+        function getTouchCoords(event: TouchEvent): [number, number] {
+            return [event.touches[0].clientX, event.touches[0].clientY];
         }
     }
 }
@@ -70,21 +82,33 @@ export class TokensView extends View {
 class DragContext<EventType extends Event> {
     public dragNode: HTMLElement;
     public overNode: HTMLElement | null;
+    public eventCallbacks: {[k: string]: (e: EventType) => void};
     private _getCoords: (event: EventType) => [number, number];
     private VALID_CLASSES = ['fract-token-span', 'fract-token', 'fract-token-group'];
 
     constructor(parentNode: HTMLElement, getCoords: (event: EventType) => [number, number]) {
         this.dragNode = this.createDragNode(parentNode);
         this.overNode = null;
+        this.eventCallbacks = {};
         this._getCoords = getCoords;
     }
 
-    public init() {
+    public init(eventCallbacks: {[k: string]: (e: EventType) => void}) {
+        this.eventCallbacks = eventCallbacks
         document.body.appendChild(this.dragNode);
+        Object.entries(this.eventCallbacks).forEach(([name, cb]) => {
+            document.addEventListener(name, cb, false);
+        });
     }
     
     public clear() {
         this.dragNode.remove();
+        if (this.overNode !== null) {
+            this.overNode.classList.remove("over");
+        }
+        Object.entries(this.eventCallbacks).forEach(([name, cb]) => {
+            document.removeEventListener(name, cb, false);
+        });
     }
 
     public update(event: EventType) {
