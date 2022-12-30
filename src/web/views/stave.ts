@@ -16,8 +16,8 @@ export class StaveView extends View {
         node,
         name,
         suffix,
-        findStaveDelegator,
         onDrop = null,
+        onMove = null,
         iconUrl = DEFAULT_ICON_URL,
         tokens = [],
     }) {
@@ -30,8 +30,8 @@ export class StaveView extends View {
             node: this.tokensNode,
             name,
             suffix,
-            findStaveDelegator: findStaveDelegator,
             onDrop,
+            onMove,
             iconUrl,
             tokens,
         });

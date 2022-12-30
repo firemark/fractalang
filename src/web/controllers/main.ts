@@ -25,6 +25,7 @@ export class MainController extends Controller {
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
             onDrop: this.onDrop.bind(this),
+            onMove: this.onMove.bind(this),
         });
         this.functionsBarView = new FunctionsBarView({
             node: this.node.querySelector(".fract-functions-list"),
@@ -37,11 +38,13 @@ export class MainController extends Controller {
             node: document.getElementById("action-tokens"),
             categories: ACTION_TOKENS,
             onDrop: this.onDrop.bind(this),
+            onMove: this.onMove.bind(this),
         });
         this.valuesCategoryView = new TokensCategoryView({
             node: document.getElementById("value-tokens"),
             categories: VALUE_TOKENS,
             onDrop: this.onDrop.bind(this),
+            onMove: this.onMove.bind(this),
         });
         this.codeBarView = new CodeBarView({
             node: document.getElementById("code-bar"),
@@ -100,6 +103,15 @@ export class MainController extends Controller {
         }
 
         this.scrapeAndRun(this.codeBarView.getData());
+    }
+
+    private onMove(dragNode: HTMLElement, oldOverNode: HTMLElement | null, newOverNode: HTMLElement | null) {
+        if (oldOverNode) {
+            oldOverNode.classList.remove("over");
+        }
+        if (newOverNode) {
+            newOverNode.classList.add("over");
+        }
     }
 
     private showOrHideOrAddFunction(name: string, suffix: string = ""): void {

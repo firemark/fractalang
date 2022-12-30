@@ -1,21 +1,24 @@
 import { TokensView } from "./token";
 import { TokenCategory } from "@/web/models";
+import type { OnDropCb, OnMoveCb } from "./token";
 
 import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class TokensCategoryView extends TokensView {
     protected categories: TokenCategory[];
 
-    constructor({node, categories, onDrop, iconUrl = DEFAULT_ICON_URL}: {
+    constructor({node, categories, onDrop, onMove, iconUrl = DEFAULT_ICON_URL}: {
         node: HTMLElement,
         categories: TokenCategory[],
-        onDrop: (d: HTMLElement, o: HTMLElement) => void,
+        onDrop: OnDropCb,
+        onMove: OnMoveCb,
         iconUrl?: string,
     }) {
         super({
             node,
             iconUrl,
             onDrop,
+            onMove,
         });
         this.categories = categories;
     }

@@ -1,10 +1,8 @@
-import { StaveView } from './stave';
 import { TokensView } from './token';
 
 import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class TokensStaveView extends TokensView {
-    private findStaveDelegator: (name: string, suffix: string) => (StaveView | undefined);
     private tokens: string[];
     private name: string;
     private suffix: string;
@@ -13,18 +11,18 @@ export class TokensStaveView extends TokensView {
         node,
         name,
         suffix,
-        findStaveDelegator,
         iconUrl = DEFAULT_ICON_URL,
         onDrop = null,
+        onMove = null,
         tokens = [],
     }) {
         super({
             node,
             iconUrl,
             onDrop,
+            onMove,
         });
         this.tokens = tokens;
-        this.findStaveDelegator = findStaveDelegator;
         this.name = name;
         this.suffix = suffix;
     }
@@ -128,6 +126,14 @@ export class TokensStaveView extends TokensView {
         node.dataset.name = this.name;
         node.dataset.suffix = this.suffix;
         return node;
+    }
+
+    protected createDragNode(node: HTMLElement): HTMLElement {
+        const dragNode = super.createDragNode(node);
+        dragNode.dataset.index = node.dataset.index;
+        dragNode.dataset.name = node.dataset.name;
+        dragNode.dataset.suffix = node.dataset.suffix;
+        return dragNode;
     }
 
     protected createEmptyTokenGroup() {
