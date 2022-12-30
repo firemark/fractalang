@@ -1,5 +1,4 @@
 import { View } from "./view";
-import { v4 as uuid4 } from 'uuid';
 import { NAME_TO_TOKEN } from "@/web/tokens";
 import { DEFAULT_ICON_URL } from '@/web/consts';
 
@@ -27,7 +26,6 @@ export class TokensView extends View {
             name: 'span',
             classes: ['fract-token'],
         });
-        node.id = `token-${uuid4()}`;
         node.dataset.token = token;
         node.dataset.type = tokenInfo ? tokenInfo.type : "unknown";
         node.style.backgroundImage = `url(${this.iconUrl}/${token}.svg)`;
@@ -189,8 +187,6 @@ class DragContext<EventType extends Event> {
         dragNode.classList.add('fract-token', 'move');
         dragNode.style.backgroundImage = node.style.backgroundImage;
         dragNode.dataset.token = node.dataset.token;
-        dragNode.dataset.type = node.dataset.type;
-        dragNode.dataset.tokenId = node.id;
         if (node.dataset.index !== undefined) {
             dragNode.dataset.index = node.dataset.index;
             dragNode.dataset.name = node.dataset.name;
