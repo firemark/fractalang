@@ -24,8 +24,7 @@ export class MainController extends Controller {
         this.imageView = new ImageView(this.node.querySelector(".fract-image"));
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
-            onChange: () => { this.scrapeAndRun(this.codeBarView.getData()); },
-            isDraggable: true,
+            onDrop: this.onDrop.bind(this),
         });
         this.functionsBarView = new FunctionsBarView({
             node: this.node.querySelector(".fract-functions-list"),
@@ -37,10 +36,12 @@ export class MainController extends Controller {
         this.actionsCategoryView = new TokensCategoryView({
             node: document.getElementById("action-tokens"),
             categories: ACTION_TOKENS,
+            onDrop: this.onDrop.bind(this),
         });
         this.valuesCategoryView = new TokensCategoryView({
             node: document.getElementById("value-tokens"),
             categories: VALUE_TOKENS,
+            onDrop: this.onDrop.bind(this),
         });
         this.codeBarView = new CodeBarView({
             node: document.getElementById("code-bar"),
@@ -71,6 +72,34 @@ export class MainController extends Controller {
         cursor.addMargin(20);
 
         this.imageView.render(cursor, data["background-color"]);
+    }
+
+    private onDrop(dragNode: HTMLElement, overNode: HTMLElement) {
+        const findStave = dataset => this.codeView.findStave(dataset.name, dataset.suffix);
+
+        if (overNode.classList.contains("fract-staves")) { // REMOVE
+            const indexToRemove = parseInt(dragNode.dataset.index);
+            if (!indexToRemove) {
+                return;
+            }
+            findStave(dragNode.dataset).removeToken(indexToRemove);
+        }
+
+        if (overNode.classList.contains("fract-token-span")) {  // ADD/MOVE
+            const indexToMove = parseInt(dragNode.dataset.index);
+            const goalIndex = parseInt(overNode.dataset.index);
+            const goalStaveView = findStave(overNode.dataset);
+
+            goalStaveView.pushTokenAfter(dragNode.dataset.token, goalIndex);
+
+            if (indexToMove) {
+                const prevStaveView = findStave(dragNode.dataset);
+                const shift = Object.is(prevStaveView, goalStaveView) && goalIndex <= indexToMove ? 1 : 0;
+                prevStaveView.removeToken(indexToMove + shift);
+            }
+        }
+
+        this.scrapeAndRun(this.codeBarView.getData());
     }
 
     private showOrHideOrAddFunction(name: string, suffix: string = ""): void {

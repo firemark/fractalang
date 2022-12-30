@@ -6,15 +6,16 @@ import { DEFAULT_ICON_URL } from '@/web/consts';
 export class TokensCategoryView extends TokensView {
     protected categories: TokenCategory[];
 
-    constructor({node, categories, iconUrl = DEFAULT_ICON_URL}: {
+    constructor({node, categories, onDrop, iconUrl = DEFAULT_ICON_URL}: {
         node: HTMLElement,
         categories: TokenCategory[],
+        onDrop: (d: HTMLElement, o: HTMLElement) => void,
         iconUrl?: string,
     }) {
         super({
             node,
             iconUrl,
-            isDraggable: true,
+            onDrop,
         });
         this.categories = categories;
     }

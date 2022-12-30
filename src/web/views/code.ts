@@ -7,20 +7,17 @@ import { DEFAULT_ICON_URL } from '@/web/consts';
 export class CodeView extends View {
     private iconUrl: string;
     private staveViews: StaveView[];
-    private isDraggable: boolean;
-    private onChange: () => void;
+    private onDrop: (d: HTMLElement, o: HTMLElement) => void | null;
 
-    constructor({node, onChange, isDraggable = false, iconUrl = DEFAULT_ICON_URL}: {
+    constructor({node, onDrop = null, iconUrl = DEFAULT_ICON_URL}: {
         node: HTMLElement,
-        onChange: () => void,
-        isDraggable?: boolean,
+        onDrop?: (d: HTMLElement, o: HTMLElement) => void,
         iconUrl?: string,
     }) {
         super(node);
         this.iconUrl = iconUrl;
         this.staveViews = [];
-        this.isDraggable = isDraggable;
-        this.onChange = onChange;
+        this.onDrop = onDrop;
     }
 
     render(staves: Stave[]) {
@@ -54,12 +51,12 @@ export class CodeView extends View {
             name,
             suffix: suffix || "",
             iconUrl: this.iconUrl,
-            onChange: this.onChange,
             findStaveDelegator: this.findStave.bind(this),
-            isDraggable: this.isDraggable,
+            onDrop: this.onDrop,
             tokens,
         });
         view.render();
         return view;
     }
+
 }

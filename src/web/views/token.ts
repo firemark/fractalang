@@ -5,16 +5,20 @@ import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class TokensView extends View {
     readonly iconUrl: string;
-    readonly isDraggable: boolean;
+    private onDrop: (d: HTMLElement, o: HTMLElement) => void | null;
 
-    constructor({ node, isDraggable, iconUrl = DEFAULT_ICON_URL }: {
+    constructor({ node, onDrop = null, iconUrl = DEFAULT_ICON_URL }: {
         node: HTMLElement,
-        isDraggable: boolean,
+        onDrop?: (d: HTMLElement, o: HTMLElement) => void | null,
         iconUrl?: string,
     }) {
         super(node);
         this.iconUrl = iconUrl;
-        this.isDraggable = isDraggable;
+        this.onDrop = onDrop;
+    }
+
+    get isDraggable() {
+        return this.onDrop !== null;
     }
 
     protected createTokenNode(token: string): HTMLElement {
@@ -37,9 +41,14 @@ export class TokensView extends View {
         node.addEventListener('mousedown', dragMouseStart, false);
         node.addEventListener('touchstart', dragTouchStart, false);
 
+        const onDrop = this.onDrop;
+        function createContext(coordsCb) {
+            return new DragContext(node, coordsCb, onDrop);
+        }
+
         function dragMouseStart(event: MouseEvent) {
             event.preventDefault();
-            const context = new DragContext(node, getMouseCoords);
+            const context = createContext(getMouseCoords);
             context.init({
                 mousemove: context.createDragMove(),
                 mouseup: context.createDragStop(),
@@ -48,7 +57,7 @@ export class TokensView extends View {
         }
 
         function dragTouchStart(event: TouchEvent) {
-            const context = new DragContext(node, getTouchCoords);
+            const context = createContext(getTouchCoords);
             context.init({
                 touchmove: context.createDragMove(),
                 touchend: context.createDragStop(),
@@ -68,15 +77,21 @@ export class TokensView extends View {
 
 
 class DragContext<EventType extends Event> {
-    public dragNode: HTMLElement;
-    public overNode: HTMLElement | null;
-    public eventCallbacks: { [k: string]: (e: EventType) => void };
+    private dragNode: HTMLElement;
+    private overNode: HTMLElement | null;
+    private eventCallbacks: { [k: string]: (e: EventType) => void };
     private _getCoords: (event: EventType) => [number, number];
+    private onDrop: (d: HTMLElement, o: HTMLElement) => void;
 
-    constructor(parentNode: HTMLElement, getCoords: (event: EventType) => [number, number]) {
+    constructor(
+        parentNode: HTMLElement,
+        getCoords: (event: EventType) => [number, number],
+        onDrop: (d: HTMLElement, o: HTMLElement) => void,
+    ) {
         this.dragNode = this.createDragNode(parentNode);
         this.overNode = null;
         this.eventCallbacks = {};
+        this.onDrop = onDrop;
         this._getCoords = getCoords;
     }
 
@@ -88,6 +103,9 @@ class DragContext<EventType extends Event> {
 
     createDragStop() {
         return (event: EventType) => {
+            if (this.overNode !== null) {
+                this.onDrop(this.dragNode, this.overNode);
+            }
             this.clear();
         }
     }
@@ -169,10 +187,15 @@ class DragContext<EventType extends Event> {
     private createDragNode(node: HTMLElement): HTMLElement {
         const dragNode = document.createElement('span');
         dragNode.classList.add('fract-token', 'move');
+        dragNode.style.backgroundImage = node.style.backgroundImage;
         dragNode.dataset.token = node.dataset.token;
         dragNode.dataset.type = node.dataset.type;
-        dragNode.style.backgroundImage = node.style.backgroundImage;
         dragNode.dataset.tokenId = node.id;
+        if (node.dataset.index !== undefined) {
+            dragNode.dataset.index = node.dataset.index;
+            dragNode.dataset.name = node.dataset.name;
+            dragNode.dataset.suffix = node.dataset.suffix;
+        }
         return dragNode;
     }
 };

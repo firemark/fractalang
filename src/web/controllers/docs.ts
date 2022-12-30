@@ -52,8 +52,6 @@ export class DocsController extends Controller {
         });
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
-            isDraggable: false,
-            onChange: () => { this.scrapeAndRun(); },
             iconUrl,
         });
     }

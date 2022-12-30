@@ -1,11 +1,9 @@
 import { StaveView } from './stave';
 import { TokensView } from './token';
 
-import { Stave } from '@/web/models';
 import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class TokensStaveView extends TokensView {
-    private onDrop: () => void;
     private findStaveDelegator: (name: string, suffix: string) => (StaveView | undefined);
     private tokens: string[];
     private name: string;
@@ -15,18 +13,16 @@ export class TokensStaveView extends TokensView {
         node,
         name,
         suffix,
-        onDrop,
         findStaveDelegator,
         iconUrl = DEFAULT_ICON_URL,
-        isDraggable = false,
+        onDrop = null,
         tokens = [],
     }) {
         super({
             node,
             iconUrl,
-            isDraggable,
+            onDrop,
         });
-        this.onDrop = onDrop;
         this.tokens = tokens;
         this.findStaveDelegator = findStaveDelegator;
         this.name = name;
@@ -162,73 +158,15 @@ export class TokensStaveView extends TokensView {
             classes: ["fract-token-span"],
         });
         node.dataset.index = `${index}`;
-        this.setTokenSpanEvents(node);
+        node.dataset.name = this.name;
+        node.dataset.suffix = this.suffix;
         return node;
     }
 
     protected createTokenRemoveSpanNode() {
         const node = document.createElement("span");
         node.classList.add("fract-token-span", "remove");
-        this.setTokenSpanEvents(node, true);
         return node;
     }
-
-    protected setTokenSpanEvents(node: Element, remove: boolean = false) {
-        node.addEventListener('dragover', evDragOver, false);
-        node.addEventListener('drop', evDrop, false);
-        node.addEventListener('dragenter', evDragEnter, false);
-        node.addEventListener('dragleave', evDragLeave, false);
-
-        const view = this;
-
-        function evDragOver(e) {
-            if (e.preventDefault) {
-              e.preventDefault();
-            }
-
-            e.dataTransfer.dropEffect = 'move';
-
-            return false;
-        }
-
-        function evDrop(e) {
-            if (e.stopPropagation) {
-              e.stopPropagation(); // stops the browser from redirecting.
-            }
-            this.classList.remove('over');
-
-            const oldId = e.dataTransfer.getData('id');
-            const oldTokenNode = document.getElementById(oldId) as HTMLElement;
-            const { token, isEditable, name, suffix } = oldTokenNode.dataset;
-
-            if (!remove) {
-                view.pushTokenAfter(token, this.dataset.index);
-            }
-
-            const oldIndex = parseInt(oldTokenNode.dataset.index);
-            const shift = !remove && view.name === name && view.suffix === suffix && parseInt(this.dataset.index) <= oldIndex ? 1 : 0;
-
-            if (isEditable === "yes") {
-                const stave = view.findStaveDelegator(name, suffix);
-                stave.removeToken(oldIndex + shift);
-            }
-
-            view.onDrop();
-            return false;
-        }
-
-        function findSpan(node): HTMLElement {
-            return node.classList.contains('fract-token-span') ? node : node.nextSibling;
-        }
-
-        function evDragEnter(e) {
-            findSpan(this).classList.add('over');
-        }
-
-        function evDragLeave(e) {
-            findSpan(this).classList.remove('over');
-        }
-    }
-
 };
 
