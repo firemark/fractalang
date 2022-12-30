@@ -79,7 +79,7 @@ export class MainController extends Controller {
 
         if (overNode.classList.contains("fract-staves")) { // REMOVE
             const indexToRemove = parseInt(dragNode.dataset.index);
-            if (!indexToRemove) {
+            if (isNaN(indexToRemove)) {
                 return;
             }
             findStave(dragNode.dataset).removeToken(indexToRemove);
@@ -92,7 +92,7 @@ export class MainController extends Controller {
 
             goalStaveView.pushTokenAfter(dragNode.dataset.token, goalIndex);
 
-            if (indexToMove) {
+            if (!isNaN(indexToMove)) {
                 const prevStaveView = findStave(dragNode.dataset);
                 const shift = Object.is(prevStaveView, goalStaveView) && goalIndex <= indexToMove ? 1 : 0;
                 prevStaveView.removeToken(indexToMove + shift);

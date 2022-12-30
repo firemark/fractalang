@@ -67,7 +67,7 @@
             background-position: center;
         }
 
-        > .outer-tokens  {
+        > .tokens  {
             flex: 1 1 auto;
             padding: 5px 0;
             display: flex;
@@ -75,18 +75,10 @@
             border: 2px #AAA solid;
             border-radius: 5px;
             background-color: #EEE;
+            overflow-x: scroll;
+            overflow-y: hidden;
 
-            > .inner-tokens {
-                padding: 0 5px;
-                flex: 1 1 auto;
-                display: flex;
-                align-items: center;
-                overflow-x: scroll;
-                overflow-y: hidden;
-                > * { flex: 0 0 auto; }
-            }
-
-            > .remove { flex: 0 0 auto; }
+            > * { flex: 0 0 auto; }
         }
 
         &.hide {

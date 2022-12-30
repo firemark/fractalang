@@ -152,7 +152,7 @@ class DragContext<EventType extends Event> {
     }
 
     private getWalkerFilter() {
-        const VALID_CLASSES = ['fract-token-span', 'fract-staves', 'outer-tokens'];
+        const VALID_CLASSES = ['fract-token-span', 'fract-staves', 'tokens'];
         const dragRect = this.dragNode.getBoundingClientRect();
 
         return {

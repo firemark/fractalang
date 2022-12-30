@@ -30,28 +30,18 @@ export class TokensStaveView extends TokensView {
     }
 
     render() {
-        this.node.classList.add("outer-tokens");
+        this.node.classList.add("tokens");
 
-        const innerNode = this.createElement({
-            name: "div",
-            classes: ["inner-tokens"],
-        });
-        this.node.appendChild(innerNode);
         this.renderTokens();
-
-        if (this.isDraggable) {
-            this.node.appendChild(this.createTokenRemoveSpanNode());
-        }
     }
 
     renderTokens() {
-        const innerNode = this.node.querySelector('.inner-tokens');
-        innerNode.innerHTML = "";
+        this.node.innerHTML = "";
         if (this.isDraggable) {
-            innerNode.appendChild(this.createTokenSpanNode(0));
+            this.node.appendChild(this.createTokenSpanNode(0));
         }
         this.tokens.forEach((token: string, index: number) => {
-            this.pushTokenNodeOnBack(innerNode as HTMLElement, token, index)
+            this.pushTokenNodeOnBack(this.node, token, index)
         });
     }
 
@@ -134,7 +124,6 @@ export class TokensStaveView extends TokensView {
 
     private createEnhancedTokenNode(token: string, index: number): HTMLElement {
         const node = this.createTokenNode(token);
-        node.dataset.isEditable = this.isDraggable ? 'yes' : 'no';
         node.dataset.index = `${index}`;
         node.dataset.name = this.name;
         node.dataset.suffix = this.suffix;

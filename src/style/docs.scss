@@ -61,8 +61,7 @@
     overflow: visible;
     > li {
         height: 60px;
-        .outer-tokens { height: 100%; }
-        .inner-tokens { height: 100%; }
+        .tokens { height: 100%; }
     }
     .fract-token {
         width: 30px;
