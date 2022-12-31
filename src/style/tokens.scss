@@ -4,6 +4,7 @@
 }
 
 .fract-tokens {
+    user-select: none;
     display: flex;
     font-variant: small-caps;
     border: 2px #AAA solid;
@@ -41,6 +42,7 @@
     background-position: center;
     vertical-align: middle;
     transition: background-color 300ms;
+    cursor: pointer;
 
     &.token-inline {
         width: 25px;
@@ -48,6 +50,11 @@
         border-width: 1px;
         border-radius: 3px;
         padding: 1px;
+    }
+
+    &.debug {
+        background-color: #90e0ff;
+        border-color: #0d426d;
     }
 
     &.move {
@@ -92,6 +99,15 @@
     > * { flex: 0 0 auto; border: none; border-radius: 0px; }
     > *:not(:first-child).fract-token { border-left: 2px #888 dotted; }
     > .fract-token-span { padding: 2px; }
+
+    &.debug {
+        background-color: #90e0ff;
+        border-color: #0d426d;
+        & > .fract-token {
+            background-color: #90e0ff;
+            border-color: #0d426d;
+        }
+    }
 }
 
 .fract-token-span {

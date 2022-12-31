@@ -1,19 +1,13 @@
 import { Context, EvaluedValue } from "@/core/context";
+import { ActionResult, ContinueR } from "./actionResult";
 
-export interface Node {}
-
-export abstract class ValueNode implements Node {
+export abstract class ValueNode {
     abstract eval(context: Context): EvaluedValue;
 }
 
-export interface ActionResult {
-    shift?: number;
-    reverse?: number;
-}
-
-export abstract class ActionNode implements Node {
-    abstract exec(context: Context, local: any): ActionResult;
-    execReverse(context: Context): number { return 0; };
+export abstract class ActionNode {
+    abstract exec(context: Context, local: object): ActionResult;
+    execReverse(context: Context, local: object): ActionResult { return new ContinueR(); };
 }
 
 export function evalValue(valueNodes: ValueNode[], context: Context): EvaluedValue {

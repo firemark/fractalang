@@ -1,4 +1,5 @@
 import { Controller } from "./controller";
+import { DebugController, State } from "./debug";
 
 import { CodeView } from "@/web/views/code";
 import { FunctionsBarView } from "@/web/views/functionsBar";
@@ -9,7 +10,10 @@ import { CodeBarView } from "@/web/views/codeBar";
 import { Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokens";
 
-import { exec } from "@/core/exec";
+import { exec, setupExec } from "@/core/exec";
+import { Cursor } from "@/core/cursor";
+import { StackStep } from "@/core/step";
+
 
 export class MainController extends Controller {
     private imageView: ImageView;
@@ -18,14 +22,22 @@ export class MainController extends Controller {
     private actionsCategoryView: TokensCategoryView;
     private valuesCategoryView: TokensCategoryView;
     private codeBarView: CodeBarView;
+    private debug: DebugController;
 
     constructor() {
         super(document.querySelector("main"));
+        this.debug = new DebugController({
+            renderCb: (cursor: Cursor) => this.imageView.render(cursor),
+            onState: this.onDebugState.bind(this),
+        });
         this.imageView = new ImageView(this.node.querySelector(".fract-image"));
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
-            onDrop: this.onDrop.bind(this),
-            onMove: this.onMove.bind(this),
+            callbacks: {
+                onDrop: this.onDrop.bind(this),
+                onMove: this.onMove.bind(this),
+                canDrag: () => !this.debug.isDebug(),
+            }
         });
         this.functionsBarView = new FunctionsBarView({
             node: this.node.querySelector(".fract-functions-list"),
@@ -34,21 +46,28 @@ export class MainController extends Controller {
                 this.scrapeAndRun(this.codeBarView.getData());
             }
         });
+        const categoryCallbacks = {
+            onDrop: this.onDropFromCategory.bind(this),
+            onMove: this.onMoveFromCategory.bind(this),
+            canDrag: () => !this.debug.isDebug(),
+        }
         this.actionsCategoryView = new TokensCategoryView({
             node: document.getElementById("action-tokens"),
             categories: ACTION_TOKENS,
-            onDrop: this.onDropFromCategory.bind(this),
-            onMove: this.onMoveFromCategory.bind(this),
+            callbacks: categoryCallbacks,
         });
         this.valuesCategoryView = new TokensCategoryView({
             node: document.getElementById("value-tokens"),
             categories: VALUE_TOKENS,
-            onDrop: this.onDropFromCategory.bind(this),
-            onMove: this.onMoveFromCategory.bind(this),
+            callbacks: categoryCallbacks,
         });
-        this.codeBarView = new CodeBarView({
-            node: document.getElementById("code-bar"),
+        this.codeBarView = new CodeBarView(document.getElementById("code-bar"), {
             onUpdate: this.scrapeAndRun.bind(this),
+            onDebugStart: this.scrapeAndDebug.bind(this),
+            onDebugStep: () => this.debug.step(),
+            onDebugPlay: () => this.debug.play(),
+            onDebugStop: () => this.debug.stop(),
+            onDebugExit: () => this.debug.exit(),
         });
     }
 
@@ -62,19 +81,53 @@ export class MainController extends Controller {
     }
 
     scrapeAndRun(data) {
+        if (this.debug.isDebug()) {
+            return;
+        }
+        const stack = this.scrape(data);
+
+        exec(stack);
+        stack.cursor.addMargin(20);
+
+        this.imageView.render(stack.cursor, data["background-color"]);
+    }
+
+    scrapeAndDebug(data) {
+        if (this.debug.isDebug()) {
+            return;
+        }
+        const stack = this.scrape(data);
+        this.codeBarView.setDebugMode();
+        this.debug.init(stack);
+    }
+
+    private scrape(data): StackStep {
         const cursorCfg = {
             firstColor: data["first-color"],
             secondColor: data["second-color"],
             strokeSize: data["stroke-size"],
         };
+        const cursor = new Cursor(cursorCfg);
         const argument = 1.0;
         const maxIteration = data["iterations"];
         const code = this.codeView.scrapeCode();
+        return setupExec(argument, maxIteration, code, cursor);
+    }
 
-        const cursor = exec(argument, maxIteration, code, cursorCfg);
-        cursor.addMargin(20);
-
-        this.imageView.render(cursor, data["background-color"]);
+    private onDebugState(previousState: State | null, state: State) {
+        if (state.debug === false) {
+            this.codeBarView.unsetDebugMode();
+        }
+        if (previousState !== null) {
+            const [name, suffix = ""] = previousState.stave.split("::");
+            const stave = this.codeView.findStave(name, suffix);
+            stave && stave.removeFlagOnActionToken('debug', previousState.actionIndex);
+        }
+        {
+            const [name, suffix = ""] = state.stave.split("::");
+            const stave = this.codeView.findStave(name, suffix);
+            stave && stave.addFlagOnActionToken('debug', state.actionIndex);
+        }
     }
 
     private onDrop(dragNode: HTMLElement, overNode: HTMLElement) {

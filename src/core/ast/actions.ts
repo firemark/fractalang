@@ -1,55 +1,26 @@
 import { Context, EvaluedValue } from "@/core/context";
 import { Cursor, OpsParams } from "@/core/cursor";
-import { Node, ValueNode, ActionNode, ActionResult, evalValue } from "./base";
-
-export class Function implements Node {
-    name: string;
-    actions: ActionNode[];
-
-    constructor(name, actions) {
-        this.name = name;
-        this.actions = actions;
-    }
-
-    exec(context: Context) {
-        const actions = this.actions;
-        const locals = actions.map(() => ({}));
-        const size = actions.length;
-        for(let index = 0; index < size;) {
-            const local = locals.at(index);
-            const action = actions.at(index);
-            const { shift, reverse } = action.exec(context, local);
-            this.execReverse(index - 1, reverse ? Math.round(reverse) - 1 : 0, context);
-            index += shift ? Math.round(shift) : 1;
-        }
-    }
-
-    execReverse(stopIndex: number, reverse: number, context: Context) {
-        if (reverse === 0) {
-            return;
-        }
-        const actions = this.actions;
-        const startReserve = Math.max(0, stopIndex - reverse);
-        for(let index = stopIndex; index >= startReserve; index--) {
-            index -= actions.at(index).execReverse(context);
-        }
-    }
-
-    size() : number {
-        return this.actions.length;
-    }
-}
+import { ActionResult, ContinueR, JumpR, CallR, ReverseR} from "@/core/ast/actionResult";
+import { ValueNode, ActionNode, evalValue } from "./base";
 
 abstract class NodeWithValue extends ActionNode {
-    private value: ValueNode[];
+    #values: ValueNode[];
 
-    constructor(value) {
+    constructor(values: ValueNode[]) {
         super();
-        this.value = value;
+        this.#values = values;
     }
 
     protected eval(context: Context): EvaluedValue {
-        return evalValue(this.value, context);
+        return evalValue(this.#values, context);
+    }
+
+    protected evalValue(context: Context): number {
+        return evalValue(this.#values, context).value;
+    }
+
+    protected evalIntValue(context: Context): number {
+        return Math.round(this.evalValue(context));
     }
 }
 
@@ -62,50 +33,40 @@ export class Call extends NodeWithValue {
     }
 
     exec(context: Context): ActionResult {
-        const func = context.findFunction(this.name);
-        if (!(func instanceof Function)) {
-            return {};
-        }
-        const newArgument = this.eval(context);
-        const newContext = context.createNewContext(newArgument);
-        func.exec(newContext);
-        return {};
+        return new CallR(this.name, this.#createContext(context, +1));
     }
 
-    execReverse(context: Context): number {
-        const func = context.findFunction(this.name);
-        if (!(func instanceof Function)) {
-            return;
-        }
+    execReverse(context: Context): ActionResult {
+        return new CallR(this.name, this.#createContext(context, +1));
+    }
+
+    #createContext(context: Context, interationShift: number): Context {
         const newArgument = this.eval(context);
-        const newContext = context.createNewContext(newArgument);
-        const lastIndex = func.size() - 1;
-        func.execReverse(lastIndex, lastIndex, newContext);
-        return 0;
+        return context.createNewContext(newArgument, interationShift);
     }
 }
 
 export class DrawLine extends NodeWithValue {
     exec(context: Context): ActionResult {
         const {value: length, strokeThickness, color} = this.eval(context);
-        context.getCursor().drawLine(length, strokeThickness, color);
-        return {};
+        context.cursor.drawLine(length, strokeThickness, color);
+        return new ContinueR();
     }
 
-    execReverse(context: Context): number {
+    execReverse(context: Context): ActionResult {
         const distance = -this.eval(context).value;
-        context.getCursor().forward(distance);
-        return 0;
+        context.cursor.forward(distance);
+        return new ContinueR();
     }
 }
 
 abstract class DrawFigure extends NodeWithValue {
-    abstract drawFigure(cursor: Cursor, size: number, ops: OpsParams);
+    abstract drawFigure(cursor: Cursor, size: number, ops: OpsParams): void;
 
     exec(context: Context): ActionResult {
         const evaled = this.eval(context);
-        this.drawFigure(context.getCursor(), evaled.value, this.evaledToFigureOps(evaled));
-        return {};
+        this.drawFigure(context.cursor, evaled.value, this.evaledToFigureOps(evaled));
+        return new ContinueR();
     }
 
     evaledToFigureOps(evaled: EvaluedValue): OpsParams {
@@ -146,31 +107,31 @@ export class DrawArcLine extends NodeWithValue {
 
     exec(context: Context): ActionResult {
         const {value: size, strokeThickness, color} = this.eval(context);
-        context.getCursor().drawArcLine(this.ratio, size, strokeThickness, color);
-        return {};
+        context.cursor.drawArcLine(this.ratio, size, strokeThickness, color);
+        return new ContinueR();
     }
 
-    execReverse(context: Context): number {
+    execReverse(context: Context): ActionResult {
         const distance = -this.eval(context).value;
-        const cursor = context.getCursor();
+        const { cursor } = context;
         cursor.rotate(-this.ratio / 2);
         cursor.forward(distance);
         cursor.rotate(-this.ratio / 2);
-        return 0;
+        return new ContinueR();
     }
 }
 
 abstract class CursorManipulator extends NodeWithValue {
-    abstract change(cursor: Cursor, value: number);
+    abstract change(cursor: Cursor, value: number): void;
 
     exec(context: Context): ActionResult {
-        this.change(context.getCursor(), this.eval(context).value);
-        return {};
+        this.change(context.cursor, this.eval(context).value);
+        return new ContinueR();
     }
 
-    execReverse(context: Context): number {
-        this.change(context.getCursor(), -this.eval(context).value);
-        return 0;
+    execReverse(context: Context): ActionResult {
+        this.change(context.cursor, -this.eval(context).value);
+        return new ContinueR();
     }
 }
 
@@ -212,24 +173,24 @@ export class RotateLeft extends CursorManipulator {
 
 export class Reverse extends NodeWithValue {
     exec(context: Context): ActionResult {
-        const iterations = this.eval(context).value;
-        return {reverse: iterations};
+        const iterations = this.evalIntValue(context);
+        return new ReverseR(iterations);
     }
 
-    execReverse(context: Context): number {
-        let iterations = this.eval(context).value;
-        return Math.abs(iterations);
+    execReverse(context: Context): ActionResult {
+        const iterations = this.evalIntValue(context);
+        return new ReverseR(iterations);
     }
 }
 
 export class Replay extends NodeWithValue {
-    exec(context: Context, local: any): ActionResult {
-        const counter = local.counter || 1;
-        const size = Math.round(this.eval(context).value);
+    exec(context: Context, local: object): ActionResult {
+        const counter = local['counter'] || 1;
+        const size = this.evalIntValue(context);
         if (counter < size) {
-            local.counter = counter + 1;
-            return {shift: -1};
+            local['counter'] = counter + 1;
+            return new JumpR(-1);
         }
-        return {};
+        return new ContinueR();
     }
 }

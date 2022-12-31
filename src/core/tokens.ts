@@ -1,4 +1,4 @@
-import { Node, ValueNode, ActionNode } from "@/core/ast/base";
+import { ValueNode, ActionNode } from "@/core/ast/base";
 import { Multipler, Angle, Argument, DynamicArgument } from "@/core/ast/values";
 import * as actions from "@/core/ast/actions";
 import * as colors from "@/core/ast/colors";

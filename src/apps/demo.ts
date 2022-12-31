@@ -1,11 +1,13 @@
-import { exec } from "@/core/exec";
+import { Cursor } from "@/core/cursor";
+import { exec, setupExec } from "@/core/exec";
 import { createSvg } from "@/core/svg";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 
 function main() {
     const argument = 100.0;
     const maxIteration = 16;
-    const cursor = exec(argument, maxIteration, [
+    const cursor = new Cursor();
+    const code = [
         {
             name: "F",
             tokens: [
@@ -23,11 +25,13 @@ function main() {
                 "ROTATE_LEFT", "ANGLE_30",
             ],
         },
-    ]);
+    ];
+    const stack = setupExec(argument, maxIteration, code, cursor);
+    exec(stack);
     cursor.addMargin(20);
     const document =
         new DOMImplementation()
-        .createDocument('http://www.w3.org/1999/xhtml', 'html', null);
+            .createDocument('http://www.w3.org/1999/xhtml', 'html', null);
     const svg = createSvg(document, cursor);
     const content = new XMLSerializer().serializeToString(svg);
     console.log(content);

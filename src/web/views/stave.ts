@@ -16,8 +16,7 @@ export class StaveView extends View {
         node,
         name,
         suffix,
-        onDrop = null,
-        onMove = null,
+        callbacks,
         iconUrl = DEFAULT_ICON_URL,
         tokens = [],
     }) {
@@ -30,8 +29,7 @@ export class StaveView extends View {
             node: this.tokensNode,
             name,
             suffix,
-            onDrop,
-            onMove,
+            callbacks,
             iconUrl,
             tokens,
         });
@@ -88,6 +86,14 @@ export class StaveView extends View {
         const {name, suffix} = this.node.dataset;
         const realname = suffix ? `${name}::${suffix}` : name;
         return {name: realname, tokens};
+    }
+
+    addFlagOnActionToken(flag: string, actionIndex: number) {
+        this.tokenView.addFlagOnActionToken(flag, actionIndex);
+    }
+
+    removeFlagOnActionToken(flag: string, actionIndex: number) {
+        this.tokenView.removeFlagOnActionToken(flag, actionIndex);
     }
 
     protected createName(name: string, suffix?: string): Element {

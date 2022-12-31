@@ -1,4 +1,5 @@
 import { Cursor } from "@/core/cursor";
+import { ValueNode } from "@/core/ast/base";
 
 export type StrokeStyle = "solid" | "dotted" | "dashed";
 
@@ -11,58 +12,25 @@ export interface EvaluedValue {
     valueTransformer?: (a: number, b: number) => number;
 }
 
-export class ContextCfg {
-    maxIteration: number;
-    cursor: Cursor;
-    bag: any;
-
-    constructor({maxIteration, bag, cursor}) {
-        this.maxIteration = maxIteration;
-        this.cursor = cursor;
-        this.bag = bag;
-    }
-}
-
 export class Context {
-    public iteration: number;
-    public argument: EvaluedValue;
-    private cfg: ContextCfg;
+    readonly iteration: number;
+    readonly argument: EvaluedValue;
+    readonly cursor: Cursor;
+    readonly valueFuncBag: {[name: string]: ValueNode[]};
 
-    constructor({cfg, argument, iteration = 0}) {
-        this.cfg = cfg;
+    constructor({cursor, argument, valueFuncBag = {}, iteration = 0}) {
         this.argument = argument;
         this.iteration = iteration;
+        this.valueFuncBag = valueFuncBag;
+        this.cursor = cursor;
     }
 
-    findFunction(name: string) {
-        const iteration = this.iteration;
-        if (iteration >= this.cfg.maxIteration) {
-            return null;
-        }
-
-        const namesToFind = [];
-        if (iteration >= this.cfg.maxIteration - 1) {
-            namesToFind.push(`${name}::END`);
-        }
-        namesToFind.push(`${name}::${iteration % 2 ? 'ODD' : 'EVEN'}`);
-        for(let i = iteration; i > 0; --i) {
-            namesToFind.push(`${name}::GE${i}`);
-        }
-        namesToFind.push(name);
-
-        const existFuncName = namesToFind.find(name => this.cfg.bag[name]);
-        return existFuncName ? this.cfg.bag[existFuncName] : null;
-    }
-
-    getCursor(): Cursor {
-        return this.cfg.cursor;
-    }
-
-    createNewContext(newArgument: EvaluedValue) {
+    createNewContext(newArgument: EvaluedValue, iterationShift: number) {
         return new Context({
-            cfg: this.cfg,
             argument: newArgument,
-            iteration: this.iteration + 1,
+            cursor: this.cursor,
+            iteration: this.iteration + iterationShift,
+            valueFuncBag: this.valueFuncBag,
         });
     }
 }

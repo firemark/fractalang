@@ -8,7 +8,8 @@ import { ImageView } from "@/web/views/image";
 import { StaveView } from "@/web/views/stave";
 
 import { Stave } from "@/web/models";
-import { exec } from "@/core/exec";
+import { exec, setupExec } from "@/core/exec";
+import { Cursor } from "@/core/cursor";
 
 export interface TutAnimParams {
     staves: string[];
@@ -52,6 +53,11 @@ export class DocsController extends Controller {
         });
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
+            callbacks: {
+                onDrop: null,
+                onMove: null,
+                canDrag: null,
+            },
             iconUrl,
         });
     }
@@ -88,7 +94,7 @@ export class DocsController extends Controller {
     render(params: TutAnimParams) {
         const staveBag: Stave[] = params.staves.map(stave => {
             const [name, suffix = ""] = stave.split("::");
-            return {name, suffix, tokens: []};
+            return { name, suffix, tokens: [] };
         });
         this.codeView.render(staveBag);
         this.docBarView.render(this.position, this.tokens.length, this.iterations);
@@ -103,7 +109,7 @@ export class DocsController extends Controller {
     }
 
     iterateToPosition(params: TutAnimParams) {
-        for(let i = 0; i < params.start; i++) {
+        for (let i = 0; i < params.start; i++) {
             this.position += 1;
             this.nextExecute();
         }
@@ -132,7 +138,9 @@ export class DocsController extends Controller {
         const cursorCfg = {};
         const argument = 1.0;
         const code = this.codeView.scrapeCode();
-        const cursor = exec(argument, this.iterations, code, cursorCfg);
+        const cursor = new Cursor(cursorCfg);
+        const stack = setupExec(argument, this.iterations, code, cursor);
+        exec(stack);
         this.imageView.render(cursor);
     }
 
@@ -143,13 +151,13 @@ export class DocsController extends Controller {
                 this.pushTokenOnBack(stave, token);
                 return;
             }
-            switch(command.substring(1)) {
+            switch (command.substring(1)) {
                 case "IT_INC":
                     this.iterations += 1;
-                break;
+                    break;
                 case "IT_DEC":
                     this.iterations -= 1;
-                break;
+                    break;
                 case "NOP": break;
                 default: console.error(`${command} not found`); break;
             }
@@ -163,13 +171,13 @@ export class DocsController extends Controller {
                 this.removeLastToken(line);
                 return;
             }
-            switch(command.substring(1)) {
+            switch (command.substring(1)) {
                 case "IT_INC":
                     this.iterations -= 1;
-                break;
+                    break;
                 case "IT_DEC":
                     this.iterations += 1;
-                break;
+                    break;
                 case "NOP": break;
                 default: console.error(`${command} not found`); break;
             }

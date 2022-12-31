@@ -1,6 +1,6 @@
 import { View } from './view';
 import { StaveView } from './stave';
-import type { OnDropCb, OnMoveCb } from "./token";
+import { Callbacks } from "./token";
 
 import { Stave } from '@/web/models';
 import { DEFAULT_ICON_URL } from '@/web/consts';
@@ -8,20 +8,17 @@ import { DEFAULT_ICON_URL } from '@/web/consts';
 export class CodeView extends View {
     private iconUrl: string;
     private staveViews: StaveView[];
-    private onDrop: OnDropCb | null;
-    private onMove: OnMoveCb | null;
+    private callbacks: Callbacks;
 
-    constructor({node, onDrop = null, onMove = null, iconUrl = DEFAULT_ICON_URL}: {
+    constructor({node, callbacks, iconUrl = DEFAULT_ICON_URL}: {
         node: HTMLElement,
-        onDrop?: OnDropCb | null,
-        onMove?: OnMoveCb | null,
+        callbacks: Callbacks,
         iconUrl?: string,
     }) {
         super(node);
         this.iconUrl = iconUrl;
         this.staveViews = [];
-        this.onDrop = onDrop;
-        this.onMove = onMove;
+        this.callbacks = callbacks;
     }
 
     render(staves: Stave[]) {
@@ -55,8 +52,7 @@ export class CodeView extends View {
             name,
             suffix: suffix || "",
             iconUrl: this.iconUrl,
-            onDrop: this.onDrop,
-            onMove: this.onMove,
+            callbacks: this.callbacks,
             tokens,
         });
         view.render();

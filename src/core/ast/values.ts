@@ -42,10 +42,7 @@ export class DynamicArgument extends ValueNode {
     }
 
     eval(context: Context): EvaluedValue {
-        const valueNodes = context.findFunction(this.name);
-        if (!Array.isArray(valueNodes)) {
-            return {};
-        }
+        const valueNodes = context.valueFuncBag[this.name] || [];
         return evalValue(valueNodes, context);
     }
 }

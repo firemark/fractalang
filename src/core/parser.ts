@@ -1,6 +1,6 @@
 import { Token, tokens, ActionCb, ValueCb } from "@/core/tokens";
-import { Node, ActionNode, ValueNode } from "@/core/ast/base";
-import { Function } from "@/core/ast/actions";
+import { ActionNode, ValueNode } from "@/core/ast/base";
+import { Function } from "@/core/ast/function";
 
 export const DYNAMIC_ARGS = ["DIAMOND", "INV_TRIANGLE"];
 export const PROCEDURES = ["F", "G", "H"];
@@ -63,15 +63,7 @@ class ActionTmp {
     }
 }
 
-export function parseLine(name: string, tokens: Token[]) {
-    if (DYNAMIC_ARGS.indexOf(name) > -1) {
-        return parseLineValue(tokens);
-    } else {
-        return parseLineFunc(name, tokens);
-    }
-}
-
-function parseLineFunc(name: string, tokens: Token[]) {
+export function parseLineFunc(name: string, tokens: Token[]): Function {
     const actions = [];
     const tmp = new ActionTmp();
     tokens.forEach(token => {
@@ -87,7 +79,7 @@ function parseLineFunc(name: string, tokens: Token[]) {
     return new Function(name, tmp.getActions());
 }
 
-function parseLineValue(tokens: Token[]): ValueNode[] {
+export function parseLineValue(tokens: Token[]): ValueNode[] {
     return tokens.map(token => {
         if (token.isAction) {
             throw "Parsing error: No actions are allowed";

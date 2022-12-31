@@ -11,16 +11,14 @@ export class TokensStaveView extends TokensView {
         node,
         name,
         suffix,
+        callbacks,
         iconUrl = DEFAULT_ICON_URL,
-        onDrop = null,
-        onMove = null,
         tokens = [],
     }) {
         super({
             node,
             iconUrl,
-            onDrop,
-            onMove,
+            callbacks,
         });
         this.tokens = tokens;
         this.name = name;
@@ -38,8 +36,9 @@ export class TokensStaveView extends TokensView {
         if (this.isDraggable) {
             this.node.appendChild(this.createTokenSpanNode(0));
         }
+        let actionIndex = 0;
         this.tokens.forEach((token: string, index: number) => {
-            this.pushTokenNodeOnBack(this.node, token, index)
+            actionIndex = this.pushTokenNodeOnBack(this.node, token, index, actionIndex)
         });
     }
 
@@ -63,7 +62,7 @@ export class TokensStaveView extends TokensView {
         this.renderTokens();
     }
 
-    private pushTokenNodeOnBack(tokensNode: HTMLElement, token: string, index: number) {
+    private pushTokenNodeOnBack(tokensNode: HTMLElement, token: string, index: number, actionIndex: number): number {
         const appendSpan = (container: HTMLElement, s = 1) => {
             if (this.isDraggable) {
                 container.appendChild(this.createTokenSpanNode(index + s));
@@ -74,7 +73,7 @@ export class TokensStaveView extends TokensView {
             appendSpan(container, s);
         };
 
-        const tokenNode = this.createEnhancedTokenNode(token, index);
+        const tokenNode = this.createEnhancedTokenNode(token, index, actionIndex);
         let lastNode = tokensNode.lastChild as HTMLElement;
 
         if (this.isDraggable) {
@@ -82,15 +81,17 @@ export class TokensStaveView extends TokensView {
             lastNode = lastNode.previousSibling as HTMLElement;
         }
 
-        if (!lastNode) {
-            return appendChild(tokensNode, tokenNode);
-        }
-
         const isGroup = (node: HTMLElement) => node.classList.contains("fract-token-group");
         const isAction = (node: HTMLElement) => node.dataset?.type === "action";
 
+        if (!lastNode) {
+            appendChild(tokensNode, tokenNode);
+            return actionIndex + (isAction(tokenNode) ? 1 : 0);
+        }
+
         if (isAction(tokenNode)) {
             appendChild(tokensNode, tokenNode);
+            return actionIndex + 1;
         } else {
             if (isGroup(lastNode)) {
                 if (this.isDraggable) {
@@ -100,11 +101,12 @@ export class TokensStaveView extends TokensView {
                 if (this.isDraggable) {
                     appendSpan(tokensNode);
                 }
-                return;
+                return actionIndex;
             }
 
             if (!isAction(lastNode)) {
-                return appendChild(tokensNode, tokenNode);
+                appendChild(tokensNode, tokenNode);
+                return actionIndex;
             }
 
             // Create a new group with action and value.
@@ -114,17 +116,22 @@ export class TokensStaveView extends TokensView {
             }
             tokensNode.removeChild(lastNode);
             tokensNode.insertBefore(groupNode, lastNode.nextSibling);
+            groupNode.dataset.actionIndex = lastNode.dataset.actionIndex;
             appendChild(groupNode, lastNode, 0);
             appendChild(groupNode, tokenNode);
             appendSpan(tokensNode);
+            return actionIndex;
         }
     }
 
-    private createEnhancedTokenNode(token: string, index: number): HTMLElement {
+    private createEnhancedTokenNode(token: string, index: number, actionIndex: number): HTMLElement {
         const node = this.createTokenNode(token);
         node.dataset.index = `${index}`;
         node.dataset.name = this.name;
         node.dataset.suffix = this.suffix;
+        if (node.dataset?.type === "action") {
+            node.dataset.actionIndex = `${actionIndex}`;
+        }
         return node;
     }
 

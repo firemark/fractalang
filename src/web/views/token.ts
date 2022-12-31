@@ -2,28 +2,41 @@ import { View } from "./view";
 import { NAME_TO_TOKEN } from "@/web/tokens";
 import { DEFAULT_ICON_URL } from '@/web/consts';
 
-export type OnDropCb = (d: HTMLElement, o: HTMLElement) => void;
-export type OnMoveCb = (d: HTMLElement, o: HTMLElement | null, n: HTMLElement | null) => void;
+export interface Callbacks {
+    onDrop: (d: HTMLElement, o: HTMLElement) => void | null;
+    onMove: (d: HTMLElement, o: HTMLElement | null, n: HTMLElement | null) => void | null;
+    canDrag: () => boolean | null;
+}
 
 export class TokensView extends View {
     readonly iconUrl: string;
-    private onDrop: OnDropCb | null;
-    private onMove: OnMoveCb | null;
+    #callbacks: Callbacks
 
-    constructor({ node, onDrop = null, onMove = null, iconUrl = DEFAULT_ICON_URL }: {
+    constructor({ node, callbacks, iconUrl = DEFAULT_ICON_URL }: {
         node: HTMLElement,
-        onDrop?: OnDropCb | null,
-        onMove?: OnMoveCb | null;
+        callbacks: Callbacks
         iconUrl?: string,
     }) {
         super(node);
         this.iconUrl = iconUrl;
-        this.onDrop = onDrop;
-        this.onMove = onMove;
+        this.#callbacks = callbacks;
     }
 
     get isDraggable() {
-        return this.onDrop !== null;
+        return this.#callbacks.onDrop !== null;
+    }
+
+    public addFlagOnActionToken(flag: string, actionIndex: number) {
+        this.findTokenNodeByActionIndex(actionIndex).classList.add(flag);
+    }
+
+    public removeFlagOnActionToken(flag: string, actionIndex: number) {
+        this.findTokenNodeByActionIndex(actionIndex).classList.remove(flag);
+    }
+
+    private findTokenNodeByActionIndex(actionIndex: number): HTMLElement {
+        const query = `*[data-action-index='${actionIndex}']`;
+        return this.node.querySelector(query);
     }
 
     protected createTokenNode(token: string): HTMLElement {
@@ -53,11 +66,19 @@ export class TokensView extends View {
         node.addEventListener('mousedown', dragMouseStart, false);
         node.addEventListener('touchstart', dragTouchStart, false);
 
+        const callbacks = this.#callbacks;
+
         const createContext = (coordsCb) =>
-            new DragContext(this.createDragNode(node), coordsCb, this.onDrop, this.onMove);
+            new DragContext(this.createDragNode(node), coordsCb, callbacks);
 
         function dragMouseStart(event: MouseEvent) {
+            if (event.button != 0) {
+                return;
+            }
             event.preventDefault();
+            if (callbacks.canDrag && !callbacks.canDrag()) {
+                return;
+            }
             const context = createContext(getMouseCoords);
             context.init({
                 mousemove: context.createDragMove(),
@@ -67,6 +88,9 @@ export class TokensView extends View {
         }
 
         function dragTouchStart(event: TouchEvent) {
+            if (callbacks.canDrag && !callbacks.canDrag()) {
+                return;
+            }
             const context = createContext(getTouchCoords);
             context.init({
                 touchmove: context.createDragMove(),
@@ -91,20 +115,17 @@ class DragContext<EventType extends Event> {
     private overNode: HTMLElement | null;
     private eventCallbacks: { [k: string]: (e: EventType) => void };
     private _getCoords: (event: EventType) => [number, number];
-    private onDrop: OnDropCb;
-    private onMove: OnMoveCb | null;
+    private callbacks: Callbacks;
 
     constructor(
         dragNode: HTMLElement,
         getCoords: (event: EventType) => [number, number],
-        onDrop: OnDropCb,
-        onMove: OnMoveCb | null,
+        callbacks: Callbacks,
     ) {
         this.dragNode = dragNode;
         this.overNode = null;
         this.eventCallbacks = {};
-        this.onDrop = onDrop;
-        this.onMove = onMove;
+        this.callbacks = callbacks;
         this._getCoords = getCoords;
     }
 
@@ -117,7 +138,7 @@ class DragContext<EventType extends Event> {
     createDragStop() {
         return (event: EventType) => {
             if (this.overNode !== null) {
-                this.onDrop(this.dragNode, this.overNode);
+                this.callbacks.onDrop(this.dragNode, this.overNode);
             }
             this.clear();
         }
@@ -133,8 +154,8 @@ class DragContext<EventType extends Event> {
 
     public clear() {
         this.dragNode.remove();
-        if (this.onMove) {
-            this.onMove(this.dragNode, this.overNode, null);
+        if (this.callbacks.onMove) {
+            this.callbacks.onMove(this.dragNode, this.overNode, null);
         }
         Object.entries(this.eventCallbacks).forEach(([name, cb]) => {
             document.removeEventListener(name, cb, false);
@@ -146,8 +167,8 @@ class DragContext<EventType extends Event> {
         this.updateCoords(x, y);
         const oldOverNode = this.overNode;
         const newOverNode = this.findOverNode();
-        if (this.onMove && !Object.is(oldOverNode, newOverNode)) {
-            this.onMove(this.dragNode, oldOverNode, newOverNode);
+        if (this.callbacks.onMove && !Object.is(oldOverNode, newOverNode)) {
+            this.callbacks.onMove(this.dragNode, oldOverNode, newOverNode);
         }
         this.overNode = newOverNode;
     }
