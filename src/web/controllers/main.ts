@@ -37,14 +37,14 @@ export class MainController extends Controller {
         this.actionsCategoryView = new TokensCategoryView({
             node: document.getElementById("action-tokens"),
             categories: ACTION_TOKENS,
-            onDrop: this.onDrop.bind(this),
-            onMove: this.onMove.bind(this),
+            onDrop: this.onDropFromCategory.bind(this),
+            onMove: this.onMoveFromCategory.bind(this),
         });
         this.valuesCategoryView = new TokensCategoryView({
             node: document.getElementById("value-tokens"),
             categories: VALUE_TOKENS,
-            onDrop: this.onDrop.bind(this),
-            onMove: this.onMove.bind(this),
+            onDrop: this.onDropFromCategory.bind(this),
+            onMove: this.onMoveFromCategory.bind(this),
         });
         this.codeBarView = new CodeBarView({
             node: document.getElementById("code-bar"),
@@ -79,27 +79,34 @@ export class MainController extends Controller {
 
     private onDrop(dragNode: HTMLElement, overNode: HTMLElement) {
         const findStave = dataset => this.codeView.findStave(dataset.name, dataset.suffix);
+        const prevStaveView = findStave(dragNode.dataset);
 
         if (overNode.classList.contains("fract-staves")) { // REMOVE
             const indexToRemove = parseInt(dragNode.dataset.index);
-            if (isNaN(indexToRemove)) {
-                return;
-            }
-            findStave(dragNode.dataset).removeToken(indexToRemove);
+            prevStaveView.removeToken(indexToRemove);
         }
 
         if (overNode.classList.contains("fract-token-span")) {  // ADD/MOVE
             const indexToMove = parseInt(dragNode.dataset.index);
             const goalIndex = parseInt(overNode.dataset.index);
             const goalStaveView = findStave(overNode.dataset);
+            const shift = Object.is(prevStaveView, goalStaveView) && goalIndex <= indexToMove ? 1 : 0;
 
             goalStaveView.pushTokenAfter(dragNode.dataset.token, goalIndex);
+            prevStaveView.removeToken(indexToMove + shift);
+        }
 
-            if (!isNaN(indexToMove)) {
-                const prevStaveView = findStave(dragNode.dataset);
-                const shift = Object.is(prevStaveView, goalStaveView) && goalIndex <= indexToMove ? 1 : 0;
-                prevStaveView.removeToken(indexToMove + shift);
-            }
+        this.scrapeAndRun(this.codeBarView.getData());
+    }
+
+    private onDropFromCategory(dragNode: HTMLElement, overNode: HTMLElement) {
+        const findStave = dataset => this.codeView.findStave(dataset.name, dataset.suffix);
+
+        if (overNode.classList.contains("fract-token-span")) {  // ADD/MOVE
+            const goalIndex = parseInt(overNode.dataset.index);
+            const goalStaveView = findStave(overNode.dataset);
+
+            goalStaveView.pushTokenAfter(dragNode.dataset.token, goalIndex);
         }
 
         this.scrapeAndRun(this.codeBarView.getData());
@@ -118,10 +125,32 @@ export class MainController extends Controller {
         if (newOverNode) {
             const isClass = key => newOverNode.classList.contains(key);
             if (isClass("fract-token-span")) {
+                const currentIndex = parseInt(dragNode.dataset.index);
+                const goalIndex = parseInt(newOverNode.dataset.index);
+                if (currentIndex == goalIndex || currentIndex == goalIndex - 1) {
+                    return;
+                }
                 newOverNode.classList.add("over");
                 dragNode.classList.add("valid-drop")
             } else if (isClass("fract-staves")) {
                 dragNode.classList.add("remove-drop");
+            }
+        }
+    }
+
+    private onMoveFromCategory(dragNode: HTMLElement, oldOverNode: HTMLElement | null, newOverNode: HTMLElement | null) {
+        if (oldOverNode) {
+            const isClass = key => oldOverNode.classList.contains(key);
+            if (isClass("fract-token-span")) {
+                oldOverNode.classList.remove("over");
+                dragNode.classList.remove("valid-drop");
+            }
+        }
+        if (newOverNode) {
+            const isClass = key => newOverNode.classList.contains(key);
+            if (isClass("fract-token-span")) {
+                newOverNode.classList.add("over");
+                dragNode.classList.add("valid-drop")
             }
         }
     }
