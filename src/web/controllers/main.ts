@@ -125,9 +125,11 @@ export class MainController extends Controller {
         if (newOverNode) {
             const isClass = key => newOverNode.classList.contains(key);
             if (isClass("fract-token-span")) {
+                const currentStave = `${dragNode.dataset.name}::${dragNode.dataset.suffix || ""}`;
+                const goalStave = `${newOverNode.dataset.name}::${newOverNode.dataset.suffix || ""}`;
                 const currentIndex = parseInt(dragNode.dataset.index);
                 const goalIndex = parseInt(newOverNode.dataset.index);
-                if (currentIndex == goalIndex || currentIndex == goalIndex - 1) {
+                if (currentStave == goalStave && (currentIndex == goalIndex || currentIndex == goalIndex - 1)) {
                     return;
                 }
                 newOverNode.classList.add("over");
