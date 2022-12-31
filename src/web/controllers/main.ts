@@ -107,10 +107,22 @@ export class MainController extends Controller {
 
     private onMove(dragNode: HTMLElement, oldOverNode: HTMLElement | null, newOverNode: HTMLElement | null) {
         if (oldOverNode) {
-            oldOverNode.classList.remove("over");
+            const isClass = key => oldOverNode.classList.contains(key);
+            if (isClass("fract-token-span")) {
+                oldOverNode.classList.remove("over");
+                dragNode.classList.remove("valid-drop");
+            } else if (isClass("fract-staves")) {
+                dragNode.classList.remove("remove-drop");
+            }
         }
         if (newOverNode) {
-            newOverNode.classList.add("over");
+            const isClass = key => newOverNode.classList.contains(key);
+            if (isClass("fract-token-span")) {
+                newOverNode.classList.add("over");
+                dragNode.classList.add("valid-drop")
+            } else if (isClass("fract-staves")) {
+                dragNode.classList.add("remove-drop");
+            }
         }
     }
 
@@ -119,7 +131,7 @@ export class MainController extends Controller {
         if (staveView) {
             staveView.showOrHide();
         } else {
-            this.codeView.addStave({name, suffix, tokens: []});
+            this.codeView.addStave({ name, suffix, tokens: [] });
         }
     }
 }

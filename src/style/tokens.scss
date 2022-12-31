@@ -46,8 +46,31 @@
     }
 
     &.move {
+        background-color: #CCCCCC77;
         position: absolute;
-        opacity: 50%;
+
+        &.valid-drop {
+            background-color: #7bda7b77;
+            border-color: #228B22;
+            &::before { content: "DROP"; }
+        }
+
+        &.remove-drop {
+            background-color: #c9000077;
+            border-color: #8b2222;
+            &::before { content: "REMOVE"; }
+        }
+
+        &::before {
+            display: inline-block;
+            font-size: 10pt;
+            width: 100%;
+            text-align: center;
+            font-style: italic;
+            font-weight: bold;
+            position: relative;
+            top: 60px;
+        }
     }
 }
 
@@ -80,18 +103,6 @@
         &::before {
             font-size: 24pt;
             content: "+";
-        }
-    }
-
-    &.remove {
-        background-color: #D88;
-        border: 2px #922 dotted;
-        border-radius: 5px;
-        width: 50px;
-
-        &::before {
-            font-size: 24pt;
-            content: "X";
         }
     }
 }

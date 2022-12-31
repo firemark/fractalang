@@ -47,11 +47,6 @@
     flex-direction: column;
     gap: 5px;
     overflow-x: hidden;
-    transition: background-color 300ms;
-
-    &.over {
-        background-color: #EE4B2B;
-    }
 
     > li {
         flex: 0 1 auto;
