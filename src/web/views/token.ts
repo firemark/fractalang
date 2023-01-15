@@ -67,20 +67,21 @@ export class TokensView extends View {
         node.addEventListener('touchstart', dragTouchStart, false);
 
         const callbacks = this.#callbacks;
+        const canDrag = () => callbacks.canDrag && !callbacks.canDrag();
 
         const createContext = (coordsCb) =>
-            new DragContext(this.createDragNode(node), coordsCb, callbacks);
+            new DragContext(() => this.createDragNode(node), coordsCb, callbacks);
 
         function dragMouseStart(event: MouseEvent) {
             if (event.button != 0) {
                 return;
             }
             event.preventDefault();
-            if (callbacks.canDrag && !callbacks.canDrag()) {
+            if (canDrag()) {
                 return;
             }
             const context = createContext(getMouseCoords);
-            context.init({
+            context.init(event, {
                 mousemove: context.createDragMove(),
                 mouseup: context.createDragStop(),
             });
@@ -92,7 +93,7 @@ export class TokensView extends View {
                 return;
             }
             const context = createContext(getTouchCoords);
-            context.init({
+            context.init(event, {
                 touchmove: context.createDragMove(),
                 touchend: context.createDragStop(),
             });
@@ -111,18 +112,21 @@ export class TokensView extends View {
 
 
 class DragContext<EventType extends Event> {
-    private dragNode: HTMLElement;
+    private dragNode: HTMLElement | null;
     private overNode: HTMLElement | null;
+    private initialCoords: [number, number] | null;
     private eventCallbacks: { [k: string]: (e: EventType) => void };
     private _getCoords: (event: EventType) => [number, number];
     private callbacks: Callbacks;
+    private createDragNode: () => HTMLElement;
 
     constructor(
-        dragNode: HTMLElement,
+        createDragNode: () => HTMLElement,
         getCoords: (event: EventType) => [number, number],
         callbacks: Callbacks,
     ) {
-        this.dragNode = dragNode;
+        this.createDragNode = createDragNode;
+        this.dragNode = null;
         this.overNode = null;
         this.eventCallbacks = {};
         this.callbacks = callbacks;
@@ -144,16 +148,18 @@ class DragContext<EventType extends Event> {
         }
     }
 
-    public init(eventCallbacks: { [k: string]: (e: EventType) => void }) {
+    public init(event: EventType, eventCallbacks: { [k: string]: (e: EventType) => void }) {
+        this.initialCoords = this._getCoords(event);
         this.eventCallbacks = eventCallbacks
-        document.body.appendChild(this.dragNode);
         Object.entries(this.eventCallbacks).forEach(([name, cb]) => {
             document.addEventListener(name, cb, false);
         });
     }
 
     public clear() {
-        this.dragNode.remove();
+        if (this.dragNode !== null) {
+            this.dragNode.remove();
+        }
         if (this.callbacks.onMove) {
             this.callbacks.onMove(this.dragNode, this.overNode, null);
         }
@@ -163,6 +169,15 @@ class DragContext<EventType extends Event> {
     }
 
     public update(event: EventType) {
+        if (this.dragNode == null) {
+            const distance = this.computerDistanceToInitialCoords(event);
+            if (distance > 5) {
+                this.dragNode = this.createDragNode();
+                document.body.appendChild(this.dragNode);
+            } else {
+                return;
+            }
+        }
         const [x, y] = this.getCoords(event);
         this.updateCoords(x, y);
         const oldOverNode = this.overNode;
@@ -171,6 +186,13 @@ class DragContext<EventType extends Event> {
             this.callbacks.onMove(this.dragNode, oldOverNode, newOverNode);
         }
         this.overNode = newOverNode;
+    }
+
+    private computerDistanceToInitialCoords(event: EventType): number {
+        const [x, y] = this._getCoords(event);
+        const dx = this.initialCoords[0] - x;
+        const dy = this.initialCoords[1] - y;
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     private updateCoords(x: number, y: number) {
