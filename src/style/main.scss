@@ -70,3 +70,10 @@ main {
 .hidden {
     display: none !important;
 }
+
+dialog {
+  border-radius: 5px;
+  border: 2px #888 solid;
+  padding: 1.6rem;
+  max-width: 400px;
+}

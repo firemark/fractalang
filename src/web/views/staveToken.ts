@@ -144,7 +144,10 @@ export class TokensStaveView extends TokensView {
     }
 
     protected onDragTimeout(node: HTMLElement): boolean {
-        alert(node.dataset.token);
+        const dialogNode = document.createElement('dialog');
+        dialogNode.textContent = node.dataset.token;
+        document.body.appendChild(dialogNode);
+        dialogNode.showModal();
         return true;
     }
 
