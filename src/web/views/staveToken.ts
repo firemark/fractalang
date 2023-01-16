@@ -143,6 +143,11 @@ export class TokensStaveView extends TokensView {
         return dragNode;
     }
 
+    protected onDragTimeout(node: HTMLElement): boolean {
+        alert(node.dataset.token);
+        return true;
+    }
+
     protected createEmptyTokenGroup() {
         return this.createElement({
             name: "div",

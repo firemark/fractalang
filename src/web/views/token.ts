@@ -62,6 +62,10 @@ export class TokensView extends View {
         return dragNode;
     }
 
+    protected onDragTimeout(node: HTMLElement): boolean {
+        return false;
+    }
+
     private setTokenEvents(node: HTMLElement) {
         node.addEventListener('mousedown', dragMouseStart, false);
         node.addEventListener('touchstart', dragTouchStart, false);
@@ -70,7 +74,7 @@ export class TokensView extends View {
         const canDrag = () => callbacks.canDrag && !callbacks.canDrag();
 
         const createContext = (coordsCb) =>
-            new DragContext(() => this.createDragNode(node), coordsCb, callbacks);
+            new DragContext(() => this.createDragNode(node), () => this.onDragTimeout(node), coordsCb, callbacks);
 
         function dragMouseStart(event: MouseEvent) {
             if (event.button != 0) {
@@ -119,9 +123,11 @@ class DragContext<EventType extends Event> {
     private _getCoords: (event: EventType) => [number, number];
     private callbacks: Callbacks;
     private createDragNode: () => HTMLElement;
+    private timeout: ReturnType<typeof setTimeout> | null;
 
     constructor(
         createDragNode: () => HTMLElement,
+        onTimeout: () => boolean,
         getCoords: (event: EventType) => [number, number],
         callbacks: Callbacks,
     ) {
@@ -131,6 +137,11 @@ class DragContext<EventType extends Event> {
         this.eventCallbacks = {};
         this.callbacks = callbacks;
         this._getCoords = getCoords;
+        this.timeout = setTimeout(() => {
+            if(onTimeout()) {
+                this.clear();
+            }
+        }, 1000);
     }
 
     createDragMove() {
@@ -172,6 +183,7 @@ class DragContext<EventType extends Event> {
         if (this.dragNode == null) {
             const distance = this.computerDistanceToInitialCoords(event);
             if (distance > 5) {
+                clearTimeout(this.timeout);
                 this.dragNode = this.createDragNode();
                 document.body.appendChild(this.dragNode);
             } else {
