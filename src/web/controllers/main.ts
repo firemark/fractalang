@@ -6,6 +6,7 @@ import { FunctionsBarView } from "@/web/views/functionsBar";
 import { TokensCategoryView } from "@/web/views/categoryToken";
 import { ImageView } from "@/web/views/image";
 import { CodeBarView } from "@/web/views/codeBar";
+import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
 
 import { Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokens";
@@ -23,6 +24,7 @@ export class MainController extends Controller {
     private valuesCategoryView: TokensCategoryView;
     private codeBarView: CodeBarView;
     private debug: DebugController;
+    private chooseDialogView: ChooseTokenDialogView | null;
 
     constructor() {
         super(document.querySelector("main"));
@@ -71,6 +73,7 @@ export class MainController extends Controller {
             onDebugStop: () => this.debug.stop(),
             onDebugExit: () => this.debug.exit(),
         });
+        this.chooseDialogView = null;
     }
 
     render(staves: Stave[]) {
@@ -212,11 +215,11 @@ export class MainController extends Controller {
         }
     }
 
-    protected onDragTimeout(node: HTMLElement): boolean {
+    protected onDragTimeout(tokenNode: HTMLElement): boolean {
         const dialogNode = document.createElement('dialog');
-        dialogNode.textContent = node.dataset.token;
         document.body.appendChild(dialogNode);
-        dialogNode.showModal();
+        this.chooseDialogView = new ChooseTokenDialogView(dialogNode, tokenNode);
+        this.chooseDialogView.render();
         return true;
     }
 

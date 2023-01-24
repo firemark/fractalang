@@ -1,4 +1,3 @@
-import { v4 as uuid4 } from 'uuid';
 import { TokenCategory, TokenInfo } from "./models";
 
 export const ACTION_TOKENS: TokenCategory[] = [
