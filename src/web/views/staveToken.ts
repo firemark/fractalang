@@ -143,14 +143,6 @@ export class TokensStaveView extends TokensView {
         return dragNode;
     }
 
-    protected onDragTimeout(node: HTMLElement): boolean {
-        const dialogNode = document.createElement('dialog');
-        dialogNode.textContent = node.dataset.token;
-        document.body.appendChild(dialogNode);
-        dialogNode.showModal();
-        return true;
-    }
-
     protected createEmptyTokenGroup() {
         return this.createElement({
             name: "div",

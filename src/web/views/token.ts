@@ -5,6 +5,7 @@ import { DEFAULT_ICON_URL } from '@/web/consts';
 export interface Callbacks {
     onDrop: (d: HTMLElement, o: HTMLElement) => void | null;
     onMove: (d: HTMLElement, o: HTMLElement | null, n: HTMLElement | null) => void | null;
+    onDragTimeout: (node: HTMLElement) => boolean;
     canDrag: () => boolean | null;
 }
 
@@ -62,10 +63,6 @@ export class TokensView extends View {
         return dragNode;
     }
 
-    protected onDragTimeout(node: HTMLElement): boolean {
-        return false;
-    }
-
     private setTokenEvents(node: HTMLElement) {
         node.addEventListener('mousedown', dragMouseStart, false);
         node.addEventListener('touchstart', dragTouchStart, false);
@@ -74,7 +71,12 @@ export class TokensView extends View {
         const canDrag = () => callbacks.canDrag && !callbacks.canDrag();
 
         const createContext = (coordsCb) =>
-            new DragContext(() => this.createDragNode(node), () => this.onDragTimeout(node), coordsCb, callbacks);
+            new DragContext(
+                () => this.createDragNode(node), 
+                () => callbacks.onDragTimeout !== null ? callbacks.onDragTimeout(node) : false, 
+                coordsCb, 
+                callbacks,
+            );
 
         function dragMouseStart(event: MouseEvent) {
             if (event.button != 0) {

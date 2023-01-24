@@ -36,6 +36,7 @@ export class MainController extends Controller {
             callbacks: {
                 onDrop: this.onDrop.bind(this),
                 onMove: this.onMove.bind(this),
+                onDragTimeout: this.onDragTimeout.bind(this),
                 canDrag: () => !this.debug.isDebug(),
             }
         });
@@ -49,6 +50,7 @@ export class MainController extends Controller {
         const categoryCallbacks = {
             onDrop: this.onDropFromCategory.bind(this),
             onMove: this.onMoveFromCategory.bind(this),
+            onDragTimeout: null,
             canDrag: () => !this.debug.isDebug(),
         }
         this.actionsCategoryView = new TokensCategoryView({
@@ -208,6 +210,14 @@ export class MainController extends Controller {
                 dragNode.classList.add("valid-drop")
             }
         }
+    }
+
+    protected onDragTimeout(node: HTMLElement): boolean {
+        const dialogNode = document.createElement('dialog');
+        dialogNode.textContent = node.dataset.token;
+        document.body.appendChild(dialogNode);
+        dialogNode.showModal();
+        return true;
     }
 
     private showOrHideOrAddFunction(name: string, suffix: string = ""): void {

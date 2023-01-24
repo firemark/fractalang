@@ -56,6 +56,7 @@ export class DocsController extends Controller {
             callbacks: {
                 onDrop: null,
                 onMove: null,
+                onDragTimeout: null,
                 canDrag: null,
             },
             iconUrl,
