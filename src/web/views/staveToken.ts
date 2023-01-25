@@ -47,6 +47,11 @@ export class TokensStaveView extends TokensView {
         this.renderTokens();
     }
 
+    replaceToken(newToken: string, index: number) {
+        this.tokens[index] = newToken;
+        this.renderTokens();
+    }
+
     removeToken(index: number) {
         this.tokens.splice(index, 1);
         this.renderTokens();

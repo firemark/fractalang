@@ -218,9 +218,16 @@ export class MainController extends Controller {
     protected onDragTimeout(tokenNode: HTMLElement): boolean {
         const dialogNode = document.createElement('dialog');
         document.body.appendChild(dialogNode);
-        this.chooseDialogView = new ChooseTokenDialogView(dialogNode, tokenNode);
+        this.chooseDialogView = new ChooseTokenDialogView(dialogNode, tokenNode, this.onSelectTokenFromDialog.bind(this));
         this.chooseDialogView.render();
         return true;
+    }
+
+    private onSelectTokenFromDialog({token, name, suffix, index}) {
+        const staveView = this.codeView.findStave(name, suffix);
+        staveView.replaceToken(token, index);
+        this.scrapeAndRun(this.codeBarView.getData());
+        this.chooseDialogView = null;
     }
 
     private showOrHideOrAddFunction(name: string, suffix: string = ""): void {

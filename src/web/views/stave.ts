@@ -64,6 +64,10 @@ export class StaveView extends View {
         this.tokenView.pushTokenAfter(token, index);
     }
 
+    replaceToken(newToken: string, index: number) {
+        this.tokenView.replaceToken(newToken, index);
+    }
+
     removeToken(index: number) {
         this.tokenView.removeToken(index);
     }

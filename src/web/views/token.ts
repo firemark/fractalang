@@ -143,7 +143,7 @@ class DragContext<EventType extends Event> {
             if(onTimeout()) {
                 this.clear();
             }
-        }, 1000);
+        }, 300);
     }
 
     createDragMove() {

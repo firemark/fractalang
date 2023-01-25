@@ -3,24 +3,32 @@ import { TOKEN_FAMILIES, NAME_TO_FAMILY } from "@/web/tokensFamily";
 import { NAME_TO_TOKEN } from "@/web/tokens"
 import { DEFAULT_ICON_URL } from "@/web/consts";
 
-export class ChooseTokenDialogView extends View {
-    #token: string;
-    #index: number;
-    #name: string;
-    #suffix: string;
-    #iconUrl: string;
+export interface OnSelectArgs {
+    token: string;
+    index: number;
+    name: string;
+    suffix: string;
+};
 
-    constructor(dialogNode: HTMLElement, tokenNode: HTMLElement, iconUrl = DEFAULT_ICON_URL) {
+export class ChooseTokenDialogView extends View {
+    #args: OnSelectArgs;
+    #iconUrl: string;
+    #onSelect: (obj: any) => void;
+
+    constructor(dialogNode: HTMLElement, tokenNode: HTMLElement, onSelect: (obj: any) => void, iconUrl = DEFAULT_ICON_URL) {
         super(dialogNode);
-        this.#token = tokenNode.dataset.token;
-        this.#index = parseInt(tokenNode.dataset.index);
-        this.#name = tokenNode.dataset.name;
-        this.#suffix = tokenNode.dataset.suffix;
+        this.#args = {
+            token: tokenNode.dataset.token,
+            index: parseInt(tokenNode.dataset.index),
+            name: tokenNode.dataset.name,
+            suffix: tokenNode.dataset.suffix,
+        };
         this.#iconUrl = iconUrl;
+        this.#onSelect = onSelect;
     }
 
     render() {
-        const familyName = NAME_TO_FAMILY.get(this.#token);
+        const familyName = NAME_TO_FAMILY.get(this.#args.token);
         const family = TOKEN_FAMILIES[familyName] || [];
         if (family.length === 0) {
             this.node.textContent = 'No family :(';
@@ -51,8 +59,14 @@ export class ChooseTokenDialogView extends View {
 
             tokenWithLabelNode.appendChild(tokenNode);
             tokenWithLabelNode.appendChild(labelNode);
+            tokenWithLabelNode.addEventListener('click', this.onClick.bind(this, token));
             this.node.appendChild(tokenWithLabelNode);
         });
         (this.node as HTMLDialogElement).showModal();
+    }
+
+    onClick(token: string, event: MouseEvent) {
+        this.#onSelect({...this.#args, token});
+        this.node.remove();
     }
 }
