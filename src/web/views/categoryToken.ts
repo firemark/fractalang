@@ -1,7 +1,8 @@
 import { TokensView } from "./token";
-import { TokenCategory } from "@/web/models";
 import { Callbacks } from "./token";
 
+import { TokenCategory } from "@/web/models";
+import { NAME_TO_TOKEN } from "@/web/tokens";
 import { DEFAULT_ICON_URL } from '@/web/consts';
 
 export class TokensCategoryView extends TokensView {
@@ -45,7 +46,8 @@ export class TokensCategoryView extends TokensView {
         }, false);
         categoryNode.appendChild(categoryNodeName);
 
-        category.tokens.forEach(tokenInfo => {
+        category.tokens.forEach(token => {
+            const tokenInfo = NAME_TO_TOKEN.get(token);
             categoryNode.appendChild(this.createTokenNode(tokenInfo.name));
             categoryNode.appendChild(this.createElement({
                 name: 'span',

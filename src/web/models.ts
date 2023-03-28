@@ -11,6 +11,6 @@ export interface TokenInfo {
 
 export interface TokenCategory {
     label: string;
-    tokens: TokenInfo[];
+    tokens: string[];
 };
 

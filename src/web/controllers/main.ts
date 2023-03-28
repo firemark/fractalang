@@ -9,7 +9,7 @@ import { CodeBarView } from "@/web/views/codeBar";
 import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
 
 import { Stave } from "@/web/models";
-import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokens";
+import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
 
 import { exec, setupExec } from "@/core/exec";
 import { Cursor } from "@/core/cursor";
