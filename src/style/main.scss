@@ -77,3 +77,22 @@ dialog {
   padding: 1.6rem;
   max-width: 400px;
 }
+
+.choose-token-dialog {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+
+    .category {
+        margin: 0 1em;
+
+        > .label {
+            text-align: center;
+            font-size: 1rem;
+        }
+    }
+
+    .dialog-token {
+        margin: 1em 0;
+    }
+}

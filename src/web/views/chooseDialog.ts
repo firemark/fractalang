@@ -28,40 +28,59 @@ export class ChooseTokenDialogView extends View {
     }
 
     render() {
+        this.node.classList.add("choose-token-dialog");
         const familyName = NAME_TO_FAMILY.get(this.#args.token);
         const family = TOKEN_FAMILIES[familyName] || [];
         if (family.length === 0) {
             this.node.textContent = 'No family :(';
         } 
-        family.forEach(token => {
-            const tokenInfo = NAME_TO_TOKEN.get(token);
-            if (tokenInfo === undefined) {
-                return;
-            }
-            const tokenWithLabelNode = this.createElement({
-                name: 'div',
-                classes: ['dialog-token'],
-            });
-            const tokenNode = this.createElement({
-                name: 'div',
-                classes: ['fract-token'],
-            });
-            tokenNode.dataset.token = token;
-            tokenNode.style.backgroundImage = `url(${this.#iconUrl}/${token}.svg)`;
-            tokenNode.style.width = `48px`;
-            tokenNode.style.height = `48px`;
 
-            const labelNode = this.createElement({
+        family.forEach(category => {
+            const categoryNode = this.createElement({
+                name: 'div',
+                classes: ['category'],
+            })
+            const categoryLabelNode = this.createElement({
                 name: 'span',
                 classes: ['label'],
-                text: tokenInfo.label,
+                text: category.label,
             })
+            categoryNode.appendChild(categoryLabelNode);
 
-            tokenWithLabelNode.appendChild(tokenNode);
-            tokenWithLabelNode.appendChild(labelNode);
-            tokenWithLabelNode.addEventListener('click', this.onClick.bind(this, token));
-            this.node.appendChild(tokenWithLabelNode);
+            category.tokens.forEach(token => {
+                const tokenInfo = NAME_TO_TOKEN.get(token);
+                if (tokenInfo === undefined) {
+                    return;
+                }
+                const tokenWithLabelNode = this.createElement({
+                    name: 'div',
+                    classes: ['dialog-token'],
+                });
+                const tokenNode = this.createElement({
+                    name: 'div',
+                    classes: ['fract-token'],
+                });
+                tokenNode.dataset.token = token;
+                tokenNode.style.backgroundImage = `url(${this.#iconUrl}/${token}.svg)`;
+                tokenNode.style.width = `48px`;
+                tokenNode.style.height = `48px`;
+
+                const labelNode = this.createElement({
+                    name: 'span',
+                    classes: ['label'],
+                    text: tokenInfo.label,
+                })
+
+                tokenWithLabelNode.appendChild(tokenNode);
+                tokenWithLabelNode.appendChild(labelNode);
+                tokenWithLabelNode.addEventListener('click', this.onClick.bind(this, token));
+                this.node.appendChild(tokenWithLabelNode);
+                categoryNode.appendChild(tokenWithLabelNode);
+            });
+
+            this.node.appendChild(categoryNode);
         });
+
         (this.node as HTMLDialogElement).showModal();
     }
 

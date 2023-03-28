@@ -48,6 +48,9 @@ export class TokensCategoryView extends TokensView {
 
         category.tokens.forEach(token => {
             const tokenInfo = NAME_TO_TOKEN.get(token);
+            if (tokenInfo === undefined) {
+                return;
+            }
             categoryNode.appendChild(this.createTokenNode(tokenInfo.name));
             categoryNode.appendChild(this.createElement({
                 name: 'span',
