@@ -47,7 +47,7 @@ main {
 #code-panel {
     display: flex;
     flex-direction: row;
-    flex-align: stretch;
+    align-items: stretch;
     height: 45vh;
 }
 
@@ -84,15 +84,28 @@ dialog {
     align-items: start;
 
     .category {
-        margin: 0 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
         > .label {
             text-align: center;
-            font-size: 1rem;
+            font-variant: small-caps;
+            font-size: 1.4rem;
+        }
+
+        ~ .category {
+            border-left: 1px #888 dotted;
+            margin-left: 0.75em;
+            padding-left: 0.75em;
         }
     }
 
     .dialog-token {
-        margin: 1em 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 0.5em 0;
     }
 }
