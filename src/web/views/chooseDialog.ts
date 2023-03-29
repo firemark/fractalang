@@ -29,6 +29,8 @@ export class ChooseTokenDialogView extends View {
 
     render() {
         this.node.classList.add("choose-token-dialog");
+        this.node.addEventListener('close', this.onClose.bind(this));
+
         const familyName = NAME_TO_FAMILY.get(this.#args.token);
         const family = TOKEN_FAMILIES[familyName] || [];
         if (family.length === 0) {
@@ -74,7 +76,6 @@ export class ChooseTokenDialogView extends View {
                 tokenWithLabelNode.appendChild(tokenNode);
                 tokenWithLabelNode.appendChild(labelNode);
                 tokenWithLabelNode.addEventListener('click', this.onClick.bind(this, token));
-                this.node.appendChild(tokenWithLabelNode);
                 categoryNode.appendChild(tokenWithLabelNode);
             });
 
@@ -86,6 +87,10 @@ export class ChooseTokenDialogView extends View {
 
     onClick(token: string, event: MouseEvent) {
         this.#onSelect({...this.#args, token});
+        (this.node as HTMLDialogElement).close();
+    }
+
+    onClose() {
         this.node.remove();
     }
 }
