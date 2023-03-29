@@ -184,12 +184,19 @@ export class Reverse extends NodeWithValue {
 }
 
 export class Replay extends NodeWithValue {
+    #jumpSize: number;
+
+    constructor(value, jumpSize = 1) {
+        super(value);
+        this.#jumpSize = jumpSize;
+    }
+
     exec(context: Context, local: object): ActionResult {
         const counter = local['counter'] || 1;
         const size = this.evalIntValue(context);
         if (counter < size) {
             local['counter'] = counter + 1;
-            return new JumpR(-1);
+            return new JumpR(-this.#jumpSize);
         }
         return new ContinueR();
     }

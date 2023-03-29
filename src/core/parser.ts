@@ -97,20 +97,12 @@ function parseAction(token: Token, tmp: ActionTmp) {
         throw "Parsing error: token is not an action";
     }
     tmp.setActionToken(token);
-    if (token.valueSize === 0) {
-        tmp.pushAction();
-    }
 }
 
 function parseValue(token: Token, tmp: ActionTmp) {
-    const { valueSize } = tmp.getActionToken();
     if (token.isAction) {
-        if (valueSize !== "+" && tmp.getValuesLength() < valueSize) {
-            throw "Parsing error: token has not enough values";
-        }
         tmp.pushAction();
         tmp.setActionToken(token);
-        return;
     } else {
         const factory = token.factory as ValueCb;
         tmp.insertValue(factory());

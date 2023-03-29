@@ -25,19 +25,25 @@ export const TOKEN_FAMILIES: { [key: string]: TokenCategory[] } = {
             tokens: ['DRAW_LINE'],
         },
         {
-            label: 'Left Arclines',
+            label: 'Left Arc',
             tokens: [
                 'DRAW_ARCLINE_L_3_4',
+                'DRAW_ARCLINE_L_2_3',
                 'DRAW_ARCLINE_L_1_2',
+                'DRAW_ARCLINE_L_1_3',
                 'DRAW_ARCLINE_L_1_4',
+                'DRAW_ARCLINE_L_1_5',
             ]
         },
         {
-            label: 'Right Arclines',
+            label: 'Right Arc',
             tokens: [
                 'DRAW_ARCLINE_R_3_4',
+                'DRAW_ARCLINE_R_2_3',
                 'DRAW_ARCLINE_R_1_2',
+                'DRAW_ARCLINE_R_1_3',
                 'DRAW_ARCLINE_R_1_4',
+                'DRAW_ARCLINE_R_1_5',
             ]
         },
     ],
@@ -56,13 +62,23 @@ export const TOKEN_FAMILIES: { [key: string]: TokenCategory[] } = {
     REPLAY: [
         {
             label: 'Replays',
-            tokens: ['REPLAY', 'REPLAY_2', 'REPLAY_3'],
+            tokens: ['REPLAY', 'REPLAY_2', 'REPLAY_3', 'REPLAY_4'],
         },
     ],
     VALUE: [
         {
             label: 'Counters',
-            tokens: ['COUNT_1', 'COUNT_2', 'COUNT_3', 'COUNT_5', 'COUNT_MINUS'],
+            tokens: ['COUNT_1', 'COUNT_2', 'COUNT_3', 'COUNT_5', 'COUNT_7'],
+        },
+        {
+            label: 'Counters',
+            tokens: [
+                'COUNT_MINUS',
+                'COUNT_GOLD',
+                'COUNT_SILVER',
+                'COUNT_BRONZE',
+                'COUNT_PLASTIC',
+            ],
         },
         {
             label: 'Fractions',
@@ -70,14 +86,17 @@ export const TOKEN_FAMILIES: { [key: string]: TokenCategory[] } = {
                 'FRACT_1_2',
                 'FRACT_1_3',
                 'FRACT_2_3',
+                'FRACT_1_4',
+                'FRACT_3_4',
             ],
         },
         {
             label: 'Fractions',
             tokens: [
-                'FRACT_1_4',
-                'FRACT_3_4',
                 'FRACT_1_5',
+                'FRACT_2_5',
+                'FRACT_3_5',
+                'FRACT_4_5',
             ],
         },
     ],

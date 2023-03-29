@@ -65,11 +65,9 @@ export const VALUE_TOKENS: TokenCategory[] = [
         label: 'Colors',
         tokens: [
             'COLOR_FILL',
-            'COLOR_EMPTY',,
+            'COLOR_EMPTY',
             'COLOR_SHIFT_1_2',
             'COLOR_SHIFT_1_4',
-            'COLOR_SHIFT_1_5',
-            'COLOR_SHIFT_1_10',
             'COLOR_MAX',
             'COLOR_MIN',
         ],

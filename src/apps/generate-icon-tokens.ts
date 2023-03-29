@@ -53,17 +53,46 @@ const SQRT_2_2 = Math.sqrt(2) / 2;
 
 function main() {
     const tokens: Tokens[] = [
-        ["COUNT_MINUS", [new Line([20, 50], [80, 50], { stroke: 5 })]],
         ["COUNT_1", generateCount(1)],
         ["COUNT_2", generateCount(2)],
         ["COUNT_3", generateCount(3)],
         ["COUNT_5", generateFiveCount()],
+        ["COUNT_7", generateSevenCount()],
+
+        ["COUNT_MINUS", [new Line([20, 50], [80, 50], { stroke: 5 })]],
+        ["COUNT_GOLD", [
+            new Arc([50, 30], 30, 0.6, { shift: 0.0 }, {fill: "none", color: "black", stroke: 5 }),
+            new Arc([65, 30], 15, 0.5, { shift: 0.5 }, {fill: "none", color: "black", stroke: 5 }),
+            new Line([50, 30], [50, 90], {stroke: 5}),
+        ]],
+        ["COUNT_SILVER", [
+            new Arc([50, 30], 30, 0.5, { shift: 0.0 }, {fill: "none", color: "black", stroke: 5 }),
+            new Arc([65, 30], 15, 0.5, { shift: 0.5 }, {fill: "none", color: "black", stroke: 5 }),
+            new Arc([35, 30], 15, 0.5, { shift: 0.5 }, {fill: "none", color: "black", stroke: 5 }),
+            new Line([50, 30], [50, 90], {stroke: 5}),
+        ]],
+        ["COUNT_BRONZE", [
+            new Arc([50, 30], 30, 0.5, { shift: 0.0 }, {fill: "none", color: "black", stroke: 5 }),
+            new Arc([65, 30], 15, 0.5, { shift: 0.5 }, {fill: "none", color: "black", stroke: 5 }),
+            new Arc([35, 30], 15, 0.5, { shift: 0.5 }, {fill: "none", color: "black", stroke: 5 }),
+            new Line([50, 30], [30, 90], {stroke: 5}),
+            new Line([50, 30], [70, 90], {stroke: 5}),
+        ]],
+        ["COUNT_PLASTIC", [
+            new Circle([50, 50], 25, {fill: "none", color: BLACK, stroke: 5 }),
+            new Line([50, 10], [50, 90], {stroke: 5}),
+            new Line([30, 10], [70, 10], {stroke: 5}),
+            new Line([30, 90], [70, 90], {stroke: 5}),
+        ]],
         ["FRACT_1_2", generateFract(1, 2)],
         ["FRACT_1_3", generateFract(1, 3)],
         ["FRACT_2_3", generateFract(2, 3)],
         ["FRACT_1_4", generateFract(1, 4)],
         ["FRACT_3_4", generateFract(3, 4)],
         ["FRACT_1_5", generateFract(1, 5)],
+        ["FRACT_2_5", generateFract(2, 5)],
+        ["FRACT_3_5", generateFract(3, 5)],
+        ["FRACT_4_5", generateFract(4, 5)],
         ["ANGLE_270", generateAngle(270)],
         ["ANGLE_180", generateAngle(180)],
         ["ANGLE_90", generateAngle(90)],
@@ -71,6 +100,7 @@ function main() {
         ["ANGLE_45", generateQuarterAngle(45)],
         ["ANGLE_30", generateQuarterAngle(30)],
         ["ANGLE_15", generateQuarterAngle(15)],
+        ["ANGLE_10", generateQuarterAngle(10)],
         ["ARGUMENT", [
             new Line([20, 80], [80, 80], { stroke: 3 }),
             new Line([80, 80], [50, 20], { stroke: 3 }),
@@ -114,11 +144,17 @@ function main() {
             new Line([20, 70], [80, 70], { stroke: 5 }),
         ])],
         ["DRAW_ARCLINE_R_3_4", withPencilArcLine(+3 / 4)],
+        ["DRAW_ARCLINE_R_2_3", withPencilArcLine(+2 / 3)],
         ["DRAW_ARCLINE_R_1_2", withPencilArcLine(+1 / 2)],
+        ["DRAW_ARCLINE_R_1_3", withPencilArcLine(+1 / 3)],
         ["DRAW_ARCLINE_R_1_4", withPencilArcLine(+1 / 4)],
+        ["DRAW_ARCLINE_R_1_5", withPencilArcLine(+1 / 5)],
         ["DRAW_ARCLINE_L_3_4", withPencilArcLine(-3 / 4)],
+        ["DRAW_ARCLINE_L_2_3", withPencilArcLine(-2 / 3)],
         ["DRAW_ARCLINE_L_1_2", withPencilArcLine(-1 / 2)],
+        ["DRAW_ARCLINE_L_1_3", withPencilArcLine(-1 / 3)],
         ["DRAW_ARCLINE_L_1_4", withPencilArcLine(-1 / 4)],
+        ["DRAW_ARCLINE_L_1_5", withPencilArcLine(-1 / 5)],
         ["DRAW_CIRCLE", withPencil([
             new Circle([50, 70], 20),
         ])],
@@ -263,12 +299,10 @@ function main() {
             new Line([50, 50], [80, 20], { stroke: 3 }),
             new Line([80, 80], [80, 20], { stroke: 3 }),
         ]],
-        ["REPLAY", [
-            new Arc([50, 50], 30, 0.85, { shift: 0.75 }, {fill: "none", color: "black", stroke: 5 }),
-            new Circle([50, 20], 10),
-            new Line([26, 32], [10, 35], { stroke: 5 }),
-            new Line([26, 32], [35, 45], { stroke: 5 }),
-        ]],
+        ["REPLAY", generateReplay() ],
+        ["REPLAY_2", generateReplay(2, 10) ],
+        ["REPLAY_3", generateReplay(3, 8) ],
+        ["REPLAY_4", generateReplay(4, 6) ],
     ];
 
     PROCEDURES.concat(DYNAMIC_ARGS).forEach(name => {
@@ -299,24 +333,35 @@ function main() {
 
 }
 
-function generateCount(count: number): Figure[] {
+function generateCount(count: number, shift: number = 0, width: number = 1): Figure[] {
     const figures: Figure[] = [];
     for(let i = 1; i <= count; i++) {
-        const x = 25 + i / (count + 1) * 50;
+        const x = 25 * width + i / (count + 1) * 50 * width + shift;
         figures.push(new Line([x, 20], [x, 80], { stroke: 3 }));
     }
-    figures.push(new Line([20, 20], [80, 20], { stroke: 3 }));
-    figures.push(new Line([20, 80], [80, 80], { stroke: 3 }));
+    const x_start = 20 * width + shift;
+    const x_end = x_start + 60 * width;
+    figures.push(new Line([x_start, 20], [x_end, 20], { stroke: 3 }));
+    figures.push(new Line([x_start, 80], [x_end, 80], { stroke: 3 }));
     return figures;
 }
 
-function generateFiveCount(): Figure[] {
+function generateFiveCount(width: number = 1): Figure[] {
+    const s = 25;
+    const ls = s - 10;
+    const le = s + 10;
+    const w1 = 25 * width;
+    const w2 = w1 * 2;
     return [
-        new Line([25, 20], [50, 80], { stroke: 3 }),
-        new Line([50, 80], [75, 20], { stroke: 3 }),
-        new Line([15, 20], [35, 20], { stroke: 3 }),
-        new Line([65, 20], [85, 20], { stroke: 3 }),
+        new Line([s, 20], [s + w1, 80], { stroke: 3 }),
+        new Line([s + w1, 80], [s + w2, 20], { stroke: 3 }),
+        new Line([ls, 20], [le, 20], { stroke: 3 }),
+        new Line([ls + w2, 20], [le + w2, 20], { stroke: 3 }),
     ];
+}
+
+function generateSevenCount(): Figure[] {
+    return generateFiveCount(0.75).concat(generateCount(2, 50, 0.5));
 }
 
 function generateFract(filled: number, total: number): Figure[] {
@@ -347,6 +392,24 @@ function generateQuarterAngle(angle): Figure[] {
     const figures: Figure[] = [];
     figures.push(new Arc([10, 10], 80, 0.25, { close: true }, {fill: "none", color: "black", stroke: 3}));
     figures.push(new Arc([10, 10], 80, angle / 360, { close: true }));
+    return figures;
+}
+
+function generateReplay(count: number = 1, distance: number = 6): Figure[] {
+    const figures: Figure[] = [
+        new Arc([50, 50], 30, 0.85, { shift: 0.75 }, {fill: "none", color: "black", stroke: 5 }),
+        new Circle([50, 20], 10),
+        new Line([26, 32], [10, 35], { stroke: 5 }),
+        new Line([26, 32], [35, 45], { stroke: 5 }),
+    ]
+
+    if (count > 1) {
+        for(let i = 0; i < count; i++) {
+            const x = 50 + i * distance - (count - 1) * distance / 2;
+            figures.push(new Line([x, 40], [x, 60], { stroke: 3 }));
+        }
+    }
+
     return figures;
 }
 
