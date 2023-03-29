@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "outDir": "./dist-node/",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "target": "es6",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/apps/*.ts"]
 }
