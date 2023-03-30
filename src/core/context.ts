@@ -1,4 +1,4 @@
-import { Cursor } from "@/core/cursor";
+import { ICursor } from "@/core/cursor";
 import { ValueNode } from "@/core/ast/base";
 
 export type StrokeStyle = "solid" | "dotted" | "dashed";
@@ -15,7 +15,7 @@ export interface EvaluedValue {
 export class Context {
     readonly iteration: number;
     readonly argument: EvaluedValue;
-    readonly cursor: Cursor;
+    readonly cursor: ICursor;
     readonly valueFuncBag: {[name: string]: ValueNode[]};
 
     constructor({cursor, argument, valueFuncBag = {}, iteration = 0}) {
@@ -25,12 +25,7 @@ export class Context {
         this.cursor = cursor;
     }
 
-    createNewContext(newArgument: EvaluedValue, iterationShift: number) {
-        return new Context({
-            argument: newArgument,
-            cursor: this.cursor,
-            iteration: this.iteration + iterationShift,
-            valueFuncBag: this.valueFuncBag,
-        });
+    onEnd() {
+        this.cursor.close();
     }
 }

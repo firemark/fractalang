@@ -1,5 +1,5 @@
 import { Context, EvaluedValue } from "@/core/context";
-import { Cursor, OpsParams } from "@/core/cursor";
+import { CloseCursor, Cursor, ICursor, OpsParams } from "@/core/cursor";
 import { ActionResult, ContinueR, JumpR, CallR, ReverseR} from "@/core/ast/actionResult";
 import { ValueNode, ActionNode, evalValue } from "./base";
 
@@ -25,24 +25,38 @@ abstract class NodeWithValue extends ActionNode {
 }
 
 export class Call extends NodeWithValue {
-    private name: string;
+    #name: string;
 
     constructor(name, value) {
         super(value);
-        this.name = name;
+        this.#name = name;
     }
 
     exec(context: Context): ActionResult {
-        return new CallR(this.name, this.#createContext(context, +1));
+        return new CallR(this.#name, this.createContext(context));
     }
 
     execReverse(context: Context): ActionResult {
-        return new CallR(this.name, this.#createContext(context, +1));
+        return this.exec(context);
     }
 
-    #createContext(context: Context, interationShift: number): Context {
-        const newArgument = this.eval(context);
-        return context.createNewContext(newArgument, interationShift);
+    protected createContext(context: Context): Context {
+        return new Context({
+            argument: this.eval(context),
+            cursor: this.createCursor(context),
+            iteration: context.iteration + 1,
+            valueFuncBag: context.valueFuncBag,
+        });
+    }
+
+    protected createCursor(context: Context): ICursor {
+        return context.cursor;
+    }
+}
+
+export class CloseCall extends Call {
+    protected createCursor(context: Context): ICursor {
+        return new CloseCursor(context.cursor);
     }
 }
 
@@ -61,7 +75,7 @@ export class DrawLine extends NodeWithValue {
 }
 
 abstract class DrawFigure extends NodeWithValue {
-    abstract drawFigure(cursor: Cursor, size: number, ops: OpsParams): void;
+    abstract drawFigure(cursor: ICursor, size: number, ops: OpsParams): void;
 
     exec(context: Context): ActionResult {
         const evaled = this.eval(context);
@@ -80,19 +94,19 @@ abstract class DrawFigure extends NodeWithValue {
 }
 
 export class DrawCircle extends DrawFigure {
-    drawFigure(cursor: Cursor, size: number, ops: OpsParams) {
+    drawFigure(cursor: ICursor, size: number, ops: OpsParams) {
         cursor.drawCircle(size, ops);
     }
 }
 
 export class DrawSquare extends DrawFigure {
-    drawFigure(cursor: Cursor, size: number, ops: OpsParams) {
+    drawFigure(cursor: ICursor, size: number, ops: OpsParams) {
         cursor.drawSquare(size, ops);
     }
 }
 
 export class DrawTriangle extends DrawFigure {
-    drawFigure(cursor: Cursor, size: number, ops: OpsParams) {
+    drawFigure(cursor: ICursor, size: number, ops: OpsParams) {
         cursor.drawTriangle(size, ops);
     }
 }
@@ -122,7 +136,7 @@ export class DrawArcLine extends NodeWithValue {
 }
 
 abstract class CursorManipulator extends NodeWithValue {
-    abstract change(cursor: Cursor, value: number): void;
+    abstract change(cursor: ICursor, value: number): void;
 
     exec(context: Context): ActionResult {
         this.change(context.cursor, this.eval(context).value);
@@ -136,37 +150,37 @@ abstract class CursorManipulator extends NodeWithValue {
 }
 
 export class MoveForward extends CursorManipulator {
-    change(cursor: Cursor, value: number) {
+    change(cursor: ICursor, value: number) {
         cursor.forward(value);
     }
 }
 
 export class MoveBackward extends CursorManipulator {
-    change(cursor: Cursor, value: number) {
+    change(cursor: ICursor, value: number) {
         cursor.backward(value);
     }
 }
 
 export class MoveLeft extends CursorManipulator {
-    change(cursor: Cursor, value: number) {
+    change(cursor: ICursor, value: number) {
         cursor.left(value);
     }
 }
 
 export class MoveRight extends CursorManipulator {
-    change(cursor: Cursor, value: number) {
+    change(cursor: ICursor, value: number) {
         cursor.right(value);
     }
 }
 
 export class RotateRight extends CursorManipulator {
-    change(cursor: Cursor, value: number) {
+    change(cursor: ICursor, value: number) {
         cursor.rotate(value);
     }
 }
 
 export class RotateLeft extends CursorManipulator {
-    change(cursor: Cursor, value: number) {
+    change(cursor: ICursor, value: number) {
         cursor.rotate(-value);
     }
 }

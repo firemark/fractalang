@@ -44,7 +44,8 @@ export class StackStep {
         });
 
         if (!stillContinue) {
-            this.#stack.pop();
+            const contextStepper = this.#stack.pop();
+            contextStepper.onEnd();
         }
 
         if (newElement !== null) {

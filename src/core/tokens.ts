@@ -91,6 +91,10 @@ export const tokens = {
     CALL_F: createAction(v => new actions.Call("F", v)),
     CALL_G: createAction(v => new actions.Call("G", v)),
     CALL_H: createAction(v => new actions.Call("H", v)),
+    // Close Callers
+    CLOSE_CALL_F: createAction(v => new actions.CloseCall("F", v)),
+    CLOSE_CALL_G: createAction(v => new actions.CloseCall("G", v)),
+    CLOSE_CALL_H: createAction(v => new actions.CloseCall("H", v)),
     // Shapes
     DRAW_CIRCLE: createAction(v => new actions.DrawCircle(v)),
     DRAW_SQUARE: createAction(v => new actions.DrawSquare(v)),

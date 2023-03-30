@@ -40,6 +40,7 @@ export abstract class ContextStepper {
 
     abstract exec(): ActionResult;
     abstract move(args: MoveArgs): boolean;
+    onEnd() { this.scope.context.onEnd(); };
 
     get index(): number { return this.scope.index; }
     get stave(): string { return this.scope.function.name; }

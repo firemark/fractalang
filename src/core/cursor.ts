@@ -11,7 +11,25 @@ export interface OpsParams {
     isFilled: boolean,
 }
 
-export class Cursor {
+export abstract class ICursor {
+    abstract rotate(angle: number): void;
+
+    abstract forward(distance: number): void;
+    abstract backward(distance: number): void;
+    abstract right(distance: number): void;
+    abstract left(distance: number): void;
+
+    abstract drawLine(distance: number, stroke: number, color: number): void;
+    abstract drawArcLine(ratio: number, size: number, stroke: number, color: number): void;
+
+    abstract drawCircle(radius: number, ops: OpsParams): void;
+    abstract drawSquare(radius: number, ops: OpsParams): void;
+    abstract drawTriangle(radius: number, ops: OpsParams): void;
+
+    abstract close(): void;
+}
+
+export class Cursor extends ICursor {
     strokeSize: number;
     distanceMultipler: number;
     position: [number, number];
@@ -30,6 +48,7 @@ export class Cursor {
         firstColor = "#000000",
         secondColor = "#DC143C",
     } = {}) {
+        super();
         this.strokeSize = strokeSize;
         this.distanceMultipler = distanceMultipler;
         this.position = [0.0, 0.0];
@@ -84,7 +103,7 @@ export class Cursor {
         const ndy = dx;
         const [x, y] = this.position;
         const point = [x + arcRadius * ndx, y + arcRadius * ndy];
-        const style = this.calcStyleParams({stroke, color, isFilled: false});
+        const style = this.calcStyleParams({ stroke, color, isFilled: false });
         const ops = {
             shift: this.angle - 0.25,
             close: false,
@@ -149,6 +168,8 @@ export class Cursor {
         this.box.max[1] += margin;
     }
 
+    close() { }
+
     private computeBox([x, y]: number[], size = 0) {
         this.box.min[0] = Math.min(this.box.min[0], x - size);
         this.box.max[0] = Math.max(this.box.max[0], x + size);
@@ -175,3 +196,17 @@ export class Cursor {
         return { fill: "none", color: color, stroke: ops.stroke };
     }
 }
+
+export class CloseCursor extends ICursor {
+    #cursor: ICursor;
+    // TODO
+    constructor(cursor: ICursor) {
+        super();
+        this.#cursor = cursor;
+    }
+
+    close() {
+        this.#cursor.close();
+        // TODO
+    }
+} 
