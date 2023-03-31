@@ -1,11 +1,9 @@
-import { Cursor } from "@/core/cursor";
+import { ICursor } from "@/core/cursor";
 import { Figure, Circle, Arc, Rectangle, Triangle, Line, Style } from "@/core/figures";
 
 const NAMESPACE = "http://www.w3.org/2000/svg";
-const BLACK = "black";
-const RED = "red";
 
-export function createSvg(document, cursor: Cursor): HTMLElement {
+export function createSvg(document, cursor: ICursor): HTMLElement {
     const svg = document.createElementNS(NAMESPACE, "svg");
     const [min_x, min_y] = cursor.box.min;
     const [max_x, max_y] = cursor.box.max;
@@ -21,7 +19,6 @@ export function createSvg(document, cursor: Cursor): HTMLElement {
     return svg;
 }
 
-const SQRT3 = Math.sqrt(3);
 const SQRT3H2 = Math.sqrt(3) / 2;
 const H2 = 1 / 2;
 

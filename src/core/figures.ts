@@ -23,7 +23,39 @@ export class Line {
     }
 }
 
-export class Circle {
+export abstract class Curve {}
+
+export class LineCurve implements Curve {
+    delta: [number, number];
+
+    constructor(delta: [number, number]) {
+        this.delta = delta;
+    }
+}
+
+export class ArcCurve implements Curve {
+    radius: number;
+    ratio: number;
+    shift: number;
+
+    constructor(radius: number, ratio: number, shift: number) {
+        this.radius = radius;
+        this.ratio = ratio;
+        this.shift = shift;
+    }
+}
+
+export class Polygon implements Figure {
+    point: [number, number];
+    curves: Curve[];
+
+    constructor(point: [number, number], curves: Curve[]) {
+        this.point = point;
+        this.curves = curves;
+    }
+}
+
+export class Circle implements Figure {
     point: [number, number];
     radius: number;
     style: Style;
@@ -35,7 +67,7 @@ export class Circle {
     }
 }
 
-export class Arc {
+export class Arc implements Figure {
     point: [number, number];
     radius: number;
     ratio: number;
@@ -53,7 +85,7 @@ export class Arc {
     }
 }
 
-export class Rectangle {
+export class Rectangle implements Figure {
     point: [number, number];
     orientation: [number, number];
     width: number;
@@ -69,7 +101,7 @@ export class Rectangle {
     }
 }
 
-export class Triangle {
+export class Triangle implements Figure {
     point: [number, number];
     orientation: [number, number];
     size: number;

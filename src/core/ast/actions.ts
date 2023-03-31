@@ -1,5 +1,5 @@
 import { Context, EvaluedValue } from "@/core/context";
-import { CloseCursor, Cursor, ICursor, OpsParams } from "@/core/cursor";
+import { CloseCursor, Shape, ICursor, OpsParams } from "@/core/cursor";
 import { ActionResult, ContinueR, JumpR, CallR, ReverseR} from "@/core/ast/actionResult";
 import { ValueNode, ActionNode, evalValue } from "./base";
 
@@ -74,12 +74,19 @@ export class DrawLine extends NodeWithValue {
     }
 }
 
-abstract class DrawFigure extends NodeWithValue {
-    abstract drawFigure(cursor: ICursor, size: number, ops: OpsParams): void;
+export class DrawFigure extends NodeWithValue {
+    #shape: Shape
+
+    constructor(values: ValueNode[], shape: Shape) {
+        super(values);
+        this.#shape = shape;
+    }
 
     exec(context: Context): ActionResult {
         const evaled = this.eval(context);
-        this.drawFigure(context.cursor, evaled.value, this.evaledToFigureOps(evaled));
+        const size = evaled.value;
+        const ops = this.evaledToFigureOps(evaled);
+        context.cursor.drawShape(this.#shape, size, ops);
         return new ContinueR();
     }
 
@@ -91,24 +98,6 @@ abstract class DrawFigure extends NodeWithValue {
         };
     }
 
-}
-
-export class DrawCircle extends DrawFigure {
-    drawFigure(cursor: ICursor, size: number, ops: OpsParams) {
-        cursor.drawCircle(size, ops);
-    }
-}
-
-export class DrawSquare extends DrawFigure {
-    drawFigure(cursor: ICursor, size: number, ops: OpsParams) {
-        cursor.drawSquare(size, ops);
-    }
-}
-
-export class DrawTriangle extends DrawFigure {
-    drawFigure(cursor: ICursor, size: number, ops: OpsParams) {
-        cursor.drawTriangle(size, ops);
-    }
 }
 
 export class DrawArcLine extends NodeWithValue {

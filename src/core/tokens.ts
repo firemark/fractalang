@@ -1,5 +1,6 @@
 import { ValueNode, ActionNode } from "@/core/ast/base";
 import { Multipler, Angle, Argument, DynamicArgument } from "@/core/ast/values";
+import { Shape } from "@/core/cursor";
 import * as actions from "@/core/ast/actions";
 import * as colors from "@/core/ast/colors";
 import * as strokes from "@/core/ast/strokes";
@@ -96,9 +97,9 @@ export const tokens = {
     CLOSE_CALL_G: createAction(v => new actions.CloseCall("G", v)),
     CLOSE_CALL_H: createAction(v => new actions.CloseCall("H", v)),
     // Shapes
-    DRAW_CIRCLE: createAction(v => new actions.DrawCircle(v)),
-    DRAW_SQUARE: createAction(v => new actions.DrawSquare(v)),
-    DRAW_TRIANGLE: createAction(v => new actions.DrawTriangle(v)),
+    DRAW_CIRCLE: createAction(v => new actions.DrawFigure(v, Shape.Circle)),
+    DRAW_SQUARE: createAction(v => new actions.DrawFigure(v, Shape.Square)),
+    DRAW_TRIANGLE: createAction(v => new actions.DrawFigure(v, Shape.Triangle)),
     // Line
     DRAW_LINE: createAction(v => new actions.DrawLine(v)),
     // Arc

@@ -28,7 +28,6 @@ function main() {
     ];
     const stack = setupExec(argument, maxIteration, code, cursor);
     exec(stack);
-    cursor.addMargin(20);
     const document =
         new DOMImplementation()
             .createDocument('http://www.w3.org/1999/xhtml', 'html', null);

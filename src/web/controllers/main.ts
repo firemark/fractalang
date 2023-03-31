@@ -92,7 +92,6 @@ export class MainController extends Controller {
         const stack = this.scrape(data);
 
         exec(stack);
-        stack.cursor.addMargin(20);
 
         this.imageView.render(stack.cursor, data["background-color"]);
     }

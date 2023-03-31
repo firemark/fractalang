@@ -1,6 +1,6 @@
-import { Context, EvaluedValue } from "./context";
+import { Context } from "./context";
 import { ContextStepper, createInitStepper } from "./contextStepper";
-import { Cursor } from "./cursor";
+import { ICursor } from "./cursor";
 import { FunctionsBag } from "./functionsBag";
 
 export interface State {
@@ -12,7 +12,7 @@ export interface State {
 export class StackStep {
     #stack: ContextStepper[];
     #bag: FunctionsBag;
-    readonly cursor: Cursor;
+    readonly cursor: ICursor;
 
     constructor(context: Context, bag: FunctionsBag) {
         const func = bag.findFunction("START") || bag.findFunction("F");

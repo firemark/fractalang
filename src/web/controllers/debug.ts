@@ -1,4 +1,4 @@
-import { Cursor } from "@/core/cursor";
+import { ICursor } from "@/core/cursor";
 import { StackStep } from "@/core/step";
 
 export interface State {
@@ -9,7 +9,7 @@ export interface State {
 
 export interface Callbacks {
     onState: (previousState: State | null, state: State) => void,
-    renderCb: (cursor: Cursor) => void,
+    renderCb: (cursor: ICursor) => void,
 }
 
 export class DebugController {
