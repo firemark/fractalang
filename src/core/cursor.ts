@@ -189,15 +189,15 @@ export class CloseCursor extends ICursor {
     constructor(cursor: ICursor) {
         super();
         this.#cursor = cursor;
-        this.position = cursor.position;
-        this.orientation = cursor.orientation;
+        this.position = [...cursor.position];
+        this.orientation = [...cursor.orientation];
         this.angle = cursor.angle;
         this.distanceMultipler = cursor.distanceMultipler;
         this.box = {
-            min: [this.position[0], this.position[1]],
-            max: [this.position[0], this.position[1]],
+            min: [...cursor.position],
+            max: [...cursor.position],
         };
-        this.#polygon = new Polygon(this.position, []);
+        this.#polygon = new Polygon([...cursor.position], []);
     }
 
     drawLine(distance: number, stroke: number, color: number) {
@@ -231,9 +231,10 @@ export class CloseCursor extends ICursor {
         }
         this.figures.push(this.#polygon);
         this.#cursor.figures = this.#cursor.figures.concat(this.figures);
-        this.#cursor.box.max[0] = Math.max(this.#cursor.box.max[0], this.box.max[0]);
-        this.#cursor.box.max[1] = Math.max(this.#cursor.box.max[1], this.box.max[1]);
-        this.#cursor.box.min[0] = Math.min(this.#cursor.box.min[0], this.box.min[0]);
-        this.#cursor.box.min[1] = Math.min(this.#cursor.box.min[1], this.box.min[1]);
+        const box = this.#cursor.box;
+        box.max[0] = Math.max(box.max[0], this.box.max[0]);
+        box.max[1] = Math.max(box.max[1], this.box.max[1]);
+        box.min[0] = Math.min(box.min[0], this.box.min[0]);
+        box.min[1] = Math.min(box.min[1], this.box.min[1]);
     }
 } 

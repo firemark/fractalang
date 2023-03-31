@@ -48,10 +48,12 @@ export class ArcCurve implements Curve {
 export class Polygon implements Figure {
     point: [number, number];
     curves: Curve[];
+    close: boolean;
 
     constructor(point: [number, number], curves: Curve[]) {
         this.point = point;
         this.curves = curves;
+        this.close = true;
     }
 }
 

@@ -9,6 +9,10 @@ export const TOKENS: TokenInfo[] = [
     {name: 'CALL_G', label: 'G function', type: 'action'},
     {name: 'CALL_H', label: 'H function', type: 'action'},
 
+    {name: 'CLOSE_CALL_F', label: 'F function', type: 'action'},
+    {name: 'CLOSE_CALL_G', label: 'G function', type: 'action'},
+    {name: 'CLOSE_CALL_H', label: 'H function', type: 'action'},
+
     {name: 'DRAW_LINE', label: 'Line', type: 'action'},
 
     {name: 'DRAW_CIRCLE', label: 'Circle', type: 'action'},

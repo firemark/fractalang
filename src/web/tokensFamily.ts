@@ -12,6 +12,10 @@ export const TOKEN_FAMILIES: { [key: string]: TokenCategory[] } = {
             label: 'Callers',
             tokens: ['CALL_F', 'CALL_G', 'CALL_H'],
         },
+        {
+            label: 'Close Callers',
+            tokens: ['CLOSE_CALL_F', 'CLOSE_CALL_G', 'CLOSE_CALL_H'],
+        },
     ],
     DRAW_SHAPE: [
         {

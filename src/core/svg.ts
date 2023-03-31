@@ -1,5 +1,6 @@
 import { ICursor } from "@/core/cursor";
 import { Figure, Circle, Arc, Rectangle, Triangle, Line, Style } from "@/core/figures";
+import { Polygon, LineCurve, ArcCurve } from "@/core/figures";
 
 const NAMESPACE = "http://www.w3.org/2000/svg";
 
@@ -33,6 +34,32 @@ function toSvg(document, figure: Figure) {
         node.setAttribute("y2", y2);
         node.setAttribute("stroke", figure.style.color || "black");
         node.setAttribute("stroke-width", figure.style.stroke !== undefined ? figure.style.stroke : 1);
+        return node;
+    } else if (figure instanceof Polygon) {
+        const node = document.createElementNS(NAMESPACE, "path");
+        const [x, y] = figure.point;
+        let path = `M ${x} ${y}`;
+
+        figure.curves.forEach(curve => {
+            if (curve instanceof LineCurve) {
+                const [dx, dy] = curve.delta;
+                path += `l ${dx} ${dy}`;
+            } else if (curve instanceof ArcCurve) {
+                const r = curve.radius;
+                const angle = (curve.shift + curve.ratio) * 2 * Math.PI;
+                const dx = r * Math.cos(angle);
+                const dy = r * Math.sin(angle);
+                const flag1 = Math.abs(curve.ratio) <= 0.5 ? "0" : "1";
+                const flag2 = curve.ratio <= 0.0 ? "0" : "1";
+                path += ` a ${r} ${r} 0 ${flag1} ${flag2} ${dx} ${dy}`;
+            }
+        });
+
+        if (figure.close) {
+            path += `L ${x} ${y} Z`;
+        }
+        node.setAttribute("d", path);
+        node.setAttribute("fill", "blue");
         return node;
     } else if (figure instanceof Circle) {
         const node = document.createElementNS(NAMESPACE, "circle");
