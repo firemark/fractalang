@@ -61,10 +61,18 @@ export abstract class ICursor {
         this.orientation[1] = x * sin + y * cos;
     }
 
+    close() {}
+
+    protected extendBox([x, y]: number[], size = 0) {
+        this.box.min[0] = Math.min(this.box.min[0], x - size);
+        this.box.max[0] = Math.max(this.box.max[0], x + size);
+        this.box.min[1] = Math.min(this.box.min[1], y - size);
+        this.box.max[1] = Math.max(this.box.max[1], y + size);
+    }
+
     abstract drawLine(distance: number, stroke: number, color: number): void;
     abstract drawArcLine(ratio: number, size: number, stroke: number, color: number): void;
     abstract drawShape(shape: Shape, size: number, ops: OpsParams): void;
-    abstract close(): void;
 }
 
 export class Cursor extends ICursor {
@@ -108,7 +116,7 @@ export class Cursor extends ICursor {
             color: this.calcColor(color),
         };
         this.figures.push(new Line([old_x, old_y], [new_x, new_y], style));
-        this.computeBox(this.position);
+        this.extendBox(this.position);
     }
 
     drawArcLine(ratio: number, size: number, stroke: number, color: number) {
@@ -131,14 +139,14 @@ export class Cursor extends ICursor {
         this.rotate(ratio / 2);
         this.forward(size);
         this.rotate(ratio / 2);
-        this.computeBox(point, Math.abs(arcRadius));
+        this.extendBox(point, Math.abs(arcRadius));
     }
 
     drawShape(shape: Shape, size: number, ops: OpsParams) {
         const [x, y] = this.position;
         const [dx, dy] = this.orientation;
         const style = this.calcStyleParams(ops);
-        this.computeBox([x, y], Math.abs(size));
+        this.extendBox([x, y], Math.abs(size));
 
         switch(shape) {
             case Shape.Circle:
@@ -154,13 +162,6 @@ export class Cursor extends ICursor {
     }
 
     close() {}
-
-    private computeBox([x, y]: number[], size = 0) {
-        this.box.min[0] = Math.min(this.box.min[0], x - size);
-        this.box.max[0] = Math.max(this.box.max[0], x + size);
-        this.box.min[1] = Math.min(this.box.min[1], y - size);
-        this.box.max[1] = Math.max(this.box.max[1], y + size);
-    }
 
     private calcColor(color: number): string {
         const ca = this.firstColor;
@@ -206,6 +207,7 @@ export class CloseCursor extends ICursor {
         const [new_x, new_y] = this.position;
         const delta: [number, number] = [new_x - old_x, new_y - old_y];
         this.#polygon.curves.push(new LineCurve(delta));
+        this.extendBox(this.position);
     }
 
     drawArcLine(ratio: number, size: number, stroke: number, color: number) {
@@ -218,6 +220,8 @@ export class CloseCursor extends ICursor {
         this.rotate(ratio / 2);
         this.forward(size);
         this.rotate(ratio / 2);
+
+        this.extendBox(this.position, Math.abs(arcRadius));
     }
 
     drawShape(shape: Shape, size: number, ops: OpsParams) {
