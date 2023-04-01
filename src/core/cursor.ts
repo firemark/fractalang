@@ -70,9 +70,18 @@ export abstract class ICursor {
         this.box.max[1] = Math.max(this.box.max[1], y + size);
     }
 
+    protected calcStyleParams(ops: OpsParams): Style {
+        const color = this.calcColor(ops.color);
+        if (ops.isFilled) {
+            return { fill: color };
+        }
+        return { fill: "none", color: color, stroke: ops.stroke };
+    }
+
     abstract drawLine(distance: number, stroke: number, color: number): void;
     abstract drawArcLine(ratio: number, size: number, stroke: number, color: number): void;
     abstract drawShape(shape: Shape, size: number, ops: OpsParams): void;
+    abstract calcColor(color: number): string;
 }
 
 export class Cursor extends ICursor {
@@ -161,9 +170,7 @@ export class Cursor extends ICursor {
         }
     }
 
-    close() {}
-
-    private calcColor(color: number): string {
+    calcColor(color: number): string {
         const ca = this.firstColor;
         const cb = this.secondColor;
         const aRatio = Math.abs(color - 0.5) * 2;
@@ -173,21 +180,13 @@ export class Cursor extends ICursor {
         const b = Math.trunc(ca[2] * aRatio + cb[2] * bRatio);
         return `rgb(${r}, ${g}, ${b})`;
     }
-
-    private calcStyleParams(ops: OpsParams): Style {
-        const color = this.calcColor(ops.color);
-        if (ops.isFilled) {
-            return { fill: color };
-        }
-        return { fill: "none", color: color, stroke: ops.stroke };
-    }
 }
 
 export class CloseCursor extends ICursor {
     #cursor: ICursor;
     #polygon: Polygon;
 
-    constructor(cursor: ICursor) {
+    constructor(cursor: ICursor, ops: OpsParams) {
         super();
         this.#cursor = cursor;
         this.position = [...cursor.position];
@@ -198,7 +197,8 @@ export class CloseCursor extends ICursor {
             min: [...cursor.box.min],
             max: [...cursor.box.max],
         };
-        this.#polygon = new Polygon([...cursor.position], []);
+        const style = this.calcStyleParams(ops);
+        this.#polygon = new Polygon([...cursor.position], [], style);
     }
 
     drawLine(distance: number, stroke: number, color: number) {
@@ -232,6 +232,10 @@ export class CloseCursor extends ICursor {
 
     drawShape(shape: Shape, size: number, ops: OpsParams) {
         this.#cursor.drawShape(shape, size, ops);
+    }
+
+    calcColor(color: number): string {
+        return this.#cursor.calcColor(color);
     }
 
     close() {

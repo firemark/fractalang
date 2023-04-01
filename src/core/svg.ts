@@ -60,7 +60,7 @@ function toSvg(document, figure: Figure) {
             path += `L ${x} ${y} Z`;
         }
         node.setAttribute("d", path);
-        node.setAttribute("fill", "blue");
+        setBasicAttrs(figure.style, node);
         return node;
     } else if (figure instanceof Circle) {
         const node = document.createElementNS(NAMESPACE, "circle");

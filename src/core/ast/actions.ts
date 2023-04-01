@@ -54,9 +54,18 @@ export class Call extends NodeWithValue {
     }
 }
 
+function evaledToFigureOps(evaled: EvaluedValue): OpsParams {
+    return {
+        isFilled: evaled.isFilled,
+        color: evaled.color,
+        stroke: evaled.strokeThickness,
+    };
+}
+
 export class CloseCall extends Call {
     protected createCursor(context: Context): ICursor {
-        return new CloseCursor(context.cursor);
+        const evaled = this.eval(context);
+        return new CloseCursor(context.cursor, evaledToFigureOps(evaled));
     }
 }
 
@@ -85,19 +94,9 @@ export class DrawFigure extends NodeWithValue {
     exec(context: Context): ActionResult {
         const evaled = this.eval(context);
         const size = evaled.value;
-        const ops = this.evaledToFigureOps(evaled);
-        context.cursor.drawShape(this.#shape, size, ops);
+        context.cursor.drawShape(this.#shape, size, evaledToFigureOps(evaled));
         return new ContinueR();
     }
-
-    evaledToFigureOps(evaled: EvaluedValue): OpsParams {
-        return {
-            isFilled: evaled.isFilled,
-            color: evaled.color,
-            stroke: evaled.strokeThickness,
-        };
-    }
-
 }
 
 export class DrawArcLine extends NodeWithValue {

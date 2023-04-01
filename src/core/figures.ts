@@ -49,10 +49,12 @@ export class Polygon implements Figure {
     point: [number, number];
     curves: Curve[];
     close: boolean;
+    style: Style;
 
-    constructor(point: [number, number], curves: Curve[]) {
+    constructor(point: [number, number], curves: Curve[], style: Style = {}) {
         this.point = point;
         this.curves = curves;
+        this.style = style;
         this.close = true;
     }
 }
