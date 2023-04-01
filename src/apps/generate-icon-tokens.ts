@@ -47,9 +47,30 @@ const SUFFIX_TO_ICON = {
     ],
 };
 
+const STAVES = {
+    "F": [
+        new Line([30, 80], [30, 20], { stroke: 5 }),
+        new Line([30, 20], [60, 20], { stroke: 5 }),
+        new Line([30, 40], [60, 40], { stroke: 5 }),
+    ],
+    "G": [
+        new Line([30, 80], [30, 20], { stroke: 5 }),
+        new Line([30, 20], [60, 20], { stroke: 5 }),
+        new Line([30, 80], [60, 80], { stroke: 5 }),
+        new Line([60, 80], [60, 50], { stroke: 5 }),
+        new Line([40, 50], [60, 50], { stroke: 5 }),
+    ],
+    "H": [
+        new Line([30, 80], [30, 20], { stroke: 5 }),
+        new Line([60, 80], [60, 20], { stroke: 5 }),
+        new Line([30, 50], [60, 50], { stroke: 5 }),
+    ],
+}
+
 const BLACK = "#000000";
 const RED = "#DC143C";
 const SQRT_2_2 = Math.sqrt(2) / 2;
+const CIRCLE = new Circle([50, 50], 45, {fill: "none", color: RED, stroke: 5});
 
 function main() {
     const tokens: Tokens[] = [
@@ -106,23 +127,12 @@ function main() {
             new Line([80, 80], [50, 20], { stroke: 3 }),
             new Line([50, 20], [20, 80], { stroke: 3 }),
         ]],
-        ["CALL_F", [
-            new Line([30, 80], [30, 20], { stroke: 5 }),
-            new Line([30, 20], [60, 20], { stroke: 5 }),
-            new Line([30, 40], [60, 40], { stroke: 5 }),
-        ]],
-        ["CALL_G", [
-            new Line([30, 80], [30, 20], { stroke: 5 }),
-            new Line([30, 20], [60, 20], { stroke: 5 }),
-            new Line([30, 80], [60, 80], { stroke: 5 }),
-            new Line([60, 80], [60, 50], { stroke: 5 }),
-            new Line([40, 50], [60, 50], { stroke: 5 }),
-        ]],
-        ["CALL_H", [
-            new Line([30, 80], [30, 20], { stroke: 5 }),
-            new Line([60, 80], [60, 20], { stroke: 5 }),
-            new Line([30, 50], [60, 50], { stroke: 5 }),
-        ]],
+        ["CALL_F", STAVES.F],
+        ["CALL_G", STAVES.G],
+        ["CALL_H", STAVES.H],
+        ["CLOSE_CALL_F", [...STAVES.F, CIRCLE]],
+        ["CLOSE_CALL_G", [...STAVES.G, CIRCLE]],
+        ["CLOSE_CALL_H", [...STAVES.H, CIRCLE]],
         ["CALL_DIAMOND", [
             new Line([50, 20], [70, 50], { stroke: 3 }),
             new Line([50, 20], [30, 50], { stroke: 3 }),
