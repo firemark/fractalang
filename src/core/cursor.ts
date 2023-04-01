@@ -195,8 +195,8 @@ export class CloseCursor extends ICursor {
         this.angle = cursor.angle;
         this.distanceMultipler = cursor.distanceMultipler;
         this.box = {
-            min: [...cursor.position],
-            max: [...cursor.position],
+            min: [...cursor.box.min],
+            max: [...cursor.box.max],
         };
         this.#polygon = new Polygon([...cursor.position], []);
     }
@@ -217,11 +217,17 @@ export class CloseCursor extends ICursor {
 
         this.#polygon.curves.push(new ArcCurve(arcRadius, ratio, shift));
 
+        const [dx, dy] = this.orientation;
+        // rotate by 90°
+        const ndx = -dy;
+        const ndy = dx;
+        const [x, y] = this.position;
+        const point = [x + arcRadius * ndx, y + arcRadius * ndy];
+        this.extendBox(point, Math.abs(arcRadius));
+
         this.rotate(ratio / 2);
         this.forward(size);
         this.rotate(ratio / 2);
-
-        this.extendBox(this.position, Math.abs(arcRadius));
     }
 
     drawShape(shape: Shape, size: number, ops: OpsParams) {

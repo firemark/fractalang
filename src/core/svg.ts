@@ -43,12 +43,13 @@ function toSvg(document, figure: Figure) {
         figure.curves.forEach(curve => {
             if (curve instanceof LineCurve) {
                 const [dx, dy] = curve.delta;
-                path += `l ${dx} ${dy}`;
+                path += ` l ${dx} ${dy}`;
             } else if (curve instanceof ArcCurve) {
                 const r = curve.radius;
-                const angle = (curve.shift + curve.ratio) * 2 * Math.PI;
-                const dx = r * Math.cos(angle);
-                const dy = r * Math.sin(angle);
+                const startAngle = curve.shift * 2 * Math.PI;
+                const endAngle = (curve.shift + curve.ratio) * 2 * Math.PI;
+                const dx = r * (Math.cos(endAngle) - Math.cos(startAngle));
+                const dy = r * (Math.sin(endAngle) - Math.sin(startAngle));
                 const flag1 = Math.abs(curve.ratio) <= 0.5 ? "0" : "1";
                 const flag2 = curve.ratio <= 0.0 ? "0" : "1";
                 path += ` a ${r} ${r} 0 ${flag1} ${flag2} ${dx} ${dy}`;
