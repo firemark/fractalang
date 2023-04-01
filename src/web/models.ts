@@ -1,5 +1,6 @@
 export interface Stave {
     name: string,
+    suffix?: string,
     tokens: string[],
 };
 
@@ -14,3 +15,11 @@ export interface TokenCategory {
     tokens: string[];
 };
 
+export interface Project {
+    title: string,
+    staves: Stave[],
+    iterations: number,
+    style: Object,
+    created: Date,
+    updated: Date,
+}

@@ -57,7 +57,7 @@ function toSvg(document, figure: Figure) {
         });
 
         if (figure.close) {
-            path += `L ${x} ${y} Z`;
+            path += ` L ${x} ${y} Z`;
         }
         node.setAttribute("d", path);
         setBasicAttrs(figure.style, node);
