@@ -25,7 +25,7 @@ export class Database {
             const transaction = db.transaction(["projects"], "readwrite");
             const store = transaction.objectStore('projects');
             store.put(project);
-        }
+        };
     }
 
     remove(project: Project) {
@@ -34,7 +34,24 @@ export class Database {
         dbRequest.onsuccess = () => {
             const store = this.#getProjectsStore(dbRequest);
             store.delete(project.title);
-        }
+        };
+    }
+
+    list(callback: (title: string) => void) {
+        const dbRequest = this.#getRequest();
+
+        dbRequest.onerror = () => { alert("DB ERROR!"); };
+        dbRequest.onsuccess = () => {
+            const store = this.#getProjectsStore(dbRequest);
+            store.openKeyCursor().onsuccess = (event) => {
+                const cursor = (event.target as any).result;
+                if (!cursor) {
+                    return;
+                }
+                callback(cursor.key);
+                cursor.continue();
+            };
+        };
     }
     
     #getRequest(): IDBOpenDBRequest {

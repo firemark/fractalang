@@ -22,6 +22,8 @@ const controller = new MainController();
 //     }
 // );
 
+database.list((title) => alert(title));
+
 window.addEventListener('load', event => {
     const staves = [
         {name: "F", tokens: ["DRAW_TRIANGLE", "COUNT_3", "DRAW_LINE", "ARGUMENT", "ROTATE_LEFT", "ANGLE_30", "CLOSE_CALL_G", "FRACT_1_5", "ARGUMENT", "CALL_F", "ARGUMENT"]},
