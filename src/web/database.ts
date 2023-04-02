@@ -17,23 +17,37 @@ export class Database {
         };
     }
 
-    update(project: Project) {
+    get(title: string, callback: (project: Project) => void) {
+        const dbRequest = this.#getRequest();
+        dbRequest.onerror = () => { alert("DB ERROR!"); };
+        dbRequest.onsuccess = () => {
+            const store = this.#getProjectsStore(dbRequest);
+            const storeRequest = store.get(title);
+            storeRequest.onsuccess = () => {
+                callback(storeRequest.result);
+            };
+        };
+    }
+
+    update(project: Project, callback: (project: Project) => void) {
         const dbRequest = this.#getRequest();
         dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onsuccess = () => {
             const db = dbRequest.result; 
             const transaction = db.transaction(["projects"], "readwrite");
             const store = transaction.objectStore('projects');
-            store.put(project);
+            const storeRequest = store.put(project);
+            storeRequest.onsuccess = () => { callback(project); }
         };
     }
 
-    remove(project: Project) {
+    remove(title: string, callback: () => void) {
         const dbRequest = this.#getRequest();
         dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onsuccess = () => {
             const store = this.#getProjectsStore(dbRequest);
-            store.delete(project.title);
+            const storeRequest = store.delete(title);
+            storeRequest.onsuccess = () => { callback(); }
         };
     }
 

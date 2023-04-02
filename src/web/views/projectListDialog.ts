@@ -2,12 +2,19 @@ import { View } from "./view";
 import { Database } from "../database";
 import { Project } from "../models";
 
+interface Callbacks {
+    onLoad: (project: Project) => void
+    onRemove: (project: Project) => void
+}
+
 export class ProjectListDialogView extends View {
     #db: Database;
+    #callbacks: Callbacks;
 
-    constructor(dialogNode: HTMLElement, db: Database) {
+    constructor(dialogNode: HTMLElement, db: Database, callbacks: Callbacks) {
         super(dialogNode);
         this.#db = db;
+        this.#callbacks = callbacks;
     }
 
     render() {
@@ -42,18 +49,18 @@ export class ProjectListDialogView extends View {
             closeNode.value = 'CLOSE';
             closeNode.type = 'button';
             closeNode.onclick = () => {
-                this.onClose();
+                (this.node as HTMLDialogElement).close();
                 return false;
             }
             this.node.appendChild(closeNode);
         }
 
         this.node.classList.add("project-list-dialog");
-        this.node.addEventListener('close', this.onClose.bind(this));
+        this.node.addEventListener('close', this.#onClose.bind(this));
         (this.node as HTMLDialogElement).showModal();
     }
 
-    onClose() {
+    #onClose() {
         this.node.remove();
     }
 
@@ -80,6 +87,7 @@ export class ProjectListDialogView extends View {
 
     #renderRow(project: Project): HTMLTableRowElement {
         const rowNode = this.createElement({ name: 'tr' });
+        rowNode.dataset.title = project.title;
 
         {
             const titleRowNode = this.createElement({
@@ -112,12 +120,20 @@ export class ProjectListDialogView extends View {
             });
             loadNode.value = 'LOAD';
             loadNode.type = 'button';
+            loadNode.onclick = () => {
+                this.#db.get(project.title, project => this.#onLoad(project));
+                return false;
+            };
 
             const removeNode = this.createElement({
                 name: 'input',
             });
             removeNode.value = 'REMOVE';
             removeNode.type = 'button';
+            removeNode.onclick = () => {
+                this.#db.remove(project.title, () => this.#onRemove(project));
+                return false;
+            };
 
             actionRowNode.appendChild(loadNode);
             actionRowNode.appendChild(removeNode);
@@ -125,5 +141,19 @@ export class ProjectListDialogView extends View {
         }
 
         return rowNode;
+    }
+
+    #onLoad(project: Project) {
+        this.#callbacks.onLoad(project);
+        (this.node as HTMLDialogElement).close();
+    }
+
+    #onRemove(project: Project) {
+        const query = `.projects > tbody > tr[data-title="${project.title}"]`;
+        const node = this.node.querySelector(query);
+        if (node !== undefined) {
+            node.remove();
+        }
+        this.#callbacks.onRemove(project);
     }
 }

@@ -9,7 +9,7 @@ import { CodeBarView } from "@/web/views/codeBar";
 import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
 import { ProjectListDialogView } from "@/web/views/projectListDialog";
 
-import { Stave } from "@/web/models";
+import { Project, Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
 
 import { exec, setupExec } from "@/core/exec";
@@ -116,8 +116,15 @@ export class MainController extends Controller {
     private openProjectList() {
         const dialogNode = document.createElement('dialog');
         document.body.appendChild(dialogNode);
-        this.projectListDialogView = new ProjectListDialogView(dialogNode, this.database);
+        this.projectListDialogView = new ProjectListDialogView(dialogNode, this.database, {
+            onLoad: this.loadProject.bind(this),
+            onRemove: () => {},
+        });
         this.projectListDialogView.render();
+    }
+
+    private loadProject(project: Project) {
+        console.log("LOAD PROJECT", project.title);
     }
 
     private scrape(data): StackStep {
