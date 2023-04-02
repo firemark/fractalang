@@ -37,19 +37,27 @@ export class Database {
         };
     }
 
-    list(callback: (title: string) => void) {
+    list(callback: (project: Project) => void, limit = -1) {
+        let count = 0;
         const dbRequest = this.#getRequest();
 
         dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onsuccess = () => {
             const store = this.#getProjectsStore(dbRequest);
-            store.openKeyCursor().onsuccess = (event) => {
+            const index = store.index('updated');
+            index.openCursor().onsuccess = (event) => {
                 const cursor = (event.target as any).result;
                 if (!cursor) {
                     return;
                 }
-                callback(cursor.key);
-                cursor.continue();
+
+                callback(cursor.value);
+
+                if (count < limit) {
+                    cursor.continue();
+                } else {
+                    count += 1;
+                }
             };
         };
     }
