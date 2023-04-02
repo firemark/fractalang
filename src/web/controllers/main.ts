@@ -110,7 +110,14 @@ export class MainController extends Controller {
         }
         const stack = this.scrape();
 
-        exec(stack);
+        if (stack === null) {
+            return;
+        }
+        try {
+            exec(stack);
+        } catch (exception) {
+            console.error(exception);
+        }
 
         const { backgroundColor } = this.project.style;
         this.imageView.render(stack.cursor, backgroundColor);
@@ -139,6 +146,9 @@ export class MainController extends Controller {
             return;
         }
         const stack = this.scrape();
+        if (stack === null) {
+            return;
+        }
         this.codeBarView.setDebugMode();
         this.debug.init(stack);
     }
@@ -171,7 +181,7 @@ export class MainController extends Controller {
         this.scrapeAndRun();
     }
 
-    private scrape(): StackStep {
+    private scrape(): StackStep | null {
         const style = this.project.style;
         const cursorCfg = {
             firstColor: style.firstColor,
@@ -182,7 +192,12 @@ export class MainController extends Controller {
         const argument = 1.0;
         const maxIteration = this.project.iterations;
         const code = this.codeView.scrapeCode();
-        return setupExec(argument, maxIteration, code, cursor);
+        try {
+            return setupExec(argument, maxIteration, code, cursor);
+        } catch (exception) {
+            console.error(exception);
+            return null;
+        }
     }
 
     private onDebugState(previousState: State | null, state: State) {
