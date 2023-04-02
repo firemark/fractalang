@@ -10,7 +10,7 @@ import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
 import { ProjectListDialogView } from "@/web/views/projectListDialog";
 import { SaveDialogView } from "@/web/views/saveDialog";
 
-import { Project, ProjectStyle, Stave } from "@/web/models";
+import { Project, Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
 
 import { exec, setupExec } from "@/core/exec";
@@ -33,9 +33,10 @@ export class MainController extends Controller {
     private saveDialogView: SaveDialogView | null;
     private project: Project;
 
-    constructor() {
+    constructor(database: Database, project: Project) {
         super(document.querySelector("main"));
-        this.database = new Database();
+        this.database = database;
+        this.project = project;
         this.debug = new DebugController({
             renderCb: (cursor: Cursor) => this.imageView.render(cursor),
             onState: this.onDebugState.bind(this),
@@ -77,6 +78,7 @@ export class MainController extends Controller {
             onUpdate: (iterations, style) => {
                 this.project.iterations = iterations;
                 this.project.style = style;
+                this.saveTempProject();
                 this.scrapeAndRun();
             },
             onDebugStart: this.scrapeAndDebug.bind(this),
@@ -90,24 +92,11 @@ export class MainController extends Controller {
         this.chooseDialogView = null;
         this.projectListDialogView = null;
         this.saveDialogView = null;
-        this.project = {
-            title: "-",
-            created: new Date(),
-            updated: new Date(),
-            staves: [],
-            style: {
-                firstColor: "#000000",
-                secondColor: "#FF0000",
-                backgroundColor: "#FFFFFF",
-                strokeSize: 1.0,
-            },
-            iterations: 3,
-        }
     }
+    
 
-    render(staves: Stave[]) {
-        this.project.staves = staves;
-        this.codeView.render(staves);
+    render() {
+        this.codeView.render(this.project.staves);
         this.functionsBarView.render();
         this.actionsCategoryView.render();
         this.valuesCategoryView.render();
@@ -135,8 +124,14 @@ export class MainController extends Controller {
             }
             return {name, suffix, tokens: stave.tokens}
         });
+        this.saveTempProject();
         this.scrapeAndRun();
+    }
 
+    saveTempProject() {
+        const cloneProject = {...this.project};
+        cloneProject.title = "__temp__";
+        this.database.update(cloneProject, project => {}); 
     }
 
     scrapeAndDebug() {
@@ -169,6 +164,7 @@ export class MainController extends Controller {
 
     private loadProject(project: Project) {
         this.project = project;
+        this.saveTempProject();
         this.debug.exit();
         this.codeView.render(this.project.staves);
         this.codeBarView.render(this.project);

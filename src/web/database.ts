@@ -17,7 +17,7 @@ export class Database {
         };
     }
 
-    get(title: string, callback: (project: Project) => void) {
+    get(title: string, callback: (project: Project) => void, errCallback: (() => void) | null = null) {
         const dbRequest = this.#getRequest();
         dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onsuccess = () => {
@@ -26,6 +26,11 @@ export class Database {
             storeRequest.onsuccess = () => {
                 callback(storeRequest.result);
             };
+            if (errCallback !== null) {
+                storeRequest.onerror = () => { 
+                    errCallback();
+                };
+            }
         };
     }
 
@@ -59,18 +64,22 @@ export class Database {
         dbRequest.onsuccess = () => {
             const store = this.#getProjectsStore(dbRequest);
             const index = store.index('updated');
-            index.openCursor().onsuccess = (event) => {
+            index.openCursor(null, "prev").onsuccess = (event) => {
                 const cursor = (event.target as any).result;
                 if (!cursor) {
                     return;
                 }
 
+                if (cursor.value.title == "__temp__") {
+                    cursor.continue();
+                    return;
+                }
+
                 callback(cursor.value);
 
-                if (count < limit) {
-                    cursor.continue();
-                } else {
+                if (limit > 0 && count < limit) {
                     count += 1;
+                    cursor.continue();
                 }
             };
         };

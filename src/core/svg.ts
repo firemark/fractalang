@@ -8,8 +8,8 @@ export function createSvg(document, cursor: ICursor): HTMLElement {
     const svg = document.createElementNS(NAMESPACE, "svg");
     const [min_x, min_y] = cursor.box.min;
     const [max_x, max_y] = cursor.box.max;
-    const width = max_x - min_x;
-    const height = max_y - min_y;
+    const width = max_x - min_x + 20;
+    const height = max_y - min_y + 20;
     svg.setAttribute("viewBox", `${min_x} ${min_y} ${width} ${height}`);
     cursor.figures.forEach(figure => {
         const node = toSvg(document, figure);

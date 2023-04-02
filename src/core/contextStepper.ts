@@ -51,6 +51,9 @@ export class ForwardContextStepper extends ContextStepper {
         const { index, function: func, locals } = this.scope;
         const action = func.actions[index];
         const local = locals[index];
+        if (!action || !local) {
+            return new ContinueR();
+        }
         return action.exec(this.scope.context, local);
     }
 

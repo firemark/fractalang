@@ -30,3 +30,21 @@ export interface Project {
     created: Date,
     updated: Date,
 }
+
+export function createEmptyProject(): Project {
+    return {
+        title: "NEW" + (new Date()).toDateString,
+        created: new Date(),
+        updated: new Date(),
+        staves: [
+            {"name": "F", tokens: []},
+        ],
+        style: {
+            firstColor: "#000000",
+            secondColor: "#FF0000",
+            backgroundColor: "#FFFFFF",
+            strokeSize: 1.0,
+        },
+        iterations: 3,
+    }
+}
