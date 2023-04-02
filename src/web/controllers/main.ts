@@ -10,7 +10,7 @@ import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
 import { ProjectListDialogView } from "@/web/views/projectListDialog";
 import { SaveDialogView } from "@/web/views/saveDialog";
 
-import { Project, Stave } from "@/web/models";
+import { createEmptyProject, Project, Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
 
 import { exec, setupExec } from "@/core/exec";
@@ -84,6 +84,7 @@ export class MainController extends Controller {
             onDebugStart: this.scrapeAndDebug.bind(this),
             onLoad: this.openProjectList.bind(this),
             onSave: this.openSaveDialog.bind(this),
+            onNew: () => this.loadProject(createEmptyProject()),
             onDebugStep: () => this.debug.step(),
             onDebugPlay: () => this.debug.play(),
             onDebugStop: () => this.debug.stop(),
