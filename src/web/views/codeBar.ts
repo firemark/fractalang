@@ -5,6 +5,8 @@ type Cb = () => void;
 interface Callbacks {
     onUpdate: OnUpdateCb,
     onDebugStart: OnUpdateCb,
+    onLoad: Cb,
+    onSave: Cb,
     onDebugStep: Cb,
     onDebugPlay: Cb,
     onDebugStop: Cb,
@@ -106,6 +108,26 @@ export class CodeBarView extends View {
             };
             this.node.appendChild(showNode);
             this.node.appendChild(hideNode);
+        }
+        {
+            const node = this.createElement({ name: "input" });
+            node.value = "LOAD";
+            node.type = "button";
+            node.onclick = () => {
+                this.#callbacks.onLoad();
+                return false;
+            };
+            this.node.appendChild(node);
+        }
+        {
+            const node = this.createElement({ name: "input" });
+            node.value = "SAVE";
+            node.type = "button";
+            node.onclick = () => {
+                this.#callbacks.onSave();
+                return false;
+            };
+            this.node.appendChild(node);
         }
         {
             const btnNode = this.createElement({ name: "input" });

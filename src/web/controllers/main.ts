@@ -7,6 +7,7 @@ import { TokensCategoryView } from "@/web/views/categoryToken";
 import { ImageView } from "@/web/views/image";
 import { CodeBarView } from "@/web/views/codeBar";
 import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
+import { ProjectListDialogView } from "@/web/views/projectListDialog";
 
 import { Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
@@ -14,9 +15,11 @@ import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
 import { exec, setupExec } from "@/core/exec";
 import { Cursor } from "@/core/cursor";
 import { StackStep } from "@/core/step";
+import { Database } from "@/web/database";
 
 
 export class MainController extends Controller {
+    private database: Database;
     private imageView: ImageView;
     private codeView: CodeView;
     private functionsBarView: FunctionsBarView;
@@ -25,9 +28,11 @@ export class MainController extends Controller {
     private codeBarView: CodeBarView;
     private debug: DebugController;
     private chooseDialogView: ChooseTokenDialogView | null;
+    private projectListDialogView: ProjectListDialogView | null;
 
     constructor() {
         super(document.querySelector("main"));
+        this.database = new Database();
         this.debug = new DebugController({
             renderCb: (cursor: Cursor) => this.imageView.render(cursor),
             onState: this.onDebugState.bind(this),
@@ -68,12 +73,15 @@ export class MainController extends Controller {
         this.codeBarView = new CodeBarView(document.getElementById("code-bar"), {
             onUpdate: this.scrapeAndRun.bind(this),
             onDebugStart: this.scrapeAndDebug.bind(this),
+            onLoad: this.openProjectList.bind(this),
+            onSave: () => {},
             onDebugStep: () => this.debug.step(),
             onDebugPlay: () => this.debug.play(),
             onDebugStop: () => this.debug.stop(),
             onDebugExit: () => this.debug.exit(),
         });
         this.chooseDialogView = null;
+        this.projectListDialogView = null;
     }
 
     render(staves: Stave[]) {
@@ -103,6 +111,13 @@ export class MainController extends Controller {
         const stack = this.scrape(data);
         this.codeBarView.setDebugMode();
         this.debug.init(stack);
+    }
+
+    private openProjectList() {
+        const dialogNode = document.createElement('dialog');
+        document.body.appendChild(dialogNode);
+        this.projectListDialogView = new ProjectListDialogView(dialogNode, this.database);
+        this.projectListDialogView.render();
     }
 
     private scrape(data): StackStep {
