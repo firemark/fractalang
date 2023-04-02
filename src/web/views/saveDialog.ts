@@ -31,9 +31,10 @@ export class SaveDialogView extends View {
             titleNode.value = this.#project.title;
             titleNode.type = 'text';
             titleNode.onchange = event => {
-                const title = (event.target as HTMLInputElement).value.trim();
-                this.#project.title = title;
-                (event.target as HTMLInputElement).value = title;
+                const title = (event.target as HTMLInputElement).value;
+                const clearTitle = title.replace(/[_\s]+/, ' ').trim();
+                this.#project.title = clearTitle;
+                (event.target as HTMLInputElement).value = clearTitle;
                 return false;
             }
             this.node.appendChild(titleNode);

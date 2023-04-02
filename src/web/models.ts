@@ -15,11 +15,18 @@ export interface TokenCategory {
     tokens: string[];
 };
 
+export interface ProjectStyle {
+    firstColor: string,
+    secondColor: string,
+    backgroundColor: string,
+    strokeSize: number,
+}
+
 export interface Project {
     title: string,
     staves: Stave[],
     iterations: number,
-    style: Object,
+    style: ProjectStyle,
     created: Date,
     updated: Date,
 }

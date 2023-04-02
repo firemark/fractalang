@@ -10,7 +10,7 @@ import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
 import { ProjectListDialogView } from "@/web/views/projectListDialog";
 import { SaveDialogView } from "@/web/views/saveDialog";
 
-import { Project, Stave } from "@/web/models";
+import { Project, ProjectStyle, Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
 
 import { exec, setupExec } from "@/core/exec";
@@ -54,7 +54,7 @@ export class MainController extends Controller {
             node: this.node.querySelector(".fract-functions-list"),
             onSelect: (name: string, suffix: string) => {
                 this.showOrHideOrAddFunction(name, suffix);
-                this.scrapeAndRun(this.codeBarView.getData());
+                this.scrapeAndRun();
             }
         });
         const categoryCallbacks = {
@@ -74,7 +74,11 @@ export class MainController extends Controller {
             callbacks: categoryCallbacks,
         });
         this.codeBarView = new CodeBarView(document.getElementById("code-bar"), {
-            onUpdate: this.scrapeAndRun.bind(this),
+            onUpdate: (iterations, style) => {
+                this.project.iterations = iterations;
+                this.project.style = style;
+                this.scrapeAndRun();
+            },
             onDebugStart: this.scrapeAndDebug.bind(this),
             onLoad: this.openProjectList.bind(this),
             onSave: this.openSaveDialog.bind(this),
@@ -91,7 +95,12 @@ export class MainController extends Controller {
             created: new Date(),
             updated: new Date(),
             staves: [],
-            style: {},
+            style: {
+                firstColor: "#000000",
+                secondColor: "#FF0000",
+                backgroundColor: "#FFFFFF",
+                strokeSize: 1.0,
+            },
             iterations: 3,
         }
     }
@@ -102,26 +111,39 @@ export class MainController extends Controller {
         this.functionsBarView.render();
         this.actionsCategoryView.render();
         this.valuesCategoryView.render();
-        this.codeBarView.render();
-        this.scrapeAndRun(this.codeBarView.getData());
+        this.codeBarView.render(this.project);
+        this.scrapeAndRun();
     }
 
-    scrapeAndRun(data) {
+    scrapeAndRun() {
         if (this.debug.isDebug()) {
             return;
         }
-        const stack = this.scrape(data);
+        const stack = this.scrape();
 
         exec(stack);
 
-        this.imageView.render(stack.cursor, data["background-color"]);
+        const { backgroundColor } = this.project.style;
+        this.imageView.render(stack.cursor, backgroundColor);
     }
 
-    scrapeAndDebug(data) {
+    scrapeAndSave() {
+        this.project.staves = this.codeView.scrapeCode().map((stave: Stave) => {
+            const [name, suffix] = stave.name.split("::");
+            if (suffix === undefined) {
+                return {name, tokens: stave.tokens};
+            }
+            return {name, suffix, tokens: stave.tokens}
+        });
+        this.scrapeAndRun();
+
+    }
+
+    scrapeAndDebug() {
         if (this.debug.isDebug()) {
             return;
         }
-        const stack = this.scrape(data);
+        const stack = this.scrape();
         this.codeBarView.setDebugMode();
         this.debug.init(stack);
     }
@@ -149,18 +171,20 @@ export class MainController extends Controller {
         this.project = project;
         this.debug.exit();
         this.codeView.render(this.project.staves);
-        this.scrapeAndRun(this.codeBarView.getData());
+        this.codeBarView.render(this.project);
+        this.scrapeAndRun();
     }
 
-    private scrape(data): StackStep {
+    private scrape(): StackStep {
+        const style = this.project.style;
         const cursorCfg = {
-            firstColor: data["first-color"],
-            secondColor: data["second-color"],
-            strokeSize: data["stroke-size"],
+            firstColor: style.firstColor,
+            secondColor: style.secondColor,
+            strokeSize: style.strokeSize,
         };
         const cursor = new Cursor(cursorCfg);
         const argument = 1.0;
-        const maxIteration = data["iterations"];
+        const maxIteration = this.project.iterations;
         const code = this.codeView.scrapeCode();
         return setupExec(argument, maxIteration, code, cursor);
     }
@@ -200,7 +224,7 @@ export class MainController extends Controller {
             prevStaveView.removeToken(indexToMove + shift);
         }
 
-        this.scrapeAndRun(this.codeBarView.getData());
+        this.scrapeAndSave();
     }
 
     private onDropFromCategory(dragNode: HTMLElement, overNode: HTMLElement) {
@@ -213,7 +237,7 @@ export class MainController extends Controller {
             goalStaveView.pushTokenAfter(dragNode.dataset.token, goalIndex);
         }
 
-        this.scrapeAndRun(this.codeBarView.getData());
+        this.scrapeAndSave();
     }
 
     private onMove(dragNode: HTMLElement, oldOverNode: HTMLElement | null, newOverNode: HTMLElement | null) {
@@ -272,7 +296,7 @@ export class MainController extends Controller {
     private onSelectTokenFromDialog({token, name, suffix, index}) {
         const staveView = this.codeView.findStave(name, suffix);
         staveView.replaceToken(token, index);
-        this.scrapeAndRun(this.codeBarView.getData());
+        this.scrapeAndSave();
         this.chooseDialogView = null;
     }
 
@@ -283,5 +307,6 @@ export class MainController extends Controller {
         } else {
             this.codeView.addStave({ name, suffix, tokens: [] });
         }
+        this.scrapeAndSave();
     }
 }

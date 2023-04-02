@@ -1,10 +1,11 @@
+import { Project, ProjectStyle } from "../models";
 import { View } from "./view";
 
-type OnUpdateCb = (object: Object) => void;
+type OnUpdateCb = (iterations: number, style: ProjectStyle) => void;
 type Cb = () => void;
 interface Callbacks {
     onUpdate: OnUpdateCb,
-    onDebugStart: OnUpdateCb,
+    onDebugStart: Cb,
     onLoad: Cb,
     onSave: Cb,
     onDebugStep: Cb,
@@ -21,7 +22,8 @@ export class CodeBarView extends View {
         this.#callbacks = callbacks;
     }
 
-    render() {
+    render(project: Project) {
+        this.clear();
         {
             const labelNode = document.createElement("label");
             const node = document.createElement("input");
@@ -29,7 +31,7 @@ export class CodeBarView extends View {
             labelNode.innerHTML = "Iterations:&nbsp;";
             node.name = "iterations";
             node.type = "number";
-            node.value = "3";
+            node.value = project.iterations.toFixed();
             node.min = "1";
             node.max = "30";
             node.onchange = this.onChange.bind(this);
@@ -43,7 +45,7 @@ export class CodeBarView extends View {
             labelNode.innerHTML = "First color:&nbsp;";
             node.name = "first-color";
             node.type = "color";
-            node.value = '#000000';
+            node.value = project.style.firstColor || "#000000";
             node.onchange = this.onChange.bind(this);
             this.node.appendChild(labelNode);
             this.node.appendChild(node);
@@ -55,7 +57,7 @@ export class CodeBarView extends View {
             labelNode.innerHTML = "Second color:&nbsp;";
             node.name = "second-color";
             node.type = "color";
-            node.value = '#FF0000';
+            node.value = project.style.secondColor || "#FF0000";
             node.onchange = this.onChange.bind(this);
             this.node.appendChild(labelNode);
             this.node.appendChild(node);
@@ -67,7 +69,7 @@ export class CodeBarView extends View {
             labelNode.innerHTML = "Backround color:&nbsp;";
             node.name = "background-color";
             node.type = "color";
-            node.value = '#FFFFFF';
+            node.value = project.style.backgroundColor || "#FFFFFF";
             node.onchange = this.onChange.bind(this);
             this.node.appendChild(labelNode);
             this.node.appendChild(node);
@@ -79,7 +81,7 @@ export class CodeBarView extends View {
             labelNode.innerHTML = "Stroke size:&nbsp;";
             node.name = "stroke-size";
             node.type = "number";
-            node.value = "1";
+            node.value = (project.style.strokeSize || 1).toFixed(2);
             node.min = "0.5";
             node.max = "3";
             node.step = "0.25";
@@ -135,7 +137,7 @@ export class CodeBarView extends View {
             btnNode.value = "DEBUG";
             btnNode.type = "button";
             btnNode.onclick = () => {
-                this.#callbacks.onDebugStart(this.getData());
+                this.#callbacks.onDebugStart();
                 return false;
             };
             this.node.appendChild(btnNode);
@@ -186,19 +188,18 @@ export class CodeBarView extends View {
         }
     }
 
-    getData() {
-        const data = {};
-        this.node.querySelectorAll('input').forEach(node => {
-            switch (node.type) {
-                case "number":
-                    data[node.name] = parseFloat(node.value);
-                    break;
-                default:
-                    data[node.name] = node.value;
-                    break;
-            }
-        });
-        return data;
+    getStyle(): ProjectStyle {
+        const getValue = (name: string, defaultValue: string) => {
+            const node = this.node.querySelector(`input[name="${name}"]`) as HTMLInputElement;
+            return node === undefined ? defaultValue : node.value;
+        }
+
+        return {
+            firstColor: getValue("first-color", "black"),
+            secondColor: getValue("second-color", "red"),
+            backgroundColor: getValue("background-color", "white"),
+            strokeSize: parseFloat(getValue("stroke-size", "1")),
+        }
     }
 
     setDebugMode() {
@@ -218,7 +219,10 @@ export class CodeBarView extends View {
     }
 
     private onChange() {
-        this.#callbacks.onUpdate(this.getData());
+        const node = this.node.querySelector('input[name="iterations"]') as HTMLInputElement;
+        const iterations = node === undefined ? 3 : parseInt(node.value);
+
+        this.#callbacks.onUpdate(iterations, this.getStyle());
     }
 
     private findInput(name: string): HTMLInputElement {
