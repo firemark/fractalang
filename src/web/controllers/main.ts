@@ -8,6 +8,7 @@ import { ImageView } from "@/web/views/image";
 import { CodeBarView } from "@/web/views/codeBar";
 import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
 import { ProjectListDialogView } from "@/web/views/projectListDialog";
+import { SaveDialogView } from "@/web/views/saveDialog";
 
 import { Project, Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
@@ -29,6 +30,8 @@ export class MainController extends Controller {
     private debug: DebugController;
     private chooseDialogView: ChooseTokenDialogView | null;
     private projectListDialogView: ProjectListDialogView | null;
+    private saveDialogView: SaveDialogView | null;
+    private project: Project;
 
     constructor() {
         super(document.querySelector("main"));
@@ -74,7 +77,7 @@ export class MainController extends Controller {
             onUpdate: this.scrapeAndRun.bind(this),
             onDebugStart: this.scrapeAndDebug.bind(this),
             onLoad: this.openProjectList.bind(this),
-            onSave: () => {},
+            onSave: this.openSaveDialog.bind(this),
             onDebugStep: () => this.debug.step(),
             onDebugPlay: () => this.debug.play(),
             onDebugStop: () => this.debug.stop(),
@@ -82,9 +85,19 @@ export class MainController extends Controller {
         });
         this.chooseDialogView = null;
         this.projectListDialogView = null;
+        this.saveDialogView = null;
+        this.project = {
+            title: "-",
+            created: new Date(),
+            updated: new Date(),
+            staves: [],
+            style: {},
+            iterations: 3,
+        }
     }
 
     render(staves: Stave[]) {
+        this.project.staves = staves;
         this.codeView.render(staves);
         this.functionsBarView.render();
         this.actionsCategoryView.render();
@@ -123,8 +136,20 @@ export class MainController extends Controller {
         this.projectListDialogView.render();
     }
 
+    private openSaveDialog() {
+        const dialogNode = document.createElement('dialog');
+        document.body.appendChild(dialogNode);
+        this.saveDialogView = new SaveDialogView(dialogNode, this.database,  this.project, {
+            onSave: project => {},
+        });
+        this.saveDialogView.render();
+    }
+
     private loadProject(project: Project) {
-        console.log("LOAD PROJECT", project.title);
+        this.project = project;
+        this.debug.exit();
+        this.codeView.render(this.project.staves);
+        this.scrapeAndRun(this.codeBarView.getData());
     }
 
     private scrape(data): StackStep {
