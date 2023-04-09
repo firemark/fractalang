@@ -122,16 +122,12 @@ export class CodeBarView extends View {
             };
             this.node.appendChild(node);
         }
-        {
-            const node = this.createElement({ name: "input" });
-            node.value = "SAVE";
-            node.type = "button";
-            node.onclick = () => {
-                this.#callbacks.onSave();
-                return false;
-            };
-            this.node.appendChild(node);
-        }
+        this.node.appendChild(this.createElement({
+            name: "input",
+            type: "button",
+            text: "SAVE / SHARE",
+            onclick: () => this.#callbacks.onSave(),
+        }));
         {
             const node = this.createElement({ name: "input" });
             node.value = "NEW";

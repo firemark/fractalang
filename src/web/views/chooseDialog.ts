@@ -10,12 +10,12 @@ export interface OnSelectArgs {
     suffix: string;
 };
 
-export class ChooseTokenDialogView extends View {
+export class ChooseTokenDialogView extends View<HTMLDialogElement> {
     #args: OnSelectArgs;
     #iconUrl: string;
     #onSelect: (obj: any) => void;
 
-    constructor(dialogNode: HTMLElement, tokenNode: HTMLElement, onSelect: (obj: any) => void, iconUrl = DEFAULT_ICON_URL) {
+    constructor(dialogNode: HTMLDialogElement, tokenNode: HTMLElement, onSelect: (obj: any) => void, iconUrl = DEFAULT_ICON_URL) {
         super(dialogNode);
         this.#args = {
             token: tokenNode.dataset.token,
@@ -82,12 +82,12 @@ export class ChooseTokenDialogView extends View {
             this.node.appendChild(categoryNode);
         });
 
-        (this.node as HTMLDialogElement).showModal();
+        this.node.showModal();
     }
 
     onClick(token: string, event: MouseEvent) {
         this.#onSelect({...this.#args, token});
-        (this.node as HTMLDialogElement).close();
+        this.node.close();
     }
 
     onClose() {

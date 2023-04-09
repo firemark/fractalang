@@ -16,6 +16,7 @@
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.5.1",
     "html-webpack-plugin": "^5.5.0",
+    "qrcode": "^1.5.1",
     "sass": "^1.48.0",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
