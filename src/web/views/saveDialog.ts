@@ -58,6 +58,7 @@ export class SaveDialogView extends View<HTMLDialogElement> {
                 const title = titleNode.value;
                 const clearTitle = title.replace(/[_\s]+/, ' ').trim();
                 this.#project.title = clearTitle;
+                this.#project.id = clearTitle;
                 titleNode.value = clearTitle;
                 return false;
             }

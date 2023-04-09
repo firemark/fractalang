@@ -132,7 +132,7 @@ export class MainController extends Controller {
 
     saveTempProject() {
         const cloneProject = {...this.project};
-        cloneProject.title = "__temp__";
+        cloneProject.id = "__temp__";
         this.database.update(cloneProject, project => {}); 
     }
 

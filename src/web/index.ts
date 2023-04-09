@@ -21,7 +21,10 @@ window.addEventListener('load', event => {
         const backgroundColor = params.get("b");
         const strokeSize = params.get("s");
 
-        if (title !== null) project.title = title;
+        if (title !== null) {
+            project.id = title;
+            project.title = title;
+        }
         if (iterations !== null) project.iterations = Number.parseInt(iterations);
         if (firstColor !== null) project.style.firstColor = firstColor;
         if (secondColor !== null) project.style.secondColor = secondColor;

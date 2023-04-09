@@ -137,7 +137,6 @@ export class ReverseContextStepper extends ContextStepper {
 
     protected isIndexInRange(): boolean {
         const { index, function: func } = this.scope;
-        console.log(index, this.#endIndex);
         return index >= this.#endIndex && index < func.size;
     }
 }

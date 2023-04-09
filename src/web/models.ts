@@ -20,6 +20,7 @@ export interface ProjectStyle {
 }
 
 export interface Project {
+    id: string,
     title: string,
     staves: Stave[],
     iterations: number,
@@ -29,8 +30,10 @@ export interface Project {
 }
 
 export function createEmptyProject(): Project {
+    const title = "NEW" + (new Date()).toDateString;
     return {
-        title: "NEW" + (new Date()).toDateString,
+        id: title,
+        title: title,
         created: new Date(),
         updated: new Date(),
         staves: [

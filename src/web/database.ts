@@ -8,7 +8,8 @@ export class Database {
         dbRequest.onupgradeneeded = event => {
             const db = (event.target as any).result;
 
-            const store = db.createObjectStore('projects', { keyPath: 'title' });
+            const store = db.createObjectStore('projects', { keyPath: 'id' });
+            store.createIndex('title', 'title');
             store.createIndex('iterations', 'iterations');
             store.createIndex('staves', 'staves');
             store.createIndex('style', 'style');
@@ -70,7 +71,7 @@ export class Database {
                     return;
                 }
 
-                if (cursor.value.title == "__temp__") {
+                if (cursor.value.id == "__temp__") {
                     cursor.continue();
                     return;
                 }
