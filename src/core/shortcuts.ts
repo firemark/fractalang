@@ -8,7 +8,7 @@ export function encodeStaves(staves: Stave[]): [string, string][] {
 export function encodeStaveName(stave: Stave): string {
     const name = STAVE_TO_SHORTCUT[stave.name] || "";
     const suffix = SUFFIX_TO_SHORTCUT[stave.suffix] || "";
-    return "$" + name + suffix;
+    return `.${name}${suffix}`;
 }
 
 export function encodeTokens(tokens: string[]): string {
@@ -17,18 +17,23 @@ export function encodeTokens(tokens: string[]): string {
         .join("");
 }
 
-export function decodeStaves(code: [string, string][]): Stave[] {
-    type Type = [ReturnType<typeof decodeStaveName>, string];
-    return code
-        .map(([name, tokens]) => [decodeStaveName(name), tokens] as Type)
-        .filter(([name]) => name !== null)
-        .map(([[name, suffix], tokens]) => {
-            let stave: Stave = {name, tokens: decodeTokens(tokens)};
-            if (suffix !== null) {
-                stave.suffix  = suffix;
-            }
-            return stave;
-        })
+export function decodeStaves(code: IterableIterator<[string, string]>): Stave[] {
+    const staves: Stave[] = [];
+
+    for(const [codedName, codedTokens] of code) {
+        const realName = decodeStaveName(codedName);
+        if (realName === null) {
+            continue;
+        }
+        const [name, suffix] = realName;
+        let stave: Stave = {name, tokens: decodeTokens(codedTokens)};
+        if (suffix !== null) {
+            stave.suffix  = suffix;
+        }
+        staves.push(stave);
+    }
+
+    return staves;
 }
 
 export function decodeStaveName(code: string): [string, string | null] | null {
@@ -36,7 +41,7 @@ export function decodeStaveName(code: string): [string, string | null] | null {
         return null;
     }
 
-    if (code[0] !== "$") {
+    if (code[0] !== ".") {
         return null;
     }
 
