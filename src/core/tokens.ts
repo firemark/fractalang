@@ -1,6 +1,7 @@
 import { ValueNode, ActionNode } from "@/core/ast/base";
 import { Multipler, Angle, Argument, DynamicArgument } from "@/core/ast/values";
 import { Shape } from "@/core/cursor";
+import { TokensMap } from "@/core/mappings";
 import * as actions from "@/core/ast/actions";
 import * as colors from "@/core/ast/colors";
 import * as strokes from "@/core/ast/strokes";
@@ -29,7 +30,7 @@ function createAction(factory: ActionCb) {
     return new Token({ isAction: true, isDynamic: true, factory });
 }
 
-export const tokens = {
+export const TOKENS: TokensMap<Token> = {
     // *** Values ***
     // Counts
     COUNT_1: createValue(() => new Multipler(1)),
@@ -54,7 +55,6 @@ export const tokens = {
     FRACT_3_5: createValue(() => new Multipler(3 / 5)),
     FRACT_4_5: createValue(() => new Multipler(4 / 5)),
     // Angles
-    //ANGLE_360: createValue(() => new Angle(360)),
     ANGLE_270: createValue(() => new Angle(270)),
     ANGLE_180: createValue(() => new Angle(180)),
     ANGLE_90: createValue(() => new Angle(90)),

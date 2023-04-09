@@ -125,13 +125,7 @@ export class MainController extends Controller {
     }
 
     scrapeAndSave() {
-        this.project.staves = this.codeView.scrapeCode().map((stave: Stave) => {
-            const [name, suffix] = stave.name.split("::");
-            if (suffix === undefined) {
-                return {name, tokens: stave.tokens};
-            }
-            return {name, suffix, tokens: stave.tokens}
-        });
+        this.project.staves = this.codeView.scrapeCode();
         this.saveTempProject();
         this.scrapeAndRun();
     }
@@ -193,6 +187,7 @@ export class MainController extends Controller {
         const argument = 1.0;
         const maxIteration = this.project.iterations;
         const code = this.codeView.scrapeCode();
+
         try {
             return setupExec(argument, maxIteration, code, cursor);
         } catch (exception) {

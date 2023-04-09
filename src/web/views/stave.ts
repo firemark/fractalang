@@ -88,8 +88,7 @@ export class StaveView extends View {
     scrape(): Stave {
         const tokens = this.tokenView.scrapeTokens();
         const {name, suffix} = this.node.dataset;
-        const realname = suffix ? `${name}::${suffix}` : name;
-        return {name: realname, tokens};
+        return {name, suffix, tokens};
     }
 
     addFlagOnActionToken(flag: string, actionIndex: number) {

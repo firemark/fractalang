@@ -1,15 +1,13 @@
 import { Cursor } from "@/core/cursor";
-import { DYNAMIC_ARGS, parseLineFunc, parseLineValue, parseRawTokens } from "@/core/parser";
+import { parseLineFunc, parseLineValue, parseRawTokens } from "@/core/parser";
+import { DynamicArgsKey, DYNAMIC_ARGS } from "@/core/mappings";
 import { EvaluedValue } from "@/core/context";
 import { FunctionsBag } from "./functionsBag";
 import { StackStep } from "./step";
 import { Context } from "./context";
+import { Stave } from "./stave";
 import { ValueNode } from "./ast/base";
-
-export interface Func {
-    name: string;
-    tokens: string[];
-}
+import { Function } from "./ast/function";
 
 const MAX_STEPS = 100000;
 
@@ -22,7 +20,7 @@ export function exec(stack: StackStep) {
     throw "Maximum steps reached";
 }
 
-export function setupExec(valueArgument: number, maxIteration: number, functions: Func[], cursor: Cursor): StackStep {
+export function setupExec(valueArgument: number, maxIteration: number, staves: Stave[], cursor: Cursor): StackStep {
     const argument: EvaluedValue = {
         value: valueArgument,
         strokeStyle: "solid",
@@ -30,30 +28,36 @@ export function setupExec(valueArgument: number, maxIteration: number, functions
         color: 0.0,
         isFilled: true,
     };
-    const bag = new FunctionsBag(maxIteration, initFuncBag(functions));
-    const valueFuncBag = initValueBag(functions);
+    const bag = new FunctionsBag(maxIteration, initFuncBag(staves));
+    const valueFuncBag = initValueBag(staves);
     const context = new Context({ argument, cursor, valueFuncBag });
     return new StackStep(context, bag);
 }
 
-function initFuncBag(functions: Func[]) {
-    const bag = {};
-    functions
-        .filter(({ name }) => !DYNAMIC_ARGS.includes(name))
-        .forEach(({ name, tokens: rawTokens }) => {
+function initFuncBag(staves: Stave[]): Record<string, Function> {
+    const bag: Record<string, Function> = {};
+    staves 
+        .filter(({ name }) => !DYNAMIC_ARGS.includes(name as DynamicArgsKey))
+        .forEach(({ name, suffix = null, tokens: rawTokens }) => {
+            const realName = toRealname(name, suffix);
             const tokens = parseRawTokens(rawTokens);
-            bag[name] = parseLineFunc(name, tokens);
+            bag[realName] = parseLineFunc(name, tokens);
         });
     return bag;
 }
 
-function initValueBag(functions: Func[]): { [name: string]: ValueNode[] } {
-    const bag = {};
-    functions
-        .filter(({ name }) => DYNAMIC_ARGS.includes(name))
-        .forEach(({ name, tokens: rawTokens }) => {
+function initValueBag(staves: Stave[]): Record<string, ValueNode[]> {
+    const bag: Record<string, ValueNode[]> = {};
+    staves 
+        .filter(({ name }) => DYNAMIC_ARGS.includes(name as DynamicArgsKey))
+        .forEach(({ name, suffix = null, tokens: rawTokens }) => {
+            const realName = toRealname(name, suffix);
             const tokens = parseRawTokens(rawTokens);
-            bag[name] = parseLineValue(tokens);
+            bag[realName] = parseLineValue(tokens);
         });
     return bag;
+}
+
+function toRealname(name: string, suffix: string | null) {
+    return (suffix === null || suffix.length == 0) ? name : `${name}::${suffix}`;
 }

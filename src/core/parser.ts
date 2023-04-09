@@ -1,14 +1,10 @@
-import { Token, tokens, ActionCb, ValueCb } from "@/core/tokens";
+import { Token, TOKENS, ActionCb, ValueCb } from "@/core/tokens";
 import { ActionNode, ValueNode } from "@/core/ast/base";
 import { Function } from "@/core/ast/function";
 
-export const DYNAMIC_ARGS = ["DIAMOND", "INV_TRIANGLE"];
-export const PROCEDURES = ["F", "G", "H"];
-export const SUFFIXES = ["END", "EVEN", "ODD", "GE3", "GE5", "GE7"];
-
 export function parseRawTokens(rawTokens: string[]): Token[] {
     return rawTokens.map(raw => {
-        const token = tokens[raw];
+        const token = TOKENS[raw];
         if (!token) {
             throw `Parsing error: ${raw} is not undefined as token.`;
         }

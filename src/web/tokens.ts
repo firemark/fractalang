@@ -1,3 +1,4 @@
+import { TokensKey } from "@/core/mappings";
 import { TokenInfo } from "./models";
 
 export const TOKENS: TokenInfo[] = [

@@ -1,8 +1,5 @@
-export interface Stave {
-    name: string,
-    suffix?: string,
-    tokens: string[],
-};
+import { Stave } from "@/core/stave";
+export { Stave } from "@/core/stave";
 
 export interface TokenInfo {
     name: string;

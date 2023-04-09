@@ -1,8 +1,6 @@
 import { View } from './view';
-import { TokensStaveView } from './staveToken';
 import { DEFAULT_ICON_URL } from '@/web/consts';
-
-import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from '@/core/parser';
+import { STAVES, SUFFIXES } from '@/core/mappings';
 
 
 export class FunctionsBarView extends View {
@@ -16,9 +14,9 @@ export class FunctionsBarView extends View {
     }
 
     render() {
-        PROCEDURES.concat(DYNAMIC_ARGS).forEach(name => {
+        STAVES.forEach(name => {
             this.node.appendChild(this.createBarOfFunctionsNode(name));
-        });
+        }) 
     }
 
     private createBarOfFunctionsNode(name: string) {

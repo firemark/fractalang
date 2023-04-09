@@ -1,7 +1,7 @@
 import { createSvg } from "@/core/svg";
 import { Cursor } from "@/core/cursor";
 import { Figure, Line, Rectangle, Triangle, Circle, Arc } from "@/core/figures";
-import { PROCEDURES, DYNAMIC_ARGS, SUFFIXES } from "@/core/parser";
+import { STAVES, SUFFIXES } from "@/core/mappings";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 import { writeFile, mkdir } from "fs";
 
@@ -47,7 +47,7 @@ const SUFFIX_TO_ICON = {
     ],
 };
 
-const STAVES = {
+const STAVES_TO_ICON = {
     "F": [
         new Line([30, 80], [30, 20], { stroke: 5 }),
         new Line([30, 20], [60, 20], { stroke: 5 }),
@@ -127,12 +127,12 @@ function main() {
             new Line([80, 80], [50, 20], { stroke: 3 }),
             new Line([50, 20], [20, 80], { stroke: 3 }),
         ]],
-        ["CALL_F", STAVES.F],
-        ["CALL_G", STAVES.G],
-        ["CALL_H", STAVES.H],
-        ["CLOSE_CALL_F", [...STAVES.F, CIRCLE]],
-        ["CLOSE_CALL_G", [...STAVES.G, CIRCLE]],
-        ["CLOSE_CALL_H", [...STAVES.H, CIRCLE]],
+        ["CALL_F", STAVES_TO_ICON.F],
+        ["CALL_G", STAVES_TO_ICON.G],
+        ["CALL_H", STAVES_TO_ICON.H],
+        ["CLOSE_CALL_F", [...STAVES_TO_ICON.F, CIRCLE]],
+        ["CLOSE_CALL_G", [...STAVES_TO_ICON.G, CIRCLE]],
+        ["CLOSE_CALL_H", [...STAVES_TO_ICON.H, CIRCLE]],
         ["CALL_DIAMOND", [
             new Line([50, 20], [70, 50], { stroke: 3 }),
             new Line([50, 20], [30, 50], { stroke: 3 }),
@@ -315,7 +315,7 @@ function main() {
         ["REPLAY_4", generateReplay(4, 6) ],
     ];
 
-    PROCEDURES.concat(DYNAMIC_ARGS).forEach(name => {
+    STAVES.forEach(name => {
         const [iconName, figures] = tokens.find(([n, f]) => n === `CALL_${name}`);
         SUFFIXES.forEach(suffix => {
             const realName = `${iconName}_${suffix}`;
