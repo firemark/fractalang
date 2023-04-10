@@ -97,7 +97,7 @@ export class ForwardContextStepper extends ContextStepper {
 export class ReverseContextStepper extends ContextStepper {
     #endIndex: number;
 
-    constructor(scope: Scope, endIndex: number) {
+    constructor(scope: Scope, endIndex: number = 0) {
         super(scope);
         this.#endIndex = endIndex;
     }
@@ -122,7 +122,7 @@ export class ReverseContextStepper extends ContextStepper {
                     index: func.size - 1,
                     function: func,
                     locals: createLocals(func),
-                }, func.size));
+                }));
             }
             this.scope.index -= 1;
         } else if (result instanceof ReverseR) {
