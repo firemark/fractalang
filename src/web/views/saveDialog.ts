@@ -1,8 +1,7 @@
 import { View } from "./view";
-import { Database } from "../database";
-import { Project } from "../models";
-
-import { encodeStaves } from "@/core/shortcuts"
+import { Database } from "@/web/database";
+import { Project } from "@/web/models";
+import { encodeProjectToUrlParams } from "@/web/urlParams";
 
 import { toCanvas } from "qrcode";
 
@@ -80,8 +79,7 @@ export class SaveDialogView extends View<HTMLDialogElement> {
     }
 
     #renderShareSection(): HTMLDivElement {
-        const path = `${location.protocol}//${location.host}${location.pathname}`;
-        const shareLink = `${path}?${this.#getURLParams().toString()}`;
+        const shareLink = this.#createShareLink();
         const node = this.createElement({ name: 'div' });
 
         node.appendChild(
@@ -153,22 +151,9 @@ export class SaveDialogView extends View<HTMLDialogElement> {
         this.node.close();
     }
 
-    #getURLParams(): URLSearchParams {
-        const params = new URLSearchParams();
-        encodeStaves(this.#project.staves)
-            .forEach(([name, tokens]) => {
-                params.append(name, tokens);
-            });
-
-        params.append("z", "z");
-        params.append("t", this.#project.title);
-        params.append("i", this.#project.iterations.toFixed());
-        params.append("c1", this.#project.style.firstColor);
-        params.append("c2", this.#project.style.secondColor);
-        params.append("b", this.#project.style.backgroundColor);
-        params.append("s", this.#project.style.strokeSize.toFixed(2));
-
-        return params;
+    #createShareLink(): string {
+        const path = `${location.protocol}//${location.host}${location.pathname}`;
+        const params = encodeProjectToUrlParams(this.#project);
+        return `${path}?${params.toString()}`;
     }
-
 }

@@ -30,7 +30,8 @@ export interface Project {
 }
 
 export function createEmptyProject(): Project {
-    const title = "NEW" + (new Date()).toDateString;
+    const date = (new Date()).toDateString();
+    const title = `NEW ${date}`;
     return {
         id: title,
         title: title,
