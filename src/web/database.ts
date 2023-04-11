@@ -1,3 +1,4 @@
+import { initDatabase } from "./databaseInit";
 import { Project } from "./models";
 
 
@@ -15,6 +16,8 @@ export class Database {
             store.createIndex('style', 'style');
             store.createIndex('created', 'created');
             store.createIndex('updated', 'updated');
+
+            initDatabase((project: Project) => this.update(project, () => {}));
         };
     }
 
