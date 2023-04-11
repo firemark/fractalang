@@ -1,4 +1,4 @@
-import { Figure,  Line, Rectangle, Triangle, Circle, Arc, Style } from "@/core/figures";
+import { Figure, Line, Rectangle, Triangle, Circle, Arc, Style } from "@/core/figures";
 import { Polygon, LineCurve, ArcCurve } from "@/core/figures";
 
 export interface Box {
@@ -61,7 +61,7 @@ export abstract class ICursor {
         this.orientation[1] = x * sin + y * cos;
     }
 
-    close() {}
+    close() { }
 
     protected extendBox([x, y]: number[], size = 0) {
         this.box.min[0] = Math.min(this.box.min[0], x - size);
@@ -110,9 +110,9 @@ export class Cursor extends ICursor {
     }
 
     private hexToColor(hex: string): [number, number, number] {
-        const r = parseInt(hex.substr(1, 2), 16);
-        const g = parseInt(hex.substr(3, 2), 16);
-        const b = parseInt(hex.substr(5, 2), 16);
+        const r = parseInt(hex.substring(1, 1 + 2), 16);
+        const g = parseInt(hex.substring(3, 3 + 2), 16);
+        const b = parseInt(hex.substring(5, 5 + 2), 16);
         return [r, g, b];
     }
 
@@ -157,16 +157,16 @@ export class Cursor extends ICursor {
         const style = this.calcStyleParams(ops);
         this.extendBox([x, y], Math.abs(size));
 
-        switch(shape) {
+        switch (shape) {
             case Shape.Circle:
                 this.figures.push(new Circle([x, y], size, style));
-            break;
+                break;
             case Shape.Square:
                 this.figures.push(new Rectangle([x, y], [dx, dy], size, style));
-            break;
+                break;
             case Shape.Triangle:
                 this.figures.push(new Triangle([x, y], [dx, dy], size, style));
-            break;
+                break;
         }
     }
 
@@ -193,10 +193,7 @@ export class CloseCursor extends ICursor {
         this.orientation = [...cursor.orientation];
         this.angle = cursor.angle;
         this.distanceMultipler = cursor.distanceMultipler;
-        this.box = {
-            min: [...cursor.box.min],
-            max: [...cursor.box.max],
-        };
+        this.box = this.#cursor.box;
         const style = this.calcStyleParams(ops);
         this.#polygon = new Polygon([...cursor.position], [], style);
     }
@@ -245,10 +242,5 @@ export class CloseCursor extends ICursor {
         }
         this.figures.push(this.#polygon);
         this.#cursor.figures = this.#cursor.figures.concat(this.figures);
-        const box = this.#cursor.box;
-        box.max[0] = Math.max(box.max[0], this.box.max[0]);
-        box.max[1] = Math.max(box.max[1], this.box.max[1]);
-        box.min[0] = Math.min(box.min[0], this.box.min[0]);
-        box.min[1] = Math.min(box.min[1], this.box.min[1]);
     }
 } 
