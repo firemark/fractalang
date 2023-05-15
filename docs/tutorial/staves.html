@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Invoking staves and recursion &#8212; Fractalang 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/tut.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fractals" href="fractals.html" />
+    <link rel="prev" title="Cursor manipulations" href="cursor.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="invoking-staves-and-recursion">
+<h1>Invoking staves and recursion<a class="headerlink" href="#invoking-staves-and-recursion" title="Permalink to this headline">¶</a></h1>
+<p>The drawing lines are pretty boring.
+For more advanced fractals we should use
+a recursion and an invoking other staves.</p>
+<p>In the previous examples, we used a single stave <img alt="CALL_F" class="fract-token token-inline" src="../_images/CALL_F.svg" />. But we can use more staves.
+For example, we can put tokens into the <em>helper stave</em> <img alt="CALL_G" class="fract-token token-inline" src="../_images/CALL_G.svg" /> as part of the fractal
+and <em>invoke</em> the <em>helper stave</em> <img alt="CALL_G" class="fract-token token-inline" src="../_images/CALL_G.svg" /> in the main stave <img alt="CALL_F" class="fract-token token-inline" src="../_images/CALL_F.svg" />.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each invoked stave at the beginning increases an iteration counter and at the end decreases it.
+Remember about it when you invoke a <em>helper stave</em> with a small iterations limit.</p>
+</div>
+<div id='animation-two-staves-with-a-recursion.'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'G'],
+  iterations: 2,
+  start: 1,
+  tokens: ['G@DRAW_LINE, G@COUNT_2      # Let\'s start with a stave on the line "G".', 'G@DRAW_TRIANGLE, G@COUNT_5  # Draw a triangle.', 'G@DRAW_ARCLINE_R_1_4        # Draw an arc. I think, the stave "G" is done.', 'F@CALL_G, F@ARGUMENT        # On the stave "F" we can invoke the stave "G". Don\'t worry about the "Argument" (Triangle) token. We will explain this later.', 'F@MOVE_FORWARD, F@COUNT_2   # Add a simple forwarding.', 'F@CALL_F, F@ARGUMENT        # Repeat itself.', 'G@DRAW_SQUARE, G@COUNT_5, G@COUNT_5  # We can still modify the stave "G". Next steps increment the iterations.', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-two-staves-with-a-recursion.',
+  title: 'Two Staves with a recursion.',
+});
+</script><section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Permalink to this headline">¶</a></h2>
+<p>At last, we can talk about the token-value <em>Argument</em> <img alt="ARGUMENT" class="fract-token token-inline" src="../_images/ARGUMENT.svg" />.
+Each invoked stave has an <em>argument</em>. It’s a dynamic value which setups on the invoking token in the previous stave.
+It’s very similar to variables in functions - if the stave <img alt="CALL_G" class="fract-token token-inline" src="../_images/CALL_G.svg" /> is invoked with
+<img alt="COUNT_2" class="fract-token token-inline" src="../_images/COUNT_2.svg" />, then <img alt="DRAW_LINE" class="fract-token token-inline" src="../_images/DRAW_LINE.svg" /> <img alt="ARGUMENT" class="fract-token token-inline" src="../_images/ARGUMENT.svg" /> <img alt="COUNT_3" class="fract-token token-inline" src="../_images/COUNT_3.svg" />
+draws a line with a width of <cite>5</cite> units.</p>
+<p>The first iteration used the stave <img alt="CALL_F" class="fract-token token-inline" src="../_images/CALL_F.svg" /> with the default argument <cite>1.0</cite></p>
+<p>See an example:</p>
+<div id='animation-argument'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 3,
+  start: 1,
+  tokens: ['F@DRAW_LINE, F@ARGUMENT     # Draw a line with an argument. The argument value is determined by a value of invoking stave.', 'F@DRAW_TRIANGLE, F@COUNT_3  # Draw a triangle.', 'F@ROTATE_LEFT, F@ANGLE_90   # Rotate the cursor.', 'F@CALL_F, F@ARGUMENT        # Repeat itself. We should get a square when we put a value as an "argument" token.', "F@FRACT_3_4                 # And now try to reduce the value of an invoking stave. Each the next line it's smaller than the previous line. It's a nice spiral! The next steps increment the iterations.", '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-argument',
+  title: 'Argument',
+});
+</script><p>Arguments can be used for any token-action, like in the rotating:</p>
+<div id='animation-argument-in-the-rotating'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 3,
+  start: 1,
+  tokens: ['F@DRAW_LINE                            # Draw a line.', 'F@DRAW_TRIANGLE, F@COUNT_3             # Draw a triangle.', 'F@ROTATE_LEFT, F@ANGLE_45, F@ARGUMENT  # Rotate the cursor with an argument.', 'F@CALL_F, F@ARGUMENT                   # Repeat itself.', 'F@COUNT_3, F@FRACT_1_2, F@FRACT_3_4    # Increase an argument.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-argument-in-the-rotating',
+  title: 'Argument in the rotating',
+});
+</script><p>Arguments can be used for invoking other staves:</p>
+<div id='animation-argument-in-other-staves'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'G'],
+  iterations: 3,
+  start: 1,
+  tokens: ['G@DRAW_CIRCLE, G@ARGUMENT, G@ARGUMENT, G@MOVE_FORWARD, G@FRACT_1_5, G@ARGUMENT  # Draw a circle and move forward.', 'F@CALL_G, F@COUNT_2     # The first invoking of the stave "G"', 'F@CALL_G, F@COUNT_5     # The second invoking of the stave "G"', 'F@CALL_G, F@COUNT_3     # The third invoking of the stave "G"', 'F@REPLAY, F@COUNT_3     # Repeat the last token-action three times.', 'G@ROTATE_LEFT, G@ANGLE_15, G@DRAW_ARCLINE_L_1_4, G@ARGUMENT, G@REVERSE # Draw a fancy arcline'],
+  nodeId: 'animation-argument-in-other-staves',
+  title: 'Argument in other staves',
+});
+</script><section id="dynamic-arguments">
+<h3>Dynamic Arguments<a class="headerlink" href="#dynamic-arguments" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes we need a shortcut of <em>half of the argument</em> or <em>one-third of the argument</em>.
+We can do that with <em>dynamic arguments</em> like <img alt="CALL_DIAMOND" class="fract-token token-inline" src="../_images/CALL_DIAMOND.svg" /> or <img alt="CALL_INV_TRIANGLE" class="fract-token token-inline" src="../_images/CALL_INV_TRIANGLE.svg" />.</p>
+<p>These arguments are declared as other staves with two rules - without a recurrency and token-values.</p>
+<div id='animation-dynamic-argument'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'DIAMOND', 'INV_TRIANGLE'],
+  iterations: 3,
+  start: 1,
+  tokens: ['DIAMOND@ARGUMENT, DIAMOND@FRACT_1_3    # Set a "Diamond argument" as one-third of the argument.', 'INV_TRIANGLE@COUNT_2, INV_TRIANGLE@COUNT_5, INV_TRIANGLE@ARGUMENT  # Set an "Inverse triangle argument" as ten times the argument.', 'F@MOVE_FORWARD, F@FRACT_1_5            # Move forward.', 'F@DRAW_CIRCLE, F@CALL_INV_TRIANGLE     # Draw a circle with an "Inverse triangle argument" token as value.', 'F@CALL_F, F@CALL_DIAMOND               # Repeat the stave with a "Diamond argument" token. The next circles should be smaller than the previous circles.', 'F@CALL_F, F@COUNT_3, F@CALL_DIAMOND    # Do it again! The next steps increase the iterations.', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-dynamic-argument',
+  title: 'Dynamic Argument',
+});
+</script></section>
+</section>
+<section id="special-staves">
+<h2>Special Staves<a class="headerlink" href="#special-staves" title="Permalink to this headline">¶</a></h2>
+<p>Staves can be specialized to invoke during special conditions:</p>
+<ul class="simple">
+<li><p>When the current iteration number is odd.</p></li>
+<li><p>When the current iteration number is even.</p></li>
+<li><p>When is the last iteration.</p></li>
+<li><p>When the current number of iterations exceeds 2, 3, 4, 5, or 7 iterations.</p></li>
+</ul>
+<section id="parity-staves">
+<h3>Parity Staves<a class="headerlink" href="#parity-staves" title="Permalink to this headline">¶</a></h3>
+<div id='animation-parity-staves'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'G::ODD', 'G::EVEN'],
+  iterations: 3,
+  start: 1,
+  tokens: ['F@DRAW_LINE, F@FRACT_1_3, F@CALL_G, F@CALL_F  # Draw a line and invoke *G* and *F* staves.', 'G::ODD@DRAW_SQUARE, G::ODD@COUNT_5            # On odd iterations draw a square.', 'G::EVEN@DRAW_CIRCLE, G::EVEN@COUNT_3          # On even iterations draw a circle.'],
+  nodeId: 'animation-parity-staves',
+  title: 'Parity staves',
+});
+</script></section>
+<section id="end-staves">
+<h3>End Staves<a class="headerlink" href="#end-staves" title="Permalink to this headline">¶</a></h3>
+<div id='animation-end-staves'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F', 'F::END', 'G'],
+  iterations: 3,
+  start: 1,
+  tokens: ['F@CALL_G, F@DRAW_LINE, F@FRACT_1_3, F@CALL_F # Just draw a line and invoke *G* and *F* staves.', 'G@DRAW_SQUARE, G@COUNT_5                     # Draw a square in a *G* stave.', 'F::END@DRAW_TRIANGLE, F::END@COUNT_3         # Draw a triangle on the last iteration.'],
+  nodeId: 'animation-end-staves',
+  title: 'End staves',
+});
+</script><p>I think that’s all with staves, arguments, and a recurrence. In the next section, I’ll tell how to generate common fractals.</p>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Fractalang</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../concept/index.html">Concept</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basic-drawing.html">Basic Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cursor.html">Cursor manipulations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Invoking staves and recursion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#arguments">Arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#special-staves">Special Staves</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fractals.html">Fractals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorial</a><ul>
+      <li>Previous: <a href="cursor.html" title="previous chapter">Cursor manipulations</a></li>
+      <li>Next: <a href="fractals.html" title="next chapter">Fractals</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Firemark.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/tutorial/staves.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
