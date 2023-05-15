@@ -15,12 +15,12 @@ jobs:
         run: npm install
       - name: Build docs
         run: |
-          mkdir -p docs/_static
-          touch dist/.nojekyll
           npm run build-node
           npm run build-web
           npm run build-docs
           npm run generate-icon-tokens
+          touch dist/.nojekyll
+          mkdir -p docs/_static
           sphinx-build docs-src docs/
           cp public/icons/* docs/_images/
           mv public/icons dist/icons
