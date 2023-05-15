@@ -16,14 +16,17 @@ jobs:
       - name: Build docs
         run: |
           mkdir -p docs/_static
-          touch docs/.nojekyll
+          touch dist/.nojekyll
           npm run build-node
+          npm run build-web
           npm run build-docs
           npm run generate-icon-tokens
           sphinx-build docs-src docs/
           cp public/icons/* docs/_images/
+          mv public/icons dist/icons
+          mv docs/ dist/
       - name: Deploy doc
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           branch: gh-pages
-          folder: docs
+          folder: dist

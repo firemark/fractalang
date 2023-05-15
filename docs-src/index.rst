@@ -6,11 +6,18 @@
 Welcome to Fractalang's documentation!
 ======================================
 
+Are you new here? Before you start, you should view this video:
+
+.. raw:: html
+
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/Qnb2YJsHbuY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
 
-   pages/index
+   concept/index
+   tutorial/index
    reference/index
 
 

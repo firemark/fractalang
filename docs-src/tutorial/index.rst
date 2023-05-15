@@ -4,8 +4,6 @@ Tutorial
 .. toctree::
    :maxdepth: 2
 
-   why
-   definitions
    basic-drawing
    cursor
    staves

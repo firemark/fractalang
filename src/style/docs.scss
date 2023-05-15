@@ -63,10 +63,22 @@
         height: 60px;
         .tokens { height: 100%; }
     }
-    .fract-token {
-        width: 30px;
+
+    .fract-token, .fract-token-group {
         height: 30px;
         padding: 2px;
         margin-right: 2px;
+    }
+
+    .fract-token {
+        width: 30px;
+    }
+
+    .fract-token-group {
+        flex: 0 0 auto;
+
+        .fract-token {
+            padding: 0px;
+        }
     }
 }

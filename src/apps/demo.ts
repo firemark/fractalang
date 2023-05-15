@@ -18,9 +18,9 @@ function main() {
         {
             name: "G",
             tokens: [
-                "FORWARD", "FRACT_1_2", "FRACT_1_3", "ARGUMENT",
+                "MOVE_FORWARD", "FRACT_1_2", "FRACT_1_3", "ARGUMENT",
                 "DRAW_CIRCLE", "FRACT_1_3", "FRACT_1_3", "ARGUMENT",
-                "FORWARD", "FRACT_1_2", "FRACT_1_3", "ARGUMENT",
+                "MOVE_FORWARD", "FRACT_1_2", "FRACT_1_3", "ARGUMENT",
                 "DRAW_LINE", "ARGUMENT",
                 "ROTATE_LEFT", "ANGLE_30",
             ],

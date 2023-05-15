@@ -1,7 +1,7 @@
 Cursor operators
 ================
 
-.. tut:token:: FORWARD
+.. tut:token:: MOVE_FORWARD
    :title: Forward
 
    Move forward the cursor by value of action in cursor's direction.

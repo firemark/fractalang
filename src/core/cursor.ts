@@ -70,14 +70,7 @@ export abstract class ICursor {
         this.box.max[1] = Math.max(this.box.max[1], y + size);
     }
 
-    protected calcStyleParams(ops: OpsParams): Style {
-        const color = this.calcColor(ops.color);
-        if (ops.isFilled) {
-            return { fill: color };
-        }
-        return { fill: "none", color: color, stroke: ops.stroke };
-    }
-
+    abstract calcStyleParams(ops: OpsParams): Style;
     abstract drawLine(distance: number, stroke: number, color: number): void;
     abstract drawArcLine(ratio: number, size: number, stroke: number, color: number): void;
     abstract drawShape(shape: Shape, size: number, ops: OpsParams): void;
@@ -116,14 +109,19 @@ export class Cursor extends ICursor {
         return [r, g, b];
     }
 
+    calcStyleParams(ops: OpsParams): Style {
+        const color = this.calcColor(ops.color);
+        if (ops.isFilled) {
+            return { fill: color };
+        }
+        return { fill: "none", color: color, stroke: ops.stroke * this.strokeSize };
+    }
+
     drawLine(distance: number, stroke: number, color: number) {
         const [old_x, old_y] = this.position;
         this.forward(distance);
         const [new_x, new_y] = this.position;
-        const style = {
-            stroke: this.strokeSize * stroke,
-            color: this.calcColor(color),
-        };
+        const style = this.calcStyleParams({ stroke, color, isFilled: false });
         this.figures.push(new Line([old_x, old_y], [new_x, new_y], style));
         this.extendBox(this.position);
     }
@@ -162,7 +160,7 @@ export class Cursor extends ICursor {
                 this.figures.push(new Circle([x, y], size, style));
                 break;
             case Shape.Square:
-                this.figures.push(new Rectangle([x, y], [dx, dy], size, style));
+                this.figures.push(new Rectangle([x, y], [dx, dy], size, size, style));
                 break;
             case Shape.Triangle:
                 this.figures.push(new Triangle([x, y], [dx, dy], size, style));
@@ -196,6 +194,10 @@ export class CloseCursor extends ICursor {
         this.box = this.#cursor.box;
         const style = this.calcStyleParams(ops);
         this.#polygon = new Polygon([...cursor.position], [], style);
+    }
+
+    calcStyleParams(ops: OpsParams): Style {
+        return this.#cursor.calcStyleParams(ops);
     }
 
     drawLine(distance: number, stroke: number, color: number) {
@@ -243,4 +245,4 @@ export class CloseCursor extends ICursor {
         this.figures.push(this.#polygon);
         this.#cursor.figures = this.#cursor.figures.concat(this.figures);
     }
-} 
+}

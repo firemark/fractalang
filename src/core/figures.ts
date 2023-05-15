@@ -96,7 +96,7 @@ export class Rectangle implements Figure {
     height: number;
     style: Style;
 
-    constructor(point, orientation, width, height, style: Style = {}) {
+    constructor(point: [number, number], orientation: [number, number], width: number, height: number, style: Style = {}) {
         this.point = point;
         this.orientation = orientation;
         this.width = width;

@@ -93,6 +93,7 @@ function toSvg(document, figure: Figure) {
         }
         node.setAttribute("d", path);
         setBasicAttrs(figure.style, node);
+
         return node;
     } else if (figure instanceof Rectangle) {
         const node = document.createElementNS(NAMESPACE, "path");
@@ -127,10 +128,9 @@ function toSvg(document, figure: Figure) {
 }
 
 function setBasicAttrs(style: Style, node) {
-    let styleAttr = `fill: ${style.fill || "black"};`;
+    node.setAttribute("fill", style.fill || "black");
     if (style.stroke !== undefined && style.stroke > 0) {
-        styleAttr += `stroke-width: ${style.stroke};`
-        styleAttr += `stroke: ${style.color || "none"}`;
+        node.setAttribute("stroke", style.color || "none");
+        node.setAttribute("stroke-width", `${style.stroke}`);
     }
-    node.setAttribute("style", styleAttr);
 }

@@ -130,14 +130,32 @@ export const TOKEN_FAMILIES: { [key: string]: TokenCategory[] } = {
             tokens: ['OP_MULT', 'OP_ADD', 'OP_SUB'],
         },
     ],
-    STROKE: [
+    STROKE_COLOR: [
         {
-            label: 'Thick',
+            label: 'Thick/Thin',
             tokens: [
                 'STROKE_THICK_ADD',
                 'STROKE_THICK_SUB',
             ],
-        }
+        },
+        {
+            label: 'Color',
+            tokens: [
+                'COLOR_MAX',
+                'COLOR_MIN',
+                'COLOR_FILL',
+                'COLOR_EMPTY',
+            ],
+        },
+        {
+            label: 'Color Shift',
+            tokens: [
+                'COLOR_SHIFT_1_2',
+                'COLOR_SHIFT_1_4',
+                'COLOR_SHIFT_1_5',
+                'COLOR_SHIFT_1_10',
+            ],
+        },
     ],
 };
 

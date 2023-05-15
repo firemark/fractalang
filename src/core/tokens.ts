@@ -76,8 +76,8 @@ export const TOKENS: TokensMap<Token> = {
     STROKE_SOLID: createValue(() => new strokes.SetStrokeStyle("solid")),
     STROKE_DASHED: createValue(() => new strokes.SetStrokeStyle("dashed")),
     STROKE_DOTTED: createValue(() => new strokes.SetStrokeStyle("dotted")),
-    STROKE_THICK_ADD: createValue(() => new strokes.ShiftStrokeThickness(+1)),
-    STROKE_THICK_SUB: createValue(() => new strokes.ShiftStrokeThickness(-1)),
+    STROKE_THICK_ADD: createValue(() => new strokes.ShiftStrokeThickness(+0.25)),
+    STROKE_THICK_SUB: createValue(() => new strokes.ShiftStrokeThickness(-0.25)),
     // Operations
     OP_MULT: createValue(() => new ops.MultOp()),
     OP_ADD: createValue(() => new ops.AddOp()),

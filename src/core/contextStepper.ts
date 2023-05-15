@@ -4,13 +4,13 @@ import { Function } from "@/core/ast/function";
 import { FunctionsBag } from "@/core/functionsBag";
 
 export interface MoveArgs {
-    result: ActionResult; 
-    bag: FunctionsBag; 
+    result: ActionResult;
+    bag: FunctionsBag;
     push: PushCb;
 }
 
 function createLocals(func: Function) {
-    return Array.from(func.actions, () => ({})); 
+    return Array.from(func.actions, () => ({}));
 }
 
 type PushCb = (stepper: ContextStepper) => void;
@@ -128,7 +128,7 @@ export class ReverseContextStepper extends ContextStepper {
         } else if (result instanceof ReverseR) {
             /// TODO - implement Reverse-Reverse
             /// Or maybe one stepper with move cursor only with specified direction?
-            this.scope.index -= result.count;
+            this.scope.index -= result.count + 1;
         } else {
             throw "Wrong Action";
         }
