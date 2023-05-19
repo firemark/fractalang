@@ -9,6 +9,7 @@ import { CodeBarView } from "@/web/views/codeBar";
 import { ChooseTokenDialogView } from "@/web/views/chooseDialog";
 import { ProjectListDialogView } from "@/web/views/projectListDialog";
 import { SaveDialogView } from "@/web/views/saveDialog";
+import { HelpDialogView } from "@/web/views/helpDialog";
 
 import { createEmptyProject, Project, Stave } from "@/web/models";
 import { ACTION_TOKENS, VALUE_TOKENS } from "@/web/tokensMenu";
@@ -31,7 +32,9 @@ export class MainController extends Controller {
     private chooseDialogView: ChooseTokenDialogView | null;
     private projectListDialogView: ProjectListDialogView | null;
     private saveDialogView: SaveDialogView | null;
+    private helpDialogView: HelpDialogView;
     private project: Project;
+    private isVisited: boolean;
 
     constructor(database: Database, project: Project) {
         super(document.querySelector("main"));
@@ -41,6 +44,7 @@ export class MainController extends Controller {
             renderCb: (cursor: Cursor) => this.imageView.render(cursor),
             onState: this.onDebugState.bind(this),
         });
+        this.helpDialogView = new HelpDialogView();
         this.imageView = new ImageView(this.node.querySelector(".fract-image"));
         this.codeView = new CodeView({
             node: this.node.querySelector(".fract-staves"),
@@ -85,6 +89,7 @@ export class MainController extends Controller {
             onLoad: this.openProjectList.bind(this),
             onSave: this.openSaveDialog.bind(this),
             onNew: () => this.loadProject(createEmptyProject()),
+            onHelp: () => this.helpDialogView.render(),
             onDebugStep: () => this.debug.step(),
             onDebugPlay: () => this.debug.play(),
             onDebugStop: () => this.debug.stop(),
@@ -93,10 +98,14 @@ export class MainController extends Controller {
         this.chooseDialogView = null;
         this.projectListDialogView = null;
         this.saveDialogView = null;
+        this.isVisited = localStorage.getItem("visited") !== null;
+        localStorage.setItem("visited", new Date().toISOString());
     }
-    
 
     render() {
+        if (this.isVisited === false) {
+            this.helpDialogView.render();
+        }
         this.codeView.render(this.project.staves);
         this.functionsBarView.render();
         this.actionsCategoryView.render();
@@ -114,6 +123,7 @@ export class MainController extends Controller {
         if (stack === null) {
             return;
         }
+
         try {
             exec(stack);
         } catch (exception) {

@@ -67,6 +67,17 @@ main {
     }
 }
 
+.mobile-warning {
+    display: block;
+    color: red;
+}
+
+@media screen and (min-width: 1000px) {
+    .mobile-warning {
+        display: none;
+    }
+}
+
 .hidden {
     display: none !important;
 }

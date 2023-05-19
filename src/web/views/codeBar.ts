@@ -9,6 +9,7 @@ interface Callbacks {
     onLoad: Cb,
     onSave: Cb,
     onNew: Cb,
+    onHelp: Cb,
     onDebugStep: Cb,
     onDebugPlay: Cb,
     onDebugStop: Cb,
@@ -134,6 +135,16 @@ export class CodeBarView extends View {
             node.type = "button";
             node.onclick = () => {
                 this.#callbacks.onNew();
+                return false;
+            };
+            this.node.appendChild(node);
+        }
+        {
+            const node = this.createElement({ name: "input" });
+            node.value = "HELP";
+            node.type = "button";
+            node.onclick = () => {
+                this.#callbacks.onHelp();
                 return false;
             };
             this.node.appendChild(node);
