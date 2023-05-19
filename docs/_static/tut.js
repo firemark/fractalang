@@ -477,11 +477,11 @@ module.exports = styleTagTransform;
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ActionResult": () => (/* binding */ ActionResult),
-/* harmony export */   "CallR": () => (/* binding */ CallR),
-/* harmony export */   "ContinueR": () => (/* binding */ ContinueR),
-/* harmony export */   "JumpR": () => (/* binding */ JumpR),
-/* harmony export */   "ReverseR": () => (/* binding */ ReverseR)
+/* harmony export */   ActionResult: () => (/* binding */ ActionResult),
+/* harmony export */   CallR: () => (/* binding */ CallR),
+/* harmony export */   ContinueR: () => (/* binding */ ContinueR),
+/* harmony export */   JumpR: () => (/* binding */ JumpR),
+/* harmony export */   ReverseR: () => (/* binding */ ReverseR)
 /* harmony export */ });
 class ActionResult {
 }
@@ -518,19 +518,19 @@ class ReverseR extends ActionResult {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Call": () => (/* binding */ Call),
-/* harmony export */   "CloseCall": () => (/* binding */ CloseCall),
-/* harmony export */   "DrawArcLine": () => (/* binding */ DrawArcLine),
-/* harmony export */   "DrawFigure": () => (/* binding */ DrawFigure),
-/* harmony export */   "DrawLine": () => (/* binding */ DrawLine),
-/* harmony export */   "MoveBackward": () => (/* binding */ MoveBackward),
-/* harmony export */   "MoveForward": () => (/* binding */ MoveForward),
-/* harmony export */   "MoveLeft": () => (/* binding */ MoveLeft),
-/* harmony export */   "MoveRight": () => (/* binding */ MoveRight),
-/* harmony export */   "Replay": () => (/* binding */ Replay),
-/* harmony export */   "Reverse": () => (/* binding */ Reverse),
-/* harmony export */   "RotateLeft": () => (/* binding */ RotateLeft),
-/* harmony export */   "RotateRight": () => (/* binding */ RotateRight)
+/* harmony export */   Call: () => (/* binding */ Call),
+/* harmony export */   CloseCall: () => (/* binding */ CloseCall),
+/* harmony export */   DrawArcLine: () => (/* binding */ DrawArcLine),
+/* harmony export */   DrawFigure: () => (/* binding */ DrawFigure),
+/* harmony export */   DrawLine: () => (/* binding */ DrawLine),
+/* harmony export */   MoveBackward: () => (/* binding */ MoveBackward),
+/* harmony export */   MoveForward: () => (/* binding */ MoveForward),
+/* harmony export */   MoveLeft: () => (/* binding */ MoveLeft),
+/* harmony export */   MoveRight: () => (/* binding */ MoveRight),
+/* harmony export */   Replay: () => (/* binding */ Replay),
+/* harmony export */   Reverse: () => (/* binding */ Reverse),
+/* harmony export */   RotateLeft: () => (/* binding */ RotateLeft),
+/* harmony export */   RotateRight: () => (/* binding */ RotateRight)
 /* harmony export */ });
 /* harmony import */ var _core_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/context */ "./src/core/context.ts");
 /* harmony import */ var _core_cursor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/cursor */ "./src/core/cursor.ts");
@@ -731,9 +731,9 @@ _Replay_jumpSize = new WeakMap();
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ActionNode": () => (/* binding */ ActionNode),
-/* harmony export */   "ValueNode": () => (/* binding */ ValueNode),
-/* harmony export */   "evalValue": () => (/* binding */ evalValue)
+/* harmony export */   ActionNode: () => (/* binding */ ActionNode),
+/* harmony export */   ValueNode: () => (/* binding */ ValueNode),
+/* harmony export */   evalValue: () => (/* binding */ evalValue)
 /* harmony export */ });
 /* harmony import */ var _actionResult__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./actionResult */ "./src/core/ast/actionResult.ts");
 
@@ -778,11 +778,11 @@ function partEval(context, acc, node) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "EmptyColor": () => (/* binding */ EmptyColor),
-/* harmony export */   "FillColor": () => (/* binding */ FillColor),
-/* harmony export */   "MaxColor": () => (/* binding */ MaxColor),
-/* harmony export */   "MinColor": () => (/* binding */ MinColor),
-/* harmony export */   "ShiftColor": () => (/* binding */ ShiftColor)
+/* harmony export */   EmptyColor: () => (/* binding */ EmptyColor),
+/* harmony export */   FillColor: () => (/* binding */ FillColor),
+/* harmony export */   MaxColor: () => (/* binding */ MaxColor),
+/* harmony export */   MinColor: () => (/* binding */ MinColor),
+/* harmony export */   ShiftColor: () => (/* binding */ ShiftColor)
 /* harmony export */ });
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base */ "./src/core/ast/base.ts");
 
@@ -831,7 +831,7 @@ class ShiftColor extends _base__WEBPACK_IMPORTED_MODULE_0__.ValueNode {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Function": () => (/* binding */ Function)
+/* harmony export */   Function: () => (/* binding */ Function)
 /* harmony export */ });
 class Function {
     constructor(name, actions) {
@@ -854,9 +854,9 @@ class Function {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "AddOp": () => (/* binding */ AddOp),
-/* harmony export */   "MultOp": () => (/* binding */ MultOp),
-/* harmony export */   "SubOp": () => (/* binding */ SubOp)
+/* harmony export */   AddOp: () => (/* binding */ AddOp),
+/* harmony export */   MultOp: () => (/* binding */ MultOp),
+/* harmony export */   SubOp: () => (/* binding */ SubOp)
 /* harmony export */ });
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base */ "./src/core/ast/base.ts");
 
@@ -887,8 +887,8 @@ class SubOp extends _base__WEBPACK_IMPORTED_MODULE_0__.ValueNode {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SetStrokeStyle": () => (/* binding */ SetStrokeStyle),
-/* harmony export */   "ShiftStrokeThickness": () => (/* binding */ ShiftStrokeThickness)
+/* harmony export */   SetStrokeStyle: () => (/* binding */ SetStrokeStyle),
+/* harmony export */   ShiftStrokeThickness: () => (/* binding */ ShiftStrokeThickness)
 /* harmony export */ });
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base */ "./src/core/ast/base.ts");
 
@@ -923,10 +923,10 @@ class ShiftStrokeThickness extends _base__WEBPACK_IMPORTED_MODULE_0__.ValueNode 
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Angle": () => (/* binding */ Angle),
-/* harmony export */   "Argument": () => (/* binding */ Argument),
-/* harmony export */   "DynamicArgument": () => (/* binding */ DynamicArgument),
-/* harmony export */   "Multipler": () => (/* binding */ Multipler)
+/* harmony export */   Angle: () => (/* binding */ Angle),
+/* harmony export */   Argument: () => (/* binding */ Argument),
+/* harmony export */   DynamicArgument: () => (/* binding */ DynamicArgument),
+/* harmony export */   Multipler: () => (/* binding */ Multipler)
 /* harmony export */ });
 /* harmony import */ var _base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./base */ "./src/core/ast/base.ts");
 
@@ -975,7 +975,7 @@ class DynamicArgument extends _base__WEBPACK_IMPORTED_MODULE_0__.ValueNode {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Context": () => (/* binding */ Context)
+/* harmony export */   Context: () => (/* binding */ Context)
 /* harmony export */ });
 class Context {
     constructor({ cursor, argument, valueFuncBag = {}, iteration = 0 }) {
@@ -1000,10 +1000,10 @@ class Context {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ContextStepper": () => (/* binding */ ContextStepper),
-/* harmony export */   "ForwardContextStepper": () => (/* binding */ ForwardContextStepper),
-/* harmony export */   "ReverseContextStepper": () => (/* binding */ ReverseContextStepper),
-/* harmony export */   "createInitStepper": () => (/* binding */ createInitStepper)
+/* harmony export */   ContextStepper: () => (/* binding */ ContextStepper),
+/* harmony export */   ForwardContextStepper: () => (/* binding */ ForwardContextStepper),
+/* harmony export */   ReverseContextStepper: () => (/* binding */ ReverseContextStepper),
+/* harmony export */   createInitStepper: () => (/* binding */ createInitStepper)
 /* harmony export */ });
 /* harmony import */ var _core_ast_actionResult__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/ast/actionResult */ "./src/core/ast/actionResult.ts");
 var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
@@ -1147,10 +1147,10 @@ _ReverseContextStepper_endIndex = new WeakMap();
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CloseCursor": () => (/* binding */ CloseCursor),
-/* harmony export */   "Cursor": () => (/* binding */ Cursor),
-/* harmony export */   "ICursor": () => (/* binding */ ICursor),
-/* harmony export */   "Shape": () => (/* binding */ Shape)
+/* harmony export */   CloseCursor: () => (/* binding */ CloseCursor),
+/* harmony export */   Cursor: () => (/* binding */ Cursor),
+/* harmony export */   ICursor: () => (/* binding */ ICursor),
+/* harmony export */   Shape: () => (/* binding */ Shape)
 /* harmony export */ });
 /* harmony import */ var _core_figures__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/figures */ "./src/core/figures.ts");
 var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
@@ -1366,8 +1366,8 @@ _CloseCursor_cursor = new WeakMap(), _CloseCursor_polygon = new WeakMap();
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "exec": () => (/* binding */ exec),
-/* harmony export */   "setupExec": () => (/* binding */ setupExec)
+/* harmony export */   exec: () => (/* binding */ exec),
+/* harmony export */   setupExec: () => (/* binding */ setupExec)
 /* harmony export */ });
 /* harmony import */ var _core_parser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/parser */ "./src/core/parser.ts");
 /* harmony import */ var _core_mappings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/mappings */ "./src/core/mappings.ts");
@@ -1438,16 +1438,16 @@ function toRealname(name, suffix) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Arc": () => (/* binding */ Arc),
-/* harmony export */   "ArcCurve": () => (/* binding */ ArcCurve),
-/* harmony export */   "Circle": () => (/* binding */ Circle),
-/* harmony export */   "Curve": () => (/* binding */ Curve),
-/* harmony export */   "Line": () => (/* binding */ Line),
-/* harmony export */   "LineCurve": () => (/* binding */ LineCurve),
-/* harmony export */   "Polygon": () => (/* binding */ Polygon),
-/* harmony export */   "Rectangle": () => (/* binding */ Rectangle),
-/* harmony export */   "Style": () => (/* binding */ Style),
-/* harmony export */   "Triangle": () => (/* binding */ Triangle)
+/* harmony export */   Arc: () => (/* binding */ Arc),
+/* harmony export */   ArcCurve: () => (/* binding */ ArcCurve),
+/* harmony export */   Circle: () => (/* binding */ Circle),
+/* harmony export */   Curve: () => (/* binding */ Curve),
+/* harmony export */   Line: () => (/* binding */ Line),
+/* harmony export */   LineCurve: () => (/* binding */ LineCurve),
+/* harmony export */   Polygon: () => (/* binding */ Polygon),
+/* harmony export */   Rectangle: () => (/* binding */ Rectangle),
+/* harmony export */   Style: () => (/* binding */ Style),
+/* harmony export */   Triangle: () => (/* binding */ Triangle)
 /* harmony export */ });
 class Style {
 }
@@ -1526,7 +1526,7 @@ class Triangle {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "FunctionsBag": () => (/* binding */ FunctionsBag)
+/* harmony export */   FunctionsBag: () => (/* binding */ FunctionsBag)
 /* harmony export */ });
 /* harmony import */ var _core_ast_function__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/ast/function */ "./src/core/ast/function.ts");
 var __classPrivateFieldGet = (undefined && undefined.__classPrivateFieldGet) || function (receiver, state, kind, f) {
@@ -1592,11 +1592,11 @@ _FunctionsBag_instances = new WeakSet(), _FunctionsBag_throwFunc = function _Fun
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CALLS": () => (/* binding */ CALLS),
-/* harmony export */   "DYNAMIC_ARGS": () => (/* binding */ DYNAMIC_ARGS),
-/* harmony export */   "STAVES": () => (/* binding */ STAVES),
-/* harmony export */   "SUFFIXES": () => (/* binding */ SUFFIXES),
-/* harmony export */   "TOKENS": () => (/* binding */ TOKENS)
+/* harmony export */   CALLS: () => (/* binding */ CALLS),
+/* harmony export */   DYNAMIC_ARGS: () => (/* binding */ DYNAMIC_ARGS),
+/* harmony export */   STAVES: () => (/* binding */ STAVES),
+/* harmony export */   SUFFIXES: () => (/* binding */ SUFFIXES),
+/* harmony export */   TOKENS: () => (/* binding */ TOKENS)
 /* harmony export */ });
 const CALLS = ["F", "G", "H"];
 const DYNAMIC_ARGS = ["DIAMOND", "INV_TRIANGLE"];
@@ -1712,9 +1712,9 @@ const TOKENS = [
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "parseLineFunc": () => (/* binding */ parseLineFunc),
-/* harmony export */   "parseLineValue": () => (/* binding */ parseLineValue),
-/* harmony export */   "parseRawTokens": () => (/* binding */ parseRawTokens)
+/* harmony export */   parseLineFunc: () => (/* binding */ parseLineFunc),
+/* harmony export */   parseLineValue: () => (/* binding */ parseLineValue),
+/* harmony export */   parseRawTokens: () => (/* binding */ parseRawTokens)
 /* harmony export */ });
 /* harmony import */ var _core_tokens__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/tokens */ "./src/core/tokens.ts");
 /* harmony import */ var _core_ast_function__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/ast/function */ "./src/core/ast/function.ts");
@@ -1818,7 +1818,7 @@ function parseValue(token, tmp) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "StackStep": () => (/* binding */ StackStep)
+/* harmony export */   StackStep: () => (/* binding */ StackStep)
 /* harmony export */ });
 /* harmony import */ var _contextStepper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./contextStepper */ "./src/core/contextStepper.ts");
 var __classPrivateFieldSet = (undefined && undefined.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
@@ -1893,7 +1893,7 @@ _StackStep_stack = new WeakMap(), _StackStep_bag = new WeakMap();
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "createSvg": () => (/* binding */ createSvg)
+/* harmony export */   createSvg: () => (/* binding */ createSvg)
 /* harmony export */ });
 /* harmony import */ var _core_figures__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/figures */ "./src/core/figures.ts");
 
@@ -2041,8 +2041,8 @@ function setBasicAttrs(style, node) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TOKENS": () => (/* binding */ TOKENS),
-/* harmony export */   "Token": () => (/* binding */ Token)
+/* harmony export */   TOKENS: () => (/* binding */ TOKENS),
+/* harmony export */   Token: () => (/* binding */ Token)
 /* harmony export */ });
 /* harmony import */ var _core_ast_values__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/core/ast/values */ "./src/core/ast/values.ts");
 /* harmony import */ var _core_cursor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/cursor */ "./src/core/cursor.ts");
@@ -2180,7 +2180,7 @@ const TOKENS = {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DEFAULT_ICON_URL": () => (/* binding */ DEFAULT_ICON_URL)
+/* harmony export */   DEFAULT_ICON_URL: () => (/* binding */ DEFAULT_ICON_URL)
 /* harmony export */ });
 const DEFAULT_ICON_URL = `${""}icons/`;
 
@@ -2195,7 +2195,7 @@ const DEFAULT_ICON_URL = `${""}icons/`;
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Controller": () => (/* binding */ Controller)
+/* harmony export */   Controller: () => (/* binding */ Controller)
 /* harmony export */ });
 class Controller {
     constructor(node) {
@@ -2214,7 +2214,7 @@ class Controller {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DocsController": () => (/* binding */ DocsController)
+/* harmony export */   DocsController: () => (/* binding */ DocsController)
 /* harmony export */ });
 /* harmony import */ var _controller__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./controller */ "./src/web/controllers/controller.ts");
 /* harmony import */ var _web_views_code__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/web/views/code */ "./src/web/views/code.ts");
@@ -2420,8 +2420,8 @@ class DocsController extends _controller__WEBPACK_IMPORTED_MODULE_0__.Controller
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NAME_TO_TOKEN": () => (/* binding */ NAME_TO_TOKEN),
-/* harmony export */   "TOKENS": () => (/* binding */ TOKENS)
+/* harmony export */   NAME_TO_TOKEN: () => (/* binding */ NAME_TO_TOKEN),
+/* harmony export */   TOKENS: () => (/* binding */ TOKENS)
 /* harmony export */ });
 const TOKENS = [
     { name: 'ARGUMENT', label: 'Argument', type: 'value' },
@@ -2514,7 +2514,7 @@ const NAME_TO_TOKEN = new Map(TOKENS.map(token => [token.name, token]));
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CodeView": () => (/* binding */ CodeView)
+/* harmony export */   CodeView: () => (/* binding */ CodeView)
 /* harmony export */ });
 /* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view */ "./src/web/views/view.ts");
 /* harmony import */ var _stave__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stave */ "./src/web/views/stave.ts");
@@ -2574,7 +2574,7 @@ class CodeView extends _view__WEBPACK_IMPORTED_MODULE_0__.View {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "CommentView": () => (/* binding */ CommentView)
+/* harmony export */   CommentView: () => (/* binding */ CommentView)
 /* harmony export */ });
 /* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view */ "./src/web/views/view.ts");
 
@@ -2599,7 +2599,7 @@ class CommentView extends _view__WEBPACK_IMPORTED_MODULE_0__.View {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "DocBarView": () => (/* binding */ DocBarView)
+/* harmony export */   DocBarView: () => (/* binding */ DocBarView)
 /* harmony export */ });
 /* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view */ "./src/web/views/view.ts");
 
@@ -2663,7 +2663,7 @@ class DocBarView extends _view__WEBPACK_IMPORTED_MODULE_0__.View {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ImageView": () => (/* binding */ ImageView)
+/* harmony export */   ImageView: () => (/* binding */ ImageView)
 /* harmony export */ });
 /* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view */ "./src/web/views/view.ts");
 /* harmony import */ var _core_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/core/svg */ "./src/core/svg.ts");
@@ -2688,7 +2688,7 @@ class ImageView extends _view__WEBPACK_IMPORTED_MODULE_0__.View {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "StaveView": () => (/* binding */ StaveView)
+/* harmony export */   StaveView: () => (/* binding */ StaveView)
 /* harmony export */ });
 /* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view */ "./src/web/views/view.ts");
 /* harmony import */ var _staveToken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./staveToken */ "./src/web/views/staveToken.ts");
@@ -2782,7 +2782,7 @@ class StaveView extends _view__WEBPACK_IMPORTED_MODULE_0__.View {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TokensStaveView": () => (/* binding */ TokensStaveView)
+/* harmony export */   TokensStaveView: () => (/* binding */ TokensStaveView)
 /* harmony export */ });
 /* harmony import */ var _token__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./token */ "./src/web/views/token.ts");
 /* harmony import */ var _web_consts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/web/consts */ "./src/web/consts.ts");
@@ -2944,7 +2944,7 @@ class TokensStaveView extends _token__WEBPACK_IMPORTED_MODULE_0__.TokensView {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TitleView": () => (/* binding */ TitleView)
+/* harmony export */   TitleView: () => (/* binding */ TitleView)
 /* harmony export */ });
 /* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view */ "./src/web/views/view.ts");
 
@@ -2973,7 +2973,7 @@ class TitleView extends _view__WEBPACK_IMPORTED_MODULE_0__.View {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TokensView": () => (/* binding */ TokensView)
+/* harmony export */   TokensView: () => (/* binding */ TokensView)
 /* harmony export */ });
 /* harmony import */ var _view__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./view */ "./src/web/views/view.ts");
 /* harmony import */ var _web_tokens__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/web/tokens */ "./src/web/tokens.ts");
@@ -3198,7 +3198,7 @@ class DragContext {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "View": () => (/* binding */ View)
+/* harmony export */   View: () => (/* binding */ View)
 /* harmony export */ });
 class View {
     constructor(node) {
@@ -3326,7 +3326,7 @@ var __webpack_exports__ = {};
   \*************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "makeAnimation": () => (/* binding */ makeAnimation)
+/* harmony export */   makeAnimation: () => (/* binding */ makeAnimation)
 /* harmony export */ });
 /* harmony import */ var _controllers_docs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./controllers/docs */ "./src/web/controllers/docs.ts");
 /* harmony import */ var _style_docs_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/style/docs.scss */ "./src/style/docs.scss");
