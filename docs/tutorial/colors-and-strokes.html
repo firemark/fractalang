@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Colors and strokes. &#8212; Fractalang 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/tut.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Custom shapes" href="custom-shapes.html" />
+    <link rel="prev" title="Invoking staves and recursion" href="staves.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="colors-and-strokes">
+<h1>Colors and strokes.<a class="headerlink" href="#colors-and-strokes" title="Permalink to this headline">¶</a></h1>
+<p>Ok, we know how to draw lines, figures, and fractals,
+but monochromatic fractals are boring and remind me
+of black-and-white CRT monitors. Let’s add some colors
+(and soul) to our fractals!</p>
+<section id="colors">
+<h2>Colors<a class="headerlink" href="#colors" title="Permalink to this headline">¶</a></h2>
+<p>We can change a line/shape into second color (the default is a red color,
+but you can change them in the editor). Let’s see an example:</p>
+<div id='animation-the-second-color'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ["F@DRAW_LINE                 # Let's draw a line.", "F@DRAW_TRIANGLE, F@COUNT_5  # Let's draw a triangle.", 'F@COLOR_MAX                 # Set the second color.'],
+  nodeId: 'animation-the-second-color',
+  title: 'The second color',
+});
+</script><p>We can transist the color from the first to the second with small steps.</p>
+<div id='animation-change-color'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ["F@DRAW_LINE                  # Let's draw a line.", "F@DRAW_TRIANGLE, F@COUNT_5   # Let's draw a triangle.", 'F@CALL_F, F@COLOR_SHIFT_1_4  # Invoke the stave "F" by changing a color a little bit.', '!IT_INC                      # Next steps increasing the iterations.', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-change-color',
+  title: 'Change color',
+});
+</script></section>
+<section id="the-transparent-figure">
+<h2>The Transparent Figure<a class="headerlink" href="#the-transparent-figure" title="Permalink to this headline">¶</a></h2>
+<p>Is possible to <em>unfill</em> any shape:</p>
+<div id='animation-the-transparent-figure'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ["F@DRAW_LINE                 # Let's draw a line.", "F@DRAW_TRIANGLE, F@COUNT_5  # Let's draw a triangle.", 'F@COLOR_EMPTY               # Set the triangle as unfilled. You should see only the border of the triangle.'],
+  nodeId: 'animation-the-transparent-figure',
+  title: 'The Transparent Figure',
+});
+</script></section>
+<section id="strokes">
+<h2>Strokes<a class="headerlink" href="#strokes" title="Permalink to this headline">¶</a></h2>
+<p>Another way to <em>decorate</em> the fractal by changing the thickness of a line.</p>
+<div id='animation-thick-stroke'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ["F@DRAW_LINE                   # Let's draw a line.", "F@DRAW_ARCLINE_L_1_5          # Let's draw an arc.", 'F@CALL_F, F@STROKE_THICK_ADD  # Invoke the stave "F" by changing the thickness of a stroke a little bit.', '!IT_INC                       # Next steps increasing the iterations.', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-thick-stroke',
+  title: 'Thick stroke',
+});
+</script><div id='animation-thin-stroke'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ["F@DRAW_LINE                   # Let's draw a line.", "F@DRAW_ARCLINE_L_1_5          # Let's draw an arc.", 'F@CALL_F, F@STROKE_THICK_SUB  # Invoke the stave "F" by changing the thickness of a stroke a little bit.', '!IT_INC                       # Next steps increasing the iterations.', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-thin-stroke',
+  title: 'Thin stroke',
+});
+</script><p>In the next section, I’ll tell you how to generate custom shapes.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">Fractalang</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../concept/index.html">Concept</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basic-drawing.html">Basic Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cursor.html">Cursor manipulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="staves.html">Invoking staves and recursion</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Colors and strokes.</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#colors">Colors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-transparent-figure">The Transparent Figure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#strokes">Strokes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="custom-shapes.html">Custom shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fractals.html">Fractals</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">Reference</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Tutorial</a><ul>
+      <li>Previous: <a href="staves.html" title="previous chapter">Invoking staves and recursion</a></li>
+      <li>Next: <a href="custom-shapes.html" title="next chapter">Custom shapes</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Firemark.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/tutorial/colors-and-strokes.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -7,9 +7,6 @@ Tutorial
    basic-drawing
    cursor
    staves
+   colors-and-strokes
+   custom-shapes
    fractals
-
-..
-   1. Introduction
-   9. Colors and strokes
-   10. Operations

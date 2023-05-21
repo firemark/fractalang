@@ -146,4 +146,4 @@ End Staves
    G@DRAW_SQUARE, G@COUNT_5                     # Draw a square in a *G* stave.
    F::END@DRAW_TRIANGLE, F::END@COUNT_3         # Draw a triangle on the last iteration.
 
-I think that's all with staves, arguments, and a recurrence. In the next section, I'll tell how to generate common fractals.
+I think that's all with staves, arguments, and a recurrence. In the next section, I'll tell how to manipulate with colors and strokes.
