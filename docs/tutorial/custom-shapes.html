@@ -61,7 +61,7 @@ TUT.makeAnimation({
   staves: ['F', 'G', 'H'],
   iterations: 4,
   start: 1,
-  tokens: ["F@ROTATE_LEFT, F@ANGLE_90, F@CLOSE_CALL_G  # Let's draw the figure.", 'G@CALL_H                                   # Just call the "H" stave.', 'H@DRAW_ARCLINE_L_1_2                       # Draw an arc.', 'H@ROTATE_RIGHT, H@ANGLE_180, H@CALL_H      # Rotate and call themself with an argument.', 'G@ROTATE_RIGHT, G@ANGLE_180, G@DRAW_ARCLINE_L_1_4  # Then, draw the bottom of the figure.', 'G@ROTATE_RIGHT, G@ANGLE_90, G@CALL_H       # Call the "H" stave again.', 'G@ROTATE_RIGHT, G@ANGLE_180, G@DRAW_ARCLINE_L_1_4  # Close the figure.', '!IT_INC                                    # Next steps increasing the iterations.', '!IT_INC', '!IT_INC'],
+  tokens: ["F@ROTATE_LEFT, F@ANGLE_90, F@CLOSE_CALL_G  # Let's draw the figure.", 'G@CALL_H                                   # Just call the "H" stave.', 'H@DRAW_ARCLINE_L_1_2                       # Draw an arc.', 'H@FLIP_H, H@CALL_H      # Flip and call themself with an argument.', 'G@FLIP_H, G@DRAW_ARCLINE_L_1_4  # Then, draw the bottom of the figure.', 'G@ROTATE_RIGHT, G@ANGLE_90, G@CALL_H       # Call the "H" stave again.', 'G@FLIP_H, G@DRAW_ARCLINE_L_1_4  # Close the figure.', '!IT_INC                                    # Next steps increasing the iterations.', '!IT_INC', '!IT_INC'],
   nodeId: 'animation-the-cloud',
   title: 'The Cloud',
 });

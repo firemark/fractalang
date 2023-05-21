@@ -109,6 +109,33 @@ TUT.makeAnimation({
   nodeId: 'animation-replay-two-tokens',
   title: 'Replay Two tokens',
 });
+</script></section>
+<section id="flip">
+<h2>Flip<a class="headerlink" href="#flip" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes, we need to swap forward with backward or left with right.
+For this kind of action is <em>flip horizontally/vertically</em>. Let’s try with
+the <em>flip vertically</em> token:</p>
+<div id='animation-flip-vertically'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE, F@DRAW_ARCLINE_R_1_2, F@DRAW_TRIANGLE, F@COUNT_7  # Draw a basic shape.', 'F@FLIP_V  # Flip vertically the cursor.', 'F@CALL_F  # Repeat itself. The next steps increment the iterations.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-flip-vertically',
+  title: 'Flip Vertically',
+});
+</script><p>And similar another example with <em>flip horizontally</em>:</p>
+<div id='animation-flip-horizontally'></div>
+<script>
+TUT.makeAnimation({
+  staves: ['F'],
+  iterations: 1,
+  start: 1,
+  tokens: ['F@DRAW_LINE, F@DRAW_ARCLINE_R_1_2, F@DRAW_TRIANGLE, F@COUNT_7  # Draw a basic shape.', 'F@FLIP_H  # Flip horizontally the cursor.', 'F@CALL_F  # Repeat itself. The next steps increment the iterations.', '!IT_INC', '!IT_INC', '!IT_INC', '!IT_INC'],
+  nodeId: 'animation-flip-horizontally',
+  title: 'Flip Horizontally',
+});
 </script><p>And that’s all! In the next sections, we learn about invoking other staves.
 For the next sections learned operations on the cursor will be very useful.</p>
 </section>
@@ -141,6 +168,7 @@ For the next sections learned operations on the cursor will be very useful.</p>
 <li class="toctree-l3"><a class="reference internal" href="#rotate">Rotate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#reverse">Reverse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#replay">Replay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flip">Flip</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="staves.html">Invoking staves and recursion</a></li>
