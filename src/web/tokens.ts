@@ -39,6 +39,8 @@ export const TOKENS: TokenInfo[] = [
     {name: 'MOVE_RIGHT', label: 'Move right', type: 'action'},
     {name: 'ROTATE_LEFT', label: 'Rotate left', type: 'action'},
     {name: 'ROTATE_RIGHT', label: 'Rotate right', type: 'action'},
+    {name: 'FLIP_V', label: 'Flip Vertically', type: 'action'},
+    {name: 'FLIP_H', label: 'Flip Horizontally', type: 'action'},
 
     {name: 'REVERSE', label: 'Reverse', type: 'action'},
     {name: 'REPLAY', label: 'Replay the last action', type: 'action'},

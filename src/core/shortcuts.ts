@@ -184,6 +184,9 @@ const TOKEN_TO_SHORTCUT: TokensMap<string> = {
     // Cursor rotations
     ROTATE_LEFT: "R0",
     ROTATE_RIGHT: "R1",
+    // Cursor flip
+    FLIP_V: "R2",
+    FLIP_H: "R3",
 
     // Repetetive actions
     REVERSE: "Q0",

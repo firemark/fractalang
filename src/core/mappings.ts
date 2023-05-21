@@ -94,6 +94,9 @@ export const TOKENS = [
     // Cursor rotations
     "ROTATE_LEFT",
     "ROTATE_RIGHT",
+    // Cursor Flip
+    "FLIP_V",
+    "FLIP_H",
     // Repetetive actions
     "REVERSE",
     "REPLAY",

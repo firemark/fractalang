@@ -26,6 +26,8 @@ export const ACTION_TOKENS: TokenCategory[] = [
             'MOVE_FORWARD',
             'ROTATE_LEFT',
             'ROTATE_RIGHT',
+            'FLIP_V',
+            'FLIP_H',
             'REVERSE',
             'REPLAY',
         ],

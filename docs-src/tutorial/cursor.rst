@@ -100,6 +100,41 @@ we learn about "grouping" tokens.
    !IT_INC
    !IT_INC
 
+Flip
+^^^^
+
+Sometimes, we need to swap forward with backward or left with right.
+For this kind of action is *flip horizontally/vertically*. Let's try with
+the *flip vertically* token:
+
+.. tut:animation:: Flip Vertically
+   :staves: F
+   :iterations: 1
+   :start: 1
+
+   F@DRAW_LINE, F@DRAW_ARCLINE_R_1_2, F@DRAW_TRIANGLE, F@COUNT_7  # Draw a basic shape.
+   F@FLIP_V  # Flip vertically the cursor.
+   F@CALL_F  # Repeat itself. The next steps increment the iterations.
+   !IT_INC
+   !IT_INC
+   !IT_INC
+   !IT_INC
+
+And similar another example with *flip horizontally*:
+
+.. tut:animation:: Flip Horizontally
+   :staves: F
+   :iterations: 1
+   :start: 1
+
+   F@DRAW_LINE, F@DRAW_ARCLINE_R_1_2, F@DRAW_TRIANGLE, F@COUNT_7  # Draw a basic shape.
+   F@FLIP_H  # Flip horizontally the cursor.
+   F@CALL_F  # Repeat itself. The next steps increment the iterations.
+   !IT_INC
+   !IT_INC
+   !IT_INC
+   !IT_INC
+
 And that's all! In the next sections, we learn about invoking other staves.
 For the next sections learned operations on the cursor will be very useful.
 

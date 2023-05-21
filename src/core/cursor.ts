@@ -18,6 +18,7 @@ export abstract class ICursor {
     distanceMultipler: number;
     position: [number, number];
     orientation: [number, number];
+    reflection: number;
     figures: Figure[];
     box: Box;
     // angle = 0.0 -> 0°
@@ -30,8 +31,9 @@ export abstract class ICursor {
 
     forward(distance: number) {
         const [x, y] = this.orientation;
-        this.position[0] += x * distance * this.distanceMultipler;
-        this.position[1] += y * distance * this.distanceMultipler;
+        const arg = distance * this.distanceMultipler
+        this.position[0] += x * arg;
+        this.position[1] += y * arg;
     }
 
     backward(distance: number) {
@@ -41,8 +43,9 @@ export abstract class ICursor {
     right(distance: number) {
         const [x, y] = this.orientation;
         // rotate orientation by 90°
-        this.position[0] -= y * distance * this.distanceMultipler;
-        this.position[1] += x * distance * this.distanceMultipler;
+        const arg = distance * this.distanceMultipler * this.reflection;
+        this.position[0] -= y * arg;
+        this.position[1] += x * arg;
     }
 
     left(distance: number) {
@@ -52,13 +55,18 @@ export abstract class ICursor {
     rotate(angle: number) {
         // angle = 0.0 -> 0°
         // angle = 1.0 -> 360°
-        this.angle = (this.angle + angle) % 1.0;
-        const radians = angle * 2 * Math.PI;
+        const nAngle = angle * this.reflection;
+        this.angle = (this.angle + nAngle) % 1.0;
+        const radians = nAngle * 2 * Math.PI;
         const sin = Math.sin(radians);
         const cos = Math.cos(radians);
         const [x, y] = this.orientation;
         this.orientation[0] = x * cos - y * sin;
         this.orientation[1] = x * sin + y * cos;
+    }
+
+    flip() {
+        this.reflection *= -1.0;
     }
 
     close() { }
@@ -91,6 +99,7 @@ export class Cursor extends ICursor {
         super();
         this.strokeSize = strokeSize;
         this.distanceMultipler = distanceMultipler;
+        this.reflection = 1.0;
         this.position = [0.0, 0.0];
         this.angle = 0.0;
         this.orientation = [1.0, 0.0];
@@ -131,8 +140,8 @@ export class Cursor extends ICursor {
         const arcRadius = arcSize / Math.sin(ratio * Math.PI);
         const [dx, dy] = this.orientation;
         // rotate by 90°
-        const ndx = -dy;
-        const ndy = dx;
+        const ndx = -dy * this.reflection;
+        const ndy = dx * this.reflection;
         const [x, y] = this.position;
         const point = [x + arcRadius * ndx, y + arcRadius * ndy];
         const style = this.calcStyleParams({ stroke, color, isFilled: false });
@@ -189,6 +198,7 @@ export class CloseCursor extends ICursor {
         this.#cursor = cursor;
         this.position = [...cursor.position];
         this.orientation = [...cursor.orientation];
+        this.reflection = cursor.reflection;
         this.angle = cursor.angle;
         this.distanceMultipler = cursor.distanceMultipler;
         this.box = this.#cursor.box;
@@ -218,8 +228,8 @@ export class CloseCursor extends ICursor {
 
         const [dx, dy] = this.orientation;
         // rotate by 90°
-        const ndx = -dy;
-        const ndy = dx;
+        const ndx = -dy * this.reflection;
+        const ndy = dx * this.reflection;
         const [x, y] = this.position;
         const point = [x + arcRadius * ndx, y + arcRadius * ndy];
         this.extendBox(point, Math.abs(arcRadius));

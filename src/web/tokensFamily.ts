@@ -62,6 +62,10 @@ export const TOKEN_FAMILIES: { [key: string]: TokenCategory[] } = {
             label: 'Rotates',
             tokens: ['ROTATE_LEFT', 'ROTATE_RIGHT'],
         },
+        {
+            label: 'Flip',
+            tokens: ['FLIP_V', 'FLIP_H'],
+        },
     ],
     REPLAY: [
         {

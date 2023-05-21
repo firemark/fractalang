@@ -301,6 +301,16 @@ function main() {
             new Line([50, 80], [40, 65], { stroke: 5 }),
             new Line([50, 80], [40, 93], { stroke: 5 }),
         ]],
+        ["FLIP_V", [
+            new Line([80, 50], [20, 50], { stroke: 10 }),
+            new Triangle([80, 50], [+1, 0], 20),
+            new Triangle([20, 50], [-1, 0], 20),
+        ]],
+        ["FLIP_H", [
+            new Line([50, 80], [50, 20], { stroke: 10 }),
+            new Triangle([50, 80], [0, +1], 20),
+            new Triangle([50, 20], [0, -1], 20),
+        ]],
         ["REVERSE", [
             new Line([20, 50], [50, 80], { stroke: 3 }),
             new Line([20, 50], [50, 20], { stroke: 3 }),

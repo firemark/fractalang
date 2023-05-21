@@ -123,6 +123,9 @@ export const TOKENS: TokensMap<Token> = {
     // Cursor rotations
     ROTATE_LEFT: createAction(v => new actions.RotateLeft(v)),
     ROTATE_RIGHT: createAction(v => new actions.RotateRight(v)),
+    // Cursor flip
+    FLIP_V: createAction(v => new actions.FlipVertically(v)),
+    FLIP_H: createAction(v => new actions.FlipHorizontally(v)),
 
     // Repetetive actions
     REVERSE: createAction(v => new actions.Reverse(v)),

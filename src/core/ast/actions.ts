@@ -173,6 +173,18 @@ export class RotateLeft extends CursorManipulator {
     }
 }
 
+export class FlipVertically extends CursorManipulator {
+    change(cursor: ICursor) {
+        cursor.flip();
+    }
+}
+
+export class FlipHorizontally extends CursorManipulator {
+    change(cursor: ICursor) {
+        cursor.rotate(0.5);
+    }
+}
+
 export class Reverse extends NodeWithValue {
     exec(context: Context): ActionResult {
         const iterations = this.evalIntValue(context);
