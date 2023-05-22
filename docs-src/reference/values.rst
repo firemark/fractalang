@@ -4,53 +4,76 @@ Token Values
 Counters
 ^^^^^^^^^^^^^
 
-Used basically in any action.
+They're used basically in any action.
 
 .. tut:token:: COUNT_1
-   :title: One value
+   :title: Value one
 
 .. tut:token:: COUNT_2
-   :title: Two value
+   :title: Value two
 
 .. tut:token:: COUNT_3
-   :title: Three value
+   :title: Value three
 
 .. tut:token:: COUNT_5
-   :title: Five value
+   :title: Value five 
+   
+.. tut:token:: COUNT_7
+   :title: Value seven
 
 .. tut:token:: COUNT_MINUS
-   :title: Minus one value
+   :title: Value minus one
+
+.. tut:token:: COUNT_GOLD
+   :title: Value `golden ratio`_
+
+.. tut:token:: COUNT_SILVER
+   :title: Value `silver ratio`_
+
+.. tut:token:: COUNT_BRONZE
+   :title: Value bronze ratio
+
+.. tut:token:: COUNT_PLASTIC
+   :title: Value `plastic number`_
 
 Fractions
 ^^^^^^^^^^^^^
 
-Used basically in any action.
+They're used basically in any action.
 
 .. tut:token:: FRACT_1_2
-   :title: Half value
+   :title: Value half
 
 .. tut:token:: FRACT_1_3
-   :title: One third value
+   :title: Value one third
 
 .. tut:token:: FRACT_2_3
-   :title: Two thirds value
+   :title: Value two thirds
 
 .. tut:token:: FRACT_1_4
-   :title: One quarter value
+   :title: Value one quarter
 
 .. tut:token:: FRACT_3_4
-   :title: Third quarters value
+   :title: Value third quarters
 
 .. tut:token:: FRACT_1_5
-   :title: One fifth value
+   :title: Value one fifth
 
+.. tut:token:: FRACT_2_5
+   :title: Value two fifth
+
+.. tut:token:: FRACT_3_5
+   :title: Value three fifth
+
+.. tut:token:: FRACT_4_5
+   :title: Value four fifth
 
 Angles
 ^^^^^^^^^^^^^
 
-Angles used in rotate actions (:tut:token:`ROTATE_LEFT` and :tut:token:`ROTATE_RIGHT`).
+Angles are used in rotate actions (:tut:token:`ROTATE_LEFT` and :tut:token:`ROTATE_RIGHT`).
 
-Note that 360° in fractalang is not :code:`2π` but :code:`1.0` value.
+Note that 360° in the fractalang is not :code:`2π` but :code:`1.0` value.
 
 .. tut:token:: ANGLE_270
    :title: 270° Angle
@@ -87,35 +110,89 @@ Note that 360° in fractalang is not :code:`2π` but :code:`1.0` value.
 
    Alias for one sixteenth.
 
+.. tut:token:: ANGLE_10
+   :title: 10° Angle
+
 Arguments
 ^^^^^^^^^
 
 .. tut:token:: ARGUMENT
    :title: Argument
 
-   Returns a value from currently invoked stave.
+   Returns a value from a currently invoked stave.
 
 .. tut:token:: CALL_DIAMOND
    :title: Diamond argument
 
-   Compute dynamically value from *Diamond* stave.
+   Compute dynamically value from  the*Diamond* stave.
 
 .. tut:token:: CALL_INV_TRIANGLE
    :title: Inverse triangle argument
 
-   Compute dynamically value from *Inverse triangle* stave.
+   Compute dynamically value from the *Inverse triangle* stave.
 
 Colors
 ^^^^^^
 
-TODO
+.. tut:token:: COLOR_MIN
+   :title: First color
+
+   Set the color of a figure/line to the first color given in the editor.
+
+.. tut:token:: COLOR_MAX
+   :title: Second color
+
+   Set the color of a figure/line to the second color given in the editor.
+
+.. tut:token:: COLOR_FILL
+   :title: Fill a shape
+
+   Fill a shape with a solid color.
+
+.. tut:token:: COLOR_EMPTY
+   :title: Unfill a shape
+
+   Unfill a shape which makes transparent with an outline border.
+
+.. tut:token:: COLOR_SHIFT_1_2
+   :title: Color transition (by 50%)
+
+   Change a color of a shape/line from the first to the second color.
+
+.. tut:token:: COLOR_SHIFT_1_4
+   :title: Color transition (by 25%)
+
+   Change a color of a shape/line from the first to the second color.
+
+.. tut:token:: COLOR_SHIFT_1_5
+   :title: Color transition (by 20%)
+
+   Change a color of a shape/line from the first to the second color.
+
+.. tut:token:: COLOR_SHIFT_1_10
+   :title: Color transition (by 10%)
+
+   Change a color of a shape/line from the first to the second color.
 
 Strokes
 ^^^^^^^
 
-TODO
+.. tut:token:: STROKE_THICK_ADD
+   :title: Increase the thickness
+
+   Change the thickness of a line.
+
+.. tut:token:: STROKE_THICK_SUB
+   :title: Decrase the thickness
+
+   Change the thickness of a line.
 
 Operator Modifiers
 ^^^^^^^^^^^^^^^^^^
 
 TODO
+
+
+.. _golden ratio: https://en.wikipedia.org/wiki/Golden_ratio
+.. _silver ratio: https://en.wikipedia.org/wiki/Silver_ratio
+.. _plastic number: https://en.wikipedia.org/wiki/Plastic_number

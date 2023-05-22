@@ -81,7 +81,10 @@ class TokenDirective(ObjectDescription):
             alt=sig,
             classes=["fract-token", "token-header"],
         )
-        signode += addnodes.desc_name(text=self.options['title'])
+        desc_name = addnodes.desc_name(text=self.options['title'])
+        node = addnodes.desc_name()
+        self.state.nested_parse(desc_name, 0, node)
+        signode += node
         return sig
 
     def add_target_and_index(self, name_cls, sig, signode):

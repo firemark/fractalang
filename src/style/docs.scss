@@ -1,6 +1,11 @@
 @import './tokens';
 @import './code';
 
+
+.sig.sig-object.tut > .sig-name.descname > p {
+    display: inline;
+}
+
 .fract-token.token-header {
     margin-right: 1em;
 }
