@@ -38,34 +38,100 @@
 <h1>Cursor operators<a class="headerlink" href="#cursor-operators" title="Permalink to this headline">¶</a></h1>
 <dl class="tut token">
 <dt class="sig sig-object tut">
-<img alt="MOVE_FORWARD" class="fract-token token-header" src="icons/MOVE_FORWARD.svg" /><span class="sig-name descname"><span class="pre">Forward</span></span></dt>
-<dd><p>Move forward the cursor by value of action in cursor’s direction.</p>
+<img alt="MOVE_FORWARD" class="fract-token token-header" src="../../_images/MOVE_FORWARD.svg" /><span class="sig-name descname"><p><span class="pre">Move</span> <span class="pre">forward</span></p>
+</span></dt>
+<dd><p>Move forward the cursor by a given value in the cursor’s direction.</p>
 </dd></dl>
 
 <dl class="tut token">
 <dt class="sig sig-object tut">
-<img alt="ROTATE_LEFT" class="fract-token token-header" src="../../_images/ROTATE_LEFT.svg" /><span class="sig-name descname"><span class="pre">Rotate</span> <span class="pre">left</span></span></dt>
-<dd><p>Rotate left the cursor. Note that, <code class="code docutils literal notranslate"><span class="pre">1.0</span></code> value means full rotation.</p>
+<img alt="MOVE_BACKWARD" class="fract-token token-header" src="../../_images/MOVE_BACKWARD.svg" /><span class="sig-name descname"><p><span class="pre">Move</span> <span class="pre">backward</span></p>
+</span></dt>
+<dd><p>Move backward the cursor by a given value in the cursor’s direction.</p>
 </dd></dl>
 
 <dl class="tut token">
 <dt class="sig sig-object tut">
-<img alt="ROTATE_RIGHT" class="fract-token token-header" src="../../_images/ROTATE_RIGHT.svg" /><span class="sig-name descname"><span class="pre">Rotate</span> <span class="pre">right</span></span></dt>
-<dd><p>Rotate right the cursor. Note that, <code class="code docutils literal notranslate"><span class="pre">1.0</span></code> value means full rotation.</p>
+<img alt="MOVE_LEFT" class="fract-token token-header" src="../../_images/MOVE_LEFT.svg" /><span class="sig-name descname"><p><span class="pre">Move</span> <span class="pre">backward</span></p>
+</span></dt>
+<dd><p>Move left the cursor by a given value in the cursor’s direction.</p>
 </dd></dl>
 
 <dl class="tut token">
 <dt class="sig sig-object tut">
-<img alt="REVERSE" class="fract-token token-header" src="../../_images/REVERSE.svg" /><span class="sig-name descname"><span class="pre">Reverse</span></span></dt>
-<dd><p>Reverse last <em>N</em> (determined by action value) actions which modifing the cursor.</p>
+<img alt="MOVE_RIGHT" class="fract-token token-header" src="../../_images/MOVE_RIGHT.svg" /><span class="sig-name descname"><p><span class="pre">Move</span> <span class="pre">backward</span></p>
+</span></dt>
+<dd><p>Move right the cursor by a given value in the cursor’s direction.</p>
+</dd></dl>
+
+<dl class="tut token">
+<dt class="sig sig-object tut">
+<img alt="ROTATE_LEFT" class="fract-token token-header" src="../../_images/ROTATE_LEFT.svg" /><span class="sig-name descname"><p><span class="pre">Rotate</span> <span class="pre">left</span></p>
+</span></dt>
+<dd><p>Rotate left the cursor. Note that, the <code class="code docutils literal notranslate"><span class="pre">1.0</span></code> value means a full rotation.</p>
+</dd></dl>
+
+<dl class="tut token">
+<dt class="sig sig-object tut">
+<img alt="ROTATE_RIGHT" class="fract-token token-header" src="../../_images/ROTATE_RIGHT.svg" /><span class="sig-name descname"><p><span class="pre">Rotate</span> <span class="pre">right</span></p>
+</span></dt>
+<dd><p>Rotate right the cursor. Note that, the <code class="code docutils literal notranslate"><span class="pre">1.0</span></code> value means a full rotation.</p>
+</dd></dl>
+
+<dl class="tut token">
+<dt class="sig sig-object tut">
+<img alt="REVERSE" class="fract-token token-header" src="../../_images/REVERSE.svg" /><span class="sig-name descname"><p><span class="pre">Reverse</span></p>
+</span></dt>
+<dd><p>Reverse the last <em>N</em> (determined by given value) actions which modifing the cursor.</p>
 <p>Non-cursor actions are ignored (because they don’t modify the cursor).</p>
-<p>Note that painting a line or arcline are modifing cursor too.</p>
+<p>Note that painting a line or an arc are modifing cursor too.</p>
 </dd></dl>
 
 <dl class="tut token">
 <dt class="sig sig-object tut">
-<img alt="REPLAY" class="fract-token token-header" src="../../_images/REPLAY.svg" /><span class="sig-name descname"><span class="pre">REPLAY</span></span></dt>
-<dd><p>Repeat previous action <em>N</em> times (determined by action value).</p>
+<img alt="REPLAY" class="fract-token token-header" src="../../_images/REPLAY.svg" /><span class="sig-name descname"><p><span class="pre">Replay</span> <span class="pre">last</span> <span class="pre">action.</span></p>
+</span></dt>
+<dd><p>Repeat previous action <em>N</em> times (determined by a given value).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The token doesn’t work properly with a <em>Reverse</em> <img alt="REVERSE" class="fract-token token-inline" src="../../_images/REVERSE.svg" /> token
+and a nested <em>Replay</em> <img alt="REPLAY" class="fract-token token-inline" src="../../_images/REPLAY.svg" /> tokens.</p>
+</div>
+</dd></dl>
+
+<dl class="tut token">
+<dt class="sig sig-object tut">
+<img alt="REPLAY_2" class="fract-token token-header" src="../../_images/REPLAY_2.svg" /><span class="sig-name descname"><p><span class="pre">Replay</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">two</span> <span class="pre">actions.</span></p>
+</span></dt>
+<dd><p>Similiar to a <em>Replay</em> <img alt="REPLAY" class="fract-token token-inline" src="../../_images/REPLAY.svg" /> but for two actions instead of one.</p>
+</dd></dl>
+
+<dl class="tut token">
+<dt class="sig sig-object tut">
+<img alt="REPLAY_3" class="fract-token token-header" src="../../_images/REPLAY_3.svg" /><span class="sig-name descname"><p><span class="pre">Replay</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">three</span> <span class="pre">actions.</span></p>
+</span></dt>
+<dd><p>Similiar to a <em>Replay</em> <img alt="REPLAY" class="fract-token token-inline" src="../../_images/REPLAY.svg" /> but for three actions instead of one.</p>
+</dd></dl>
+
+<dl class="tut token">
+<dt class="sig sig-object tut">
+<img alt="REPLAY_4" class="fract-token token-header" src="../../_images/REPLAY_4.svg" /><span class="sig-name descname"><p><span class="pre">Replay</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">four</span> <span class="pre">actions.</span></p>
+</span></dt>
+<dd><p>Similiar to a <em>Replay</em> <img alt="REPLAY" class="fract-token token-inline" src="../../_images/REPLAY.svg" /> but for four actions instead of one.</p>
+</dd></dl>
+
+<dl class="tut token">
+<dt class="sig sig-object tut">
+<img alt="FLIP_V" class="fract-token token-header" src="../../_images/FLIP_V.svg" /><span class="sig-name descname"><p><span class="pre">Flip</span> <span class="pre">vertically</span></p>
+</span></dt>
+<dd><p>Flip the cursor vertically (swap right with left).</p>
+</dd></dl>
+
+<dl class="tut token">
+<dt class="sig sig-object tut">
+<img alt="FLIP_H" class="fract-token token-header" src="../../_images/FLIP_H.svg" /><span class="sig-name descname"><p><span class="pre">Flip</span> <span class="pre">horizontally</span></p>
+</span></dt>
+<dd><p>Flip the cursor horizontally (swap forward with backward).</p>
 </dd></dl>
 
 </section>
