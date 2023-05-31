@@ -2,9 +2,7 @@
 
 Generate fractals with the hieroglyphs-like programming language.
 
-[![Fractalang tutorial]
-(https://i.ytimg.com/vi/Qnb2YJsHbuYmaxresdefault.jpg)]
-(https://www.youtube.com/watch?v=Qnb2YJsHbuY "Fractalang tutorial")
+[![Fractalang tutorial](https://i.ytimg.com/vi/Qnb2YJsHbuYmaxresdefault.jpg)](https://www.youtube.com/watch?v=Qnb2YJsHbuY "Fractalang tutorial")
 
 [Online version of the editor](https://firemark.github.io/fractalang/)
 
