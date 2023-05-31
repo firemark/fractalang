@@ -8,7 +8,7 @@ Generate fractals with the hieroglyphs-like programming language.
 
 [Video Fractalang tutorial](https://www.youtube.com/watch?v=Qnb2YJsHbuY)
 
-[Documentation](firemark.github.io/fractalang/docs/)
+[Documentation](https://firemark.github.io/fractalang/docs/)
 
 ## How to build and run
 
