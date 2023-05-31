@@ -6,6 +6,8 @@ Generate fractals with the hieroglyphs-like programming language.
 
 [Online version of the editor](https://firemark.github.io/fractalang/)
 
+[Video Fractalang tutorial](https://www.youtube.com/watch?v=Qnb2YJsHbuY)
+
 [Documentation](firemark.github.io/fractalang/docs/)
 
 ## How to build and run
