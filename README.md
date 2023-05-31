@@ -42,6 +42,7 @@ TODO
     * Show the stack of the program in the debug mode.
     * Allow to change heading on start of drawing.
     * The tiling mode (render image multiple times as tiles)
+    * Custom values with sliders.
 * Rendering:
     * Allow gradient on the background.
     * More colors instead of two colors.
@@ -57,5 +58,6 @@ TODO
 * Core:
     * *Starting* stave.
     * Nested repeat/reverse tokens.
+    * Animations?
 * Bugs:
     * A problem with clicking on a token in a stave.
