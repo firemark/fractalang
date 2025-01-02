@@ -5,7 +5,6 @@ import { Project } from "./models";
 export class Database {
     constructor() {
         const dbRequest = this.#getRequest();
-        dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onupgradeneeded = event => {
             const db = (event.target as any).result;
 
@@ -23,7 +22,6 @@ export class Database {
 
     get(title: string, callback: (project: Project) => void, errCallback: (() => void) | null = null) {
         const dbRequest = this.#getRequest();
-        dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onsuccess = () => {
             const store = this.#getProjectsStore(dbRequest);
             const storeRequest = store.get(title);
@@ -40,7 +38,6 @@ export class Database {
 
     update(project: Project, callback: (project: Project) => void) {
         const dbRequest = this.#getRequest();
-        dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onsuccess = () => {
             const db = dbRequest.result; 
             const transaction = db.transaction(["projects"], "readwrite");
@@ -52,7 +49,6 @@ export class Database {
 
     remove(title: string, callback: () => void) {
         const dbRequest = this.#getRequest();
-        dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onsuccess = () => {
             const store = this.#getProjectsStore(dbRequest);
             const storeRequest = store.delete(title);
@@ -63,8 +59,6 @@ export class Database {
     list(callback: (project: Project) => void, limit = -1) {
         let count = 0;
         const dbRequest = this.#getRequest();
-
-        dbRequest.onerror = () => { alert("DB ERROR!"); };
         dbRequest.onsuccess = () => {
             const store = this.#getProjectsStore(dbRequest);
             const index = store.index('updated');
@@ -90,7 +84,11 @@ export class Database {
     }
     
     #getRequest(): IDBOpenDBRequest {
-        const dbRequest = window.indexedDB.open("Fractalang", 1);
+        const dbRequest = window.indexedDB.open("Fractalang");
+        dbRequest.onerror = (event) => { 
+            alert("DB ERROR!"); 
+            console.error("Database error:", event.target);
+        };
         return dbRequest;
     }
 

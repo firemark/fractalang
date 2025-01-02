@@ -1,4 +1,4 @@
-import { createSvg } from "@/core/svg";
+import { createSvg } from "@/core/renderers/svg";
 import { Cursor } from "@/core/cursor";
 import { Figure, Line, Rectangle, Triangle, Circle, Arc } from "@/core/figures";
 import { STAVES, SUFFIXES } from "@/core/mappings";

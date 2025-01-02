@@ -1,6 +1,6 @@
 import { Cursor } from "@/core/cursor";
 import { exec, setupExec } from "@/core/exec";
-import { createSvg } from "@/core/svg";
+import { createSvg } from "@/core/renderers/svg";
 import { DOMImplementation, XMLSerializer } from "xmldom";
 
 function main() {

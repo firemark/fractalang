@@ -131,7 +131,12 @@ export class MainController extends Controller {
         }
 
         const { backgroundColor } = this.project.style;
-        this.imageView.render(stack.cursor, backgroundColor);
+        this.imageView.render(stack.cursor, {
+            backgroundColor, 
+            engine: "canvas", 
+            scale: 3.0,
+            margin: 10.0,
+        });
     }
 
     scrapeAndSave() {
